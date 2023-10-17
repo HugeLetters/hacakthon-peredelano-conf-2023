@@ -4,8 +4,12 @@
 
 # Stack
 
-[Svelte](https://svelte.dev/docs/introduction)
-[SvelteKit](https://kit.svelte.dev/docs/introduction)
+- [Svelte](https://svelte.dev/docs/introduction)
+- [SvelteKit](https://kit.svelte.dev/docs/introduction)
+- [trpc](https://trpc.io/docs)
+- [@tanstack/svelte-query - V5](https://tanstack.com/query/v5/docs/svelte/overview)
+  - доки по [Реакту](https://tanstack.com/query/v5/docs/react/overview) куда более полные, но многие идеи между фреймворкам аналогичные
+- [trpc-svelte-query](https://github.com/ottomated/trpc-svelte-query)
 
 # Scripts
 
