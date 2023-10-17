@@ -1,0 +1,12 @@
+{
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
+		"antfu.file-nesting",
+		"cpylua.language-postcss",
+		"vunguyentuan.vscode-postcss",
+		"esbenp.prettier-vscode",
+		"yoavbls.pretty-ts-errors",
+		"svelte.svelte-vscode",
+		"bradlc.vscode-tailwindcss"
+	]
+}
