@@ -3,13 +3,13 @@
 
 	export let data;
 
-	const query = data.trpc.greet.hello.query();
-	const query2 = data.trpc.greet.hi.query();
-	const secretQuery = data.trpc.greet.privateHi.query();
+	const query = data.trpc.greet.hello.query(undefined, { staleTime: Infinity });
+	const query2 = data.trpc.greet.hi.query(undefined, {});
+	const secretQuery = data.trpc.privateGreet.privateHi.query(undefined, { staleTime: Infinity });
 	onMount(() => {
 		setTimeout(() => {
-			data.trpc.greet.privateHi.utils.invalidate();
-		});
+			data.trpc.privateGreet.privateHi.utils.invalidate();
+		}, 10);
 	});
 </script>
 

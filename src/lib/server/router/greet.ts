@@ -6,7 +6,10 @@ export const greetRouter = router({
 	}),
 	hi: publicProcedure.query(() => {
 		return 'hi';
-	}),
+	})
+});
+
+export const privateGreetRouter = router({
 	privateHi: privateProcedure.query(({ ctx }) => {
 		return `I also know the context. It's ${ctx.data}`;
 	})

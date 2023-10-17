@@ -1,11 +1,13 @@
 import { createTRPCSvelteServer } from 'trpc-svelte-query/server';
 import { router } from '../trpc';
-import { greetRouter } from './greet';
+import { greetRouter, privateGreetRouter } from './greet';
 
 export const appRouter = router({
-	greet: greetRouter
+	greet: greetRouter,
+	privateGreet: privateGreetRouter
 });
 export type AppRouter = typeof appRouter;
+
 export const trpcServer = createTRPCSvelteServer({
 	endpoint: '/api/trpc',
 	router: appRouter,
