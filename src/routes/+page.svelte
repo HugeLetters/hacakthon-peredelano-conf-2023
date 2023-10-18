@@ -9,12 +9,15 @@
 	const secretQuery = data.trpc.privateGreet.privateHi.query(undefined, { staleTime: Infinity });
 	onMount(() => {
 		setTimeout(() => {
-			data.trpc.privateGreet.privateHi.utils.invalidate();
-		}, 10);
+			data.trpc.greet.utils.invalidate();
+		}, 500);
 	});
 
 	type Comment = NonNullable<RouterOutput['post']['randomPost']>[0]['comment'];
-	const postQuery = data.trpc.post.randomPost.query(undefined, { refetchOnMount: false });
+	const postQuery = data.trpc.post.randomPost.query(undefined, {
+		refetchOnMount: false,
+		refetchOnWindowFocus: false
+	});
 	$: post = $postQuery.isSuccess
 		? $postQuery.data?.reduce(
 				(acc, el) => {
