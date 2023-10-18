@@ -4,6 +4,7 @@
 
 # Stack
 
+- [pnpm](https://pnpm.io/)
 - [Svelte](https://svelte.dev/docs/introduction)
 - [SvelteKit](https://kit.svelte.dev/docs/introduction)
 - [trpc](https://trpc.io/docs)
