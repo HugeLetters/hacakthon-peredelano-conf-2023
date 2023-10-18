@@ -29,7 +29,7 @@
 		: undefined;
 </script>
 
-<h1 class="text-lg bg-gradient-to-l from-yellow-300 to-green-500">
+<h1 class="bg-gradient-to-l from-yellow-300 to-green-500 text-lg">
 	Welcome to SvelteKit {$query.data} - {$query2.data}
 </h1>
 <h1>Query with middleware {$secretQuery.data}</h1>
@@ -37,20 +37,20 @@
 <a href="/other">other page</a>
 <div class="p-4">
 	<div class="text-center text-lg">RANDOM POST FOR YOU!</div>
-	<h1 class="text-2xl text-center capitalize">{post?.post?.title}</h1>
+	<h1 class="text-center text-2xl capitalize">{post?.post?.title}</h1>
 	<p>{post?.post?.content}</p>
 	{#if post?.post}
 		<div>{new Date(post.post.createdAt)}</div>
 	{/if}
 	{#if post?.comments}
-		<h2 class="text-center text-xl pt-4">Comments</h2>
+		<h2 class="pt-4 text-center text-xl">Comments</h2>
 		<ul class="flex flex-col gap-2">
 			{#each post.comments as comment (comment.id)}
 				<li>
 					<div>{comment.content}</div>
 					<div>{new Date(comment.createdAt)}</div>
 				</li>
-				<hr class="border-2 rounded-full" />
+				<hr class="rounded-full border-2" />
 			{/each}
 		</ul>
 	{/if}

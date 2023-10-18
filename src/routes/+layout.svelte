@@ -8,7 +8,7 @@
 </script>
 
 <QueryClientProvider client={queryClient}>
-	<div class="bg-gradient-to-t from-neutral-400 bg-fixed to-neutral-200 min-h-full">
+	<div class="min-h-full bg-gradient-to-t from-neutral-400 to-neutral-200 bg-fixed">
 		<slot />
 	</div>
 </QueryClientProvider>
