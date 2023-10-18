@@ -13,6 +13,8 @@
 
 # Scripts
 
+## Dev
+
 ```bash
 pnpm run dev
 
@@ -27,3 +29,19 @@ pnpm run preview
 ```
 
 To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## Database
+
+```bash
+# Push schema changes to database
+pnpm db-push
+
+# Run a visual interface for database data
+pnpm db-studio
+
+# Seed database with fake data. WILL DELETE ALL PREVIOUSLY EXISTING DATA IN DATABASE
+pnpm db-seed
+
+# Generate and apply migration to database after schema changes
+pnpm db-migrate
+```
