@@ -22,7 +22,7 @@
 pnpm dev
 
 # or start the server and open the app in a new browser tab
-pnpm dev -- --open
+pnpm dev --open
 
 # To create a production version of your app:
 pnpm build
