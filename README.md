@@ -2,9 +2,9 @@
 
 [Info](https://gist.github.com/batyshkaLenin/47df0766b564789634af1859a24b1d3e#%D0%BF%D1%80%D0%BE%D1%86%D0%B5%D1%81%D1%81%D1%8B-%D0%B8-%D0%BF%D0%BE%D0%BB%D1%8C%D0%B7%D0%BE%D0%B2%D0%B0%D1%82%D0%B5%D0%BB%D1%8C%D1%81%D0%BA%D0%B8%D0%B5-%D0%B8%D1%81%D1%82%D0%BE%D1%80%D0%B8%D0%B8)
 
-Miro Board for team work
+[Even more info](https://www.figma.com/file/q9rFkw4sxlbNu9CtzhzPC7/Flow-and-FAQ?type=whiteboard&node-id=0-1&t=ff0iS7TjEMDt1N8Y-0)
 
-https://miro.com/welcomeonboard/RWpDaFRWdm52cHZKNE42RjFWemxDenBwc0owNmp2MFdjY0IzUGhscWwyTzlXbHBPN0xaTUszaGxTejlMV2M4bXwzNDU4NzY0NTQyMTA2MjM1NDk1fDI=?share_link_id=333278440706
+[Miro Board for team work](https://miro.com/welcomeonboard/RWpDaFRWdm52cHZKNE42RjFWemxDenBwc0owNmp2MFdjY0IzUGhscWwyTzlXbHBPN0xaTUszaGxTejlMV2M4bXwzNDU4NzY0NTQyMTA2MjM1NDk1fDI=?share_link_id=333278440706)
 
 # Stack
 
