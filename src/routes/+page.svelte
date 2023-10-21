@@ -32,29 +32,61 @@
 		: undefined;
 </script>
 
-<h1 class="bg-gradient-to-l from-yellow-300 to-green-500 text-lg">
+<h1 class="header">
 	Welcome to SvelteKit {$query.data} - {$query2.data}
 </h1>
 <h1>Query with middleware {$secretQuery.data}</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 <a href="/other">other page</a>
-<div class="p-4">
-	<div class="text-center text-lg">RANDOM POST FOR YOU!</div>
-	<h1 class="text-center text-2xl capitalize">{post?.post?.title}</h1>
+<div class="post">
+	<h3 class="post-header">RANDOM POST FOR YOU!</h3>
+	<h2 class="post-title">{post?.post?.title}</h2>
 	<p>{post?.post?.content}</p>
 	{#if post?.post}
 		<div>{new Date(post.post.createdAt)}</div>
 	{/if}
 	{#if post?.comments}
-		<h2 class="pt-4 text-center text-xl">Comments</h2>
-		<ul class="flex flex-col gap-2">
+		<h3 class="comments-header">Comments</h3>
+		<ul class="comments-content">
 			{#each post.comments as comment (comment.id)}
 				<li>
 					<div>{comment.content}</div>
 					<div>{new Date(comment.createdAt)}</div>
 				</li>
-				<hr class="rounded-full border-2" />
 			{/each}
 		</ul>
 	{/if}
 </div>
+
+<style lang="scss">
+	.header {
+		background: linear-gradient(to left, yellow, green);
+	}
+	.post {
+		padding: 1rem;
+	}
+	.post-header {
+		text-align: center;
+		font-size: x-large;
+	}
+	.post-title {
+		text-align: center;
+		font-size: xx-large;
+		text-transform: capitalize;
+	}
+	.comments-header {
+		padding-top: 1rem;
+		text-align: center;
+		font-size: large;
+	}
+	.comments-content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+
+		li:not(:last-child) {
+			padding-bottom: 0.5rem;
+			border-bottom: 1px solid white;
+		}
+	}
+</style>

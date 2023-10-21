@@ -1,14 +1,22 @@
 <script lang="ts">
 	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import { trpc } from '$lib/trpc';
-	import '../app.pcss';
+	import '../app.scss';
 
 	export let data;
 	$: queryClient = trpc.hydrateFromServer(data.trpcHydrationClient);
 </script>
 
 <QueryClientProvider client={queryClient}>
-	<div class="min-h-full bg-gradient-to-t from-neutral-400 to-neutral-200 bg-fixed">
+	<div>
 		<slot />
 	</div>
 </QueryClientProvider>
+
+<style lang="scss">
+	div {
+		min-height: 100%;
+		background: linear-gradient(to top, #000a, #0000);
+		background-attachment: fixed;
+	}
+</style>

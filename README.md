@@ -11,7 +11,6 @@
 - [@tanstack/svelte-query - V4](https://tanstack.com/query/v4/docs/svelte/overview) - внимание, что юзаем версию 4.0, не 5.0
   - доки по [Реакту](https://tanstack.com/query/v4/docs/react/overview) куда более полные, но многие идеи между фреймворкам аналогичные
 - [trpc-svelte-query](https://github.com/ottomated/trpc-svelte-query)
-- [tailwindcss](https://tailwindcss.com/docs/utility-first)
 - [drizzle-orm](https://orm.drizzle.team/docs/overview)
 
 # Scripts
