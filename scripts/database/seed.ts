@@ -1,5 +1,5 @@
-import { db } from '../../src/lib/database';
-import { post, comment } from '../../src/lib/database/schema';
+import { db } from '../../src/lib/server/database';
+import { post, comment } from '../../src/lib/server/database/schema';
 import { faker } from '@faker-js/faker';
 
 async function main() {
