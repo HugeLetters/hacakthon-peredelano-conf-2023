@@ -8,15 +8,15 @@
 
 # Stack
 
-- [pnpm](https://pnpm.io/)
-- [Svelte](https://svelte.dev/docs/introduction)
-- [SvelteKit](https://kit.svelte.dev/docs/introduction)
-- [trpc](https://trpc.io/docs)
-- [@tanstack/svelte-query - V4](https://tanstack.com/query/v4/docs/svelte/overview) - внимание, что юзаем версию 4.0, не 5.0
+- [pnpm](https://pnpm.io/) - package manager
+- [Svelte](https://svelte.dev/docs/introduction) - component framework
+- [SvelteKit](https://kit.svelte.dev/docs/introduction) - web framework
+- [trpc](https://trpc.io/docs) - typed server-to-client library
+- [@tanstack/svelte-query - V4](https://tanstack.com/query/v4/docs/svelte/overview) - async state manager, внимание, что юзаем версию 4.0, не 5.0
   - доки по [Реакту](https://tanstack.com/query/v4/docs/react/overview) куда более полные, но многие идеи между фреймворкам аналогичные
-- [trpc-svelte-query](https://github.com/ottomated/trpc-svelte-query)
-- [tailwindcss](https://tailwindcss.com/docs/utility-first)
-- [drizzle-orm](https://orm.drizzle.team/docs/overview)
+- [trpc-svelte-query](https://github.com/ottomated/trpc-svelte-query) - sveltekit+trpc+tanstack-query-svelte adapter
+- [tailwindcss](https://tailwindcss.com/docs/utility-first) - css framework
+- [drizzle-orm](https://orm.drizzle.team/docs/overview) - SQL ORM
 - [libsql](https://github.com/tursodatabase/libsql) - SQLite fork
 
 # Scripts
