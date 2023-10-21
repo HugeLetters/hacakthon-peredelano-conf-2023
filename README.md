@@ -17,6 +17,7 @@
 - [trpc-svelte-query](https://github.com/ottomated/trpc-svelte-query)
 - [tailwindcss](https://tailwindcss.com/docs/utility-first)
 - [drizzle-orm](https://orm.drizzle.team/docs/overview)
+- [libsql](https://github.com/tursodatabase/libsql) - SQLite fork
 
 # Scripts
 
