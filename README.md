@@ -20,6 +20,16 @@
 
 # Scripts
 
+## How to start
+```bash
+# Initialize database
+pnpm db-push
+# Seed database
+pnpm db-seed
+# Start dev server
+pnpm dev
+```
+
 ## Dev
 
 ```bash
