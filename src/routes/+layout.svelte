@@ -9,6 +9,8 @@
 
 <QueryClientProvider client={queryClient}>
 	<div>
+		<a href="/api/auth/signin/google">Sign in with google</a>
+		<div>{data.session?.user.name}</div>
 		<slot />
 	</div>
 </QueryClientProvider>
