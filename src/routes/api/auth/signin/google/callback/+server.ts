@@ -23,6 +23,8 @@ export const GET = async ({ url, cookies, locals }) => {
 		const session = await auth.createSession({ userId: user.userId, attributes: {} });
 		locals.auth.setSession(session);
 
+		auth.deleteDeadUserSessions(user.userId).catch(console.error);
+
 		const location = cookies.get(CALLBACK_URL_KEY);
 		cookies.delete(CALLBACK_URL_KEY, { path: '/' });
 		return new Response(null, { status: 302, headers: { Location: location ?? '/' } });
