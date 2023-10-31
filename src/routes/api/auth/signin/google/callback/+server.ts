@@ -1,9 +1,9 @@
+import { CALLBACK_URL_KEY, GOOGLE_OAUTH_STATE_KEY } from '$lib/auth';
 import { auth, googleAuth } from '$lib/server/auth';
 import { OAuthRequestError } from '@lucia-auth/oauth';
-import { OAUTH_STATE_COOKIE_KEY } from '../utils';
 
 export const GET = async ({ url, cookies, locals }) => {
-	const storedState = cookies.get(OAUTH_STATE_COOKIE_KEY);
+	const storedState = cookies.get(GOOGLE_OAUTH_STATE_KEY);
 	const state = url.searchParams.get('state');
 	const code = url.searchParams.get('code');
 	// validate state
@@ -22,7 +22,10 @@ export const GET = async ({ url, cookies, locals }) => {
 		const user = await getUser();
 		const session = await auth.createSession({ userId: user.userId, attributes: {} });
 		locals.auth.setSession(session);
-		return new Response(null, { status: 302, headers: { Location: '/' } });
+
+		const location = cookies.get(CALLBACK_URL_KEY);
+		cookies.delete(CALLBACK_URL_KEY, { path: '/' });
+		return new Response(null, { status: 302, headers: { Location: location ?? '/' } });
 	} catch (e) {
 		console.error(e);
 		if (e instanceof OAuthRequestError) {
