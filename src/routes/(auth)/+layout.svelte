@@ -13,12 +13,12 @@
 		staleTime: 5 * 60 * 1000, // 5 minutes
 		refetchInterval: 10 * 60 * 1000, // 10 minutes
 		// so that session is considered fresh initially
-		initialData: true
+		initialData: null
 	});
 </script>
 
 <!-- this is hack so that svelte doesn't compile out query away since it doesn't think it has side-effects -->
-{#if $sesssionTracker.data}_{/if}
+{#if false && $sesssionTracker.data}_{/if}
 
 <div class="root">
 	<div>{data.session?.user.name}</div>
