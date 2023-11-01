@@ -1,3 +1,4 @@
+import { TRPC_UNAUTHENTICATED_ERROR_MESSAGE } from '$lib/auth';
 import type { RequestEvent } from '@sveltejs/kit';
 import { initTRPC, TRPCError } from '@trpc/server';
 
@@ -20,7 +21,8 @@ export const router = t.router;
 export const publicProcedure = t.procedure;
 
 const enforceUserSession = t.middleware(({ ctx, next }) => {
-	if (!ctx.session) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'UNAUTHENTICATED' });
+	if (!ctx.session)
+		throw new TRPCError({ code: 'UNAUTHORIZED', message: TRPC_UNAUTHENTICATED_ERROR_MESSAGE });
 	return next({ ctx: { session: ctx.session } });
 });
 export const privateProcedure = publicProcedure.use(enforceUserSession);

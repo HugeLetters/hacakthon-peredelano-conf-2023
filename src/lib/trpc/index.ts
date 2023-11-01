@@ -1,5 +1,5 @@
 import { goto } from '$app/navigation';
-import { getSignInUrl } from '$lib/auth';
+import { TRPC_UNAUTHENTICATED_ERROR_MESSAGE, getSignInUrl } from '$lib/auth';
 import type { AppRouter } from '$lib/server/router';
 import { QueryCache } from '@tanstack/svelte-query';
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server';
@@ -11,7 +11,10 @@ export const trpc = createTRPCSvelte<AppRouter>({
 	queryClientConfig: {
 		queryCache: new QueryCache({
 			onError(error) {
-				if (error instanceof TRPCClientError && error.message === 'UNAUTHENTICATED') {
+				if (
+					error instanceof TRPCClientError &&
+					error.message === TRPC_UNAUTHENTICATED_ERROR_MESSAGE
+				) {
 					goto(getSignInUrl(location.href));
 				}
 			}

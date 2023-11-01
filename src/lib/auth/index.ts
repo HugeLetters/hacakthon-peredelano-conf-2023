@@ -3,6 +3,7 @@ import type { QueryClient } from '@tanstack/svelte-query';
 
 export const GOOGLE_OAUTH_STATE_KEY = 'google_oauth_state';
 export const CALLBACK_URL_KEY = 'auth_callback_url';
+export const TRPC_UNAUTHENTICATED_ERROR_MESSAGE = 'UNAUTHENTICATED';
 
 export function getSignInUrl(location: string) {
 	return `/signin?${CALLBACK_URL_KEY}=${location}` as const;
