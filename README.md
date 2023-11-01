@@ -12,8 +12,8 @@
 - [Svelte](https://svelte.dev/docs/introduction) - component framework
 - [SvelteKit](https://kit.svelte.dev/docs/introduction) - web framework
 - [trpc](https://trpc.io/docs) - typed server-to-client library
-- [@tanstack/svelte-query - V4](https://tanstack.com/query/v4/docs/svelte/overview) - async state manager, внимание, что юзаем версию 4.0, не 5.0
-  - доки по [Реакту](https://tanstack.com/query/v4/docs/react/overview) куда более полные, но многие идеи между фреймворкам аналогичные
+- [@tanstack/svelte-query - V5](https://tanstack.com/query/latest/docs/svelte/overview) - async state manager
+  - доки по [Реакту](https://tanstack.com/query/latest/docs/react/overview) куда более полные, но многие идеи между фреймворкам аналогичные
 - [trpc-svelte-query](https://github.com/ottomated/trpc-svelte-query) - sveltekit+trpc+tanstack-query-svelte adapter
 - [drizzle-orm](https://orm.drizzle.team/docs/overview) - SQL ORM
 - [libsql](https://github.com/tursodatabase/libsql) - SQLite fork
@@ -21,6 +21,7 @@
 # Scripts
 
 ## How to start
+
 ```bash
 # Initialize database
 pnpm db-push

@@ -48,11 +48,11 @@
 		"@libsql/client": "^0.3.6",
 		"@lucia-auth/adapter-sqlite": "^2.0.1",
 		"@lucia-auth/oauth": "^3.3.1",
-		"@tanstack/svelte-query": "^4.36.1",
+		"@tanstack/svelte-query": "^5.4.3",
 		"@trpc/client": "^10.43.0",
 		"@trpc/server": "^10.43.0",
 		"drizzle-orm": "^0.28.6",
 		"lucia": "^2.7.2",
-		"trpc-svelte-query": "^1.0.3"
+		"trpc-svelte-query": "^2.0.3"
 	}
 }
