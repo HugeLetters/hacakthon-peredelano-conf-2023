@@ -1,4 +1,5 @@
 import { invalidate } from '$app/navigation';
+import { redirect, type RequestEvent } from '@sveltejs/kit';
 import type { QueryClient } from '@tanstack/svelte-query';
 
 export const GOOGLE_OAUTH_STATE_KEY = 'google_oauth_state';
@@ -23,4 +24,27 @@ export function invalidateSessionQuery(queryClient: QueryClient) {
 		exact: true,
 		queryKey: [SESSION_KEY]
 	});
+}
+
+export async function redirectOnUnauthenticatedError<R>(event: RequestEvent, fn: () => Promise<R>) {
+	try {
+		return await fn();
+	} catch (error) {
+		if (
+			hasProperty(error, 'body') &&
+			hasProperty(error.body, 'message') &&
+			error.body.message === TRPC_UNAUTHENTICATED_ERROR_MESSAGE
+		) {
+			throw redirect(302, getSignInUrl(event.url.href));
+		}
+
+		throw error;
+	}
+}
+
+function hasProperty<K extends PropertyKey>(
+	value: unknown,
+	property: K
+): value is Record<K, unknown> {
+	return !!value && typeof value === 'object' && property in value;
 }
