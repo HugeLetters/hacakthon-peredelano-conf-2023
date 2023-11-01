@@ -26,10 +26,11 @@ export function invalidateSessionQuery(queryClient: QueryClient) {
 	});
 }
 
-export async function redirectOnUnauthenticatedError<R>(event: RequestEvent, fn: () => Promise<R>) {
-	try {
-		return await fn();
-	} catch (error) {
+export function redirectOnUnauthenticatedError<R>(
+	event: RequestEvent,
+	prefetchCallback: () => Promise<R>
+) {
+	return prefetchCallback().catch((error) => {
 		if (
 			hasProperty(error, 'body') &&
 			hasProperty(error.body, 'message') &&
@@ -39,7 +40,7 @@ export async function redirectOnUnauthenticatedError<R>(event: RequestEvent, fn:
 		}
 
 		throw error;
-	}
+	});
 }
 
 function hasProperty<K extends PropertyKey>(
