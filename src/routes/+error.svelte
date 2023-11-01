@@ -9,5 +9,5 @@
 	<div>Unexpected error - {$page.error?.message}</div>
 {/if}
 {#if $page.error?.message === TRPC_UNAUTHENTICATED_ERROR_MESSAGE}
-	<a href={getSignInUrl('/')}>go to signin page</a>
+	<a href={getSignInUrl()}>go to signin page</a>
 {/if}
