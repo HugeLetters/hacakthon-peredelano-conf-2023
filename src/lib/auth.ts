@@ -12,9 +12,11 @@ export function getSignInUrl(location: string) {
 
 export const SESSION_KEY = 'auth:session';
 /**
+ * `!WARNING!`
+ *
  * This function doesn't rely on global query cache and may cause extra session fetches
  *
- * It's recommended to use `invalidateSessionQuery` instead
+ * It's recommended to use `invalidateSessionQuery` instead where possible
  */
 export function invalidateSession() {
 	return invalidate(SESSION_KEY);
