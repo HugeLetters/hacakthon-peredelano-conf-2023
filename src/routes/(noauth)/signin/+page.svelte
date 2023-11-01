@@ -11,4 +11,4 @@
 	}
 </script>
 
-<a href={siginURL.toString().replace(host, '')}>Sign in with google</a>
+<a href={siginURL.href.replace(host, '')}>Sign in with google</a>

@@ -22,6 +22,6 @@ export const GET = async ({ cookies, url: requestedUrl }) => {
 	});
 	return new Response(null, {
 		status: 302,
-		headers: { Location: url.toString() }
+		headers: { Location: url.href }
 	});
 };
