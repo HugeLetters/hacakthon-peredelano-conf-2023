@@ -10,7 +10,8 @@
 			await invalidateSession();
 			return null;
 		},
-		staleTime: 5000,
+		staleTime: 5 * 60 * 1000, // 5 minutes
+		refetchInterval: 10 * 60 * 1000, // 10 minutes
 		// so that session is considered fresh initially
 		initialData: true
 	});
