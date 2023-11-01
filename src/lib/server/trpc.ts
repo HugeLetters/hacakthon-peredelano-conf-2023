@@ -20,7 +20,7 @@ export const router = t.router;
 export const publicProcedure = t.procedure;
 
 const enforceUserSession = t.middleware(({ ctx, next }) => {
-	if (!ctx.session) throw new TRPCError({ code: 'UNAUTHORIZED' });
+	if (!ctx.session) throw new TRPCError({ code: 'UNAUTHORIZED', message: 'UNAUTHENTICATED' });
 	return next({ ctx: { session: ctx.session } });
 });
 export const privateProcedure = publicProcedure.use(enforceUserSession);

@@ -1,6 +1,23 @@
 <script lang="ts">
+	import { SESSION_KEY, invalidateSession } from '$lib/auth';
+	import { createQuery } from '@tanstack/svelte-query';
+
 	export let data;
+
+	const sesssionTracker = createQuery({
+		queryKey: [SESSION_KEY],
+		async queryFn() {
+			await invalidateSession();
+			return null;
+		},
+		staleTime: 5000,
+		// so that session is considered fresh initially
+		initialData: true
+	});
 </script>
+
+<!-- this is hack so that svelte doesn't compile out query away since it doesn't think it has side-effects -->
+{#if $sesssionTracker.data}_{/if}
 
 <div class="root">
 	<div>{data.session?.user.name}</div>
