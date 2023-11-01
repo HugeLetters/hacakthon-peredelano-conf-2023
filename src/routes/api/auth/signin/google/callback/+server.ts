@@ -1,6 +1,7 @@
 import { CALLBACK_URL_KEY, GOOGLE_OAUTH_STATE_KEY } from '$lib/auth';
 import { auth, googleAuth } from '$lib/server/auth';
 import { OAuthRequestError } from '@lucia-auth/oauth';
+import { redirect } from '@sveltejs/kit';
 
 export const GET = async ({ url, cookies, locals }) => {
 	const storedState = cookies.get(GOOGLE_OAUTH_STATE_KEY);
@@ -24,10 +25,6 @@ export const GET = async ({ url, cookies, locals }) => {
 		locals.auth.setSession(session);
 
 		auth.deleteDeadUserSessions(user.userId).catch(console.error);
-
-		const location = cookies.get(CALLBACK_URL_KEY);
-		cookies.delete(CALLBACK_URL_KEY, { path: '/' });
-		return new Response(null, { status: 302, headers: { Location: location ?? '/' } });
 	} catch (e) {
 		console.error(e);
 		if (e instanceof OAuthRequestError) {
@@ -36,4 +33,8 @@ export const GET = async ({ url, cookies, locals }) => {
 		}
 		return new Response(null, { status: 500 });
 	}
+
+	const location = cookies.get(CALLBACK_URL_KEY);
+	cookies.delete(CALLBACK_URL_KEY, { path: '/' });
+	throw redirect(302, location ?? '/');
 };

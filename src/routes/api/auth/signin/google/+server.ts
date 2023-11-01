@@ -1,6 +1,7 @@
 import { dev } from '$app/environment';
 import { CALLBACK_URL_KEY, GOOGLE_OAUTH_STATE_KEY } from '$lib/auth';
 import { googleAuth } from '$lib/server/auth';
+import { redirect } from '@sveltejs/kit';
 
 export const GET = async ({ cookies, url: requestedUrl }) => {
 	const [url, state] = await googleAuth.getAuthorizationUrl();
@@ -20,8 +21,6 @@ export const GET = async ({ cookies, url: requestedUrl }) => {
 		path: '/',
 		maxAge: 60 * 60
 	});
-	return new Response(null, {
-		status: 302,
-		headers: { Location: url.href }
-	});
+
+	throw redirect(302, url.href);
 };
