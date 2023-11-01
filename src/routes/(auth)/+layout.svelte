@@ -21,7 +21,7 @@
 {#if false && $sesssionTracker.data}_{/if}
 
 <div class="root">
-	<div>{data.session?.user.name}</div>
+	<div>{data.session.user.name}</div>
 	<slot />
 </div>
 
