@@ -7,6 +7,7 @@
 		"node": ">=20.8.1",
 		"pnpm": ">=8.9.2"
 	},
+	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -19,15 +20,31 @@
 		"db-migrate": "pnpm db-folder&& drizzle-kit generate:sqlite&& tsx ./scripts/database/migrate.ts",
 		"db-push": "pnpm db-folder&& drizzle-kit push:sqlite",
 		"db-seed": "tsx ./scripts/database/seed.ts",
-		"db-studio": "drizzle-kit studio"
+		"db-studio": "drizzle-kit studio",
+		"gm-token": "tsx ./scripts/gmail/token.ts"
+	},
+	"dependencies": {
+		"@libsql/client": "^0.3.6",
+		"@lucia-auth/adapter-sqlite": "^2.0.1",
+		"@lucia-auth/oauth": "^3.3.1",
+		"@tanstack/svelte-query": "^5.4.3",
+		"@trpc/client": "^10.43.0",
+		"@trpc/server": "^10.43.0",
+		"drizzle-orm": "^0.28.6",
+		"googleapis": "^128.0.0",
+		"lucia": "^2.7.2",
+		"trpc-svelte-query": "^2.0.3"
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^8.2.0",
+		"@google-cloud/local-auth": "^3.0.0",
 		"@sveltejs/adapter-auto": "^2.1.0",
 		"@sveltejs/kit": "^1.27.2",
+		"@types/node": "^20.8.10",
 		"@typescript-eslint/eslint-plugin": "^6.9.1",
 		"@typescript-eslint/parser": "^6.9.1",
 		"better-sqlite3": "^9.0.0",
+		"dotenv": "^16.3.1",
 		"drizzle-kit": "^0.19.13",
 		"eslint": "^8.52.0",
 		"eslint-config-prettier": "^8.10.0",
@@ -42,17 +59,5 @@
 		"tsx": "^3.14.0",
 		"typescript": "^5.2.2",
 		"vite": "^4.5.0"
-	},
-	"type": "module",
-	"dependencies": {
-		"@libsql/client": "^0.3.6",
-		"@lucia-auth/adapter-sqlite": "^2.0.1",
-		"@lucia-auth/oauth": "^3.3.1",
-		"@tanstack/svelte-query": "^5.4.3",
-		"@trpc/client": "^10.43.0",
-		"@trpc/server": "^10.43.0",
-		"drizzle-orm": "^0.28.6",
-		"lucia": "^2.7.2",
-		"trpc-svelte-query": "^2.0.3"
 	}
 }

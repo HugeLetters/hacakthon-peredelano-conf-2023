@@ -2,6 +2,8 @@ import { db } from '../../src/lib/server/database';
 import { post, comment } from '../../src/lib/server/database/schema';
 import { faker } from '@faker-js/faker';
 
+main();
+
 async function main() {
 	await db.delete(comment).all();
 	await db.delete(post).all();
@@ -28,4 +30,3 @@ async function main() {
 		)
 		.all();
 }
-main();

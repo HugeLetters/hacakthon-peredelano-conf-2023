@@ -12,3 +12,4 @@ vite.config.ts.timestamp-*
 .idea/workspace.xml
 .idea/usage.statistics.xml
 .idea/shelf
+scripts/gmail/credentials.json
