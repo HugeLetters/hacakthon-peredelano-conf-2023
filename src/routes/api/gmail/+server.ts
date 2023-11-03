@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 
-// todo - authenticate that requests are from google
+//! need to authenticate that requests are from google
 export async function POST() {
 	return error(400, { message: 'This endpoint is currently disabled' });
 
@@ -23,7 +23,3 @@ export async function POST() {
 // };
 
 // type PubSubMessageData = { emailAddress: string; historyId: number };
-
-// function base64ToString(string: string) {
-// 	return Buffer.from(string, 'base64').toString('utf-8');
-// }
