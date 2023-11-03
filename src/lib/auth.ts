@@ -1,5 +1,5 @@
 import { goto, invalidate } from '$app/navigation';
-import { redirect, type RequestEvent } from '@sveltejs/kit';
+import type { RequestEvent } from '@sveltejs/kit';
 import type { QueryClient } from '@tanstack/svelte-query';
 
 export const GOOGLE_OAUTH_STATE_KEY = 'google_oauth_state';
@@ -52,7 +52,7 @@ export function redirectOnUnauthenticatedError<R>(
 			hasProperty(error.body, 'message') &&
 			error.body.message === TRPC_UNAUTHENTICATED_ERROR_MESSAGE
 		) {
-			throw redirect(302, getSignInUrl(event.url.href));
+			return;
 		}
 
 		throw error;

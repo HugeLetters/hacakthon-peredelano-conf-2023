@@ -3,8 +3,6 @@
 	import { SESSION_KEY, invalidateSession, signOut } from '$lib/auth';
 	import { createQuery, getQueryClientContext } from '@tanstack/svelte-query';
 
-	export let data;
-
 	const sesssionTracker = createQuery({
 		queryKey: [SESSION_KEY],
 		async queryFn() {
@@ -26,7 +24,7 @@
 <div class="root">
 	<header class="header">
 		<button on:click={() => signOut({ callbackUrl: $page.url.href, queryClient })}>
-			Sign out of {data.session.user.name}
+			<!-- Sign out of {data.session.user.name} -->
 		</button>
 	</header>
 	<slot />
