@@ -33,7 +33,8 @@
 		"drizzle-orm": "^0.28.6",
 		"googleapis": "^128.0.0",
 		"lucia": "^2.7.2",
-		"trpc-svelte-query": "^2.0.3"
+		"trpc-svelte-query": "^2.0.3",
+		"zod": "^3.22.4"
 	},
 	"devDependencies": {
 		"@faker-js/faker": "^8.2.0",

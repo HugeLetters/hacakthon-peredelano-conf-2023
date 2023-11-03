@@ -6,8 +6,8 @@ import { google } from '@lucia-auth/oauth/providers';
 import { getTableConfig } from 'drizzle-orm/sqlite-core';
 import { lucia } from 'lucia';
 import { sveltekit } from 'lucia/middleware';
-import { libsqlClient } from '../database';
-import { user, userKey, userSession } from '../database/schema/auth';
+import { libsqlClient } from './database';
+import { user, userKey, userSession } from './database/schema/auth';
 
 export const auth = lucia({
 	adapter: libsql(libsqlClient, {

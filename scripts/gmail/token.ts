@@ -17,7 +17,7 @@ async function main() {
 			'Please make sure env variables for GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET and GOOGLE_REDIRECT_URI are set'
 		);
 	}
-
+	// todo check if port is running already. throw if yes
 	const credentialsFilesPath = path.resolve(fileURLToPath(import.meta.url), '../credentials.json');
 	const credentialsaData = JSON.stringify({
 		web: {
