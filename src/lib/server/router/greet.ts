@@ -1,4 +1,4 @@
-import { privateProcedure, publicProcedure, router } from '../trpc';
+import { protectedProcedure, publicProcedure, router } from '../trpc';
 
 export const greetRouter = router({
 	hello: publicProcedure.query(() => {
@@ -10,7 +10,7 @@ export const greetRouter = router({
 });
 
 export const privateGreetRouter = router({
-	privateHi: privateProcedure.query(({ ctx }) => {
+	privateHi: protectedProcedure.query(({ ctx }) => {
 		return `Your name is ${ctx.session.user.name}!`;
 	})
 });

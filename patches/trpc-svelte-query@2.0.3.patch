@@ -1,0 +1,24 @@
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 133f8e1db599f568b5ab071e7438b195f15c7a4e..e0cf57f01eceac4d3d767be281ec3a0574056ccb 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -28,7 +28,7 @@ import { derived, readable } from "svelte/store";
+ 
+ // src/utils/isSvelteStore.ts
+ function isSvelteStore(obj) {
+-  return "subscribe" in obj && typeof obj.subscribe === "function";
++  return typeof obj === 'object' && "subscribe" in obj && typeof obj.subscribe === "function";
+ }
+ 
+ // src/createTRPCSvelte.ts
+diff --git a/src/utils/isSvelteStore.ts b/src/utils/isSvelteStore.ts
+index 25baa7b0b6d597fa9c7b5267301551a8d67edd12..a0a9356a7d649816cc4162f959892ee736f71419 100644
+--- a/src/utils/isSvelteStore.ts
++++ b/src/utils/isSvelteStore.ts
+@@ -4,5 +4,5 @@ import { Readable } from 'svelte/store';
+ export function isSvelteStore<TStore extends object>(
+ 	obj: StoreOrVal<TStore>,
+ ): obj is Readable<TStore> {
+-	return 'subscribe' in obj && typeof obj.subscribe === 'function';
++	return typeof obj === 'object' && 'subscribe' in obj && typeof obj.subscribe === 'function';
+ }

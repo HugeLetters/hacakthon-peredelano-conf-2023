@@ -26,4 +26,4 @@ const enforceUserSession = t.middleware(({ ctx, next }) => {
 	}
 	return next({ ctx: { session: ctx.session } });
 });
-export const privateProcedure = publicProcedure.use(enforceUserSession);
+export const protectedProcedure = publicProcedure.use(enforceUserSession);
