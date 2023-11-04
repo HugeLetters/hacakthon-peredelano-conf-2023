@@ -64,5 +64,10 @@
 		"tsx": "^3.14.0",
 		"typescript": "^5.2.2",
 		"vite": "^4.5.0"
+	},
+	"pnpm": {
+		"patchedDependencies": {
+			"trpc-svelte-query@2.0.3": "patches/trpc-svelte-query@2.0.3.patch"
+		}
 	}
 }

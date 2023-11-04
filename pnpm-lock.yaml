@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+patchedDependencies:
+  trpc-svelte-query@2.0.3:
+    hash: m6xxnhqqxmijpkevaxfnyxjgyu
+    path: patches/trpc-svelte-query@2.0.3.patch
+
 dependencies:
   '@libsql/client':
     specifier: ^0.3.6
@@ -34,7 +39,7 @@ dependencies:
     version: 2.7.2
   trpc-svelte-query:
     specifier: ^2.0.3
-    version: 2.0.3(@sveltejs/kit@1.27.2)(@tanstack/svelte-query@5.4.3)(@trpc/client@10.43.0)(@trpc/server@10.43.0)(svelte@4.2.2)
+    version: 2.0.3(patch_hash=m6xxnhqqxmijpkevaxfnyxjgyu)(@sveltejs/kit@1.27.2)(@tanstack/svelte-query@5.4.3)(@trpc/client@10.43.0)(@trpc/server@10.43.0)(svelte@4.2.2)
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -3238,7 +3243,7 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
-  /trpc-svelte-query@2.0.3(@sveltejs/kit@1.27.2)(@tanstack/svelte-query@5.4.3)(@trpc/client@10.43.0)(@trpc/server@10.43.0)(svelte@4.2.2):
+  /trpc-svelte-query@2.0.3(patch_hash=m6xxnhqqxmijpkevaxfnyxjgyu)(@sveltejs/kit@1.27.2)(@tanstack/svelte-query@5.4.3)(@trpc/client@10.43.0)(@trpc/server@10.43.0)(svelte@4.2.2):
     resolution: {integrity: sha512-a/ZkUmCeG7RtAmHxk/iomZmqkiy4qwCmtbuuz4DWd9O1poYRcIhBlm4NaqsKL9ocu9tIBBTOhEbnBH3tvrgLag==}
     peerDependencies:
       '@sveltejs/kit': ^1.27.1
@@ -3254,6 +3259,7 @@ packages:
       esm-env: 1.0.0
       svelte: 4.2.2
     dev: false
+    patched: true
 
   /ts-api-utils@1.0.3(typescript@5.2.2):
     resolution: {integrity: sha512-wNMeqtMz5NtwpT/UZGY5alT+VoKdSsOOP/kqHFcUW1P/VRhH2wJ48+DN2WwUliNbQ976ETwDL0Ifd2VVvgonvg==}
