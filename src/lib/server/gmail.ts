@@ -6,20 +6,14 @@ import {
 } from '$env/static/private';
 import type { DiscriminatedUnion } from '$lib/utils';
 import type { gmail_v1 } from 'googleapis';
-import { Auth, google } from 'googleapis';
 import { createMimeMessage } from 'mimetext';
+import { getGmailClient } from '../../../scripts/gmail/client';
 
-export const gmail = getGmailClient();
-function getGmailClient() {
-	const auth = google.auth.fromJSON({
-		type: 'authorized_user',
-		client_id: GOOGLE_CLIENT_ID,
-		client_secret: GOOGLE_CLIENT_SECRET,
-		refresh_token: GOOGLE_REFRESH_TOKEN
-	}) as Auth.OAuth2Client;
-
-	return google.gmail({ version: 'v1', auth });
-}
+export const gmail = getGmailClient({
+	client_id: GOOGLE_CLIENT_ID,
+	client_secret: GOOGLE_CLIENT_SECRET,
+	refresh_token: GOOGLE_REFRESH_TOKEN
+});
 
 type SendMessageOptions = { content: string; to: string; subject: string } & DiscriminatedUnion<
 	{ threadId: string; replyId: string },

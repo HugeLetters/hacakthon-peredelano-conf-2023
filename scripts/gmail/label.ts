@@ -1,6 +1,5 @@
-import { Auth, google } from 'googleapis';
 import { config } from 'dotenv';
-
+import { getGmailClient } from './client';
 config();
 main();
 async function main() {
@@ -24,14 +23,11 @@ async function main() {
 		throw Error('Please make sure env variable for GMAIL_PROCESSED_LABEL_NAME is set');
 	}
 
-	const auth = google.auth.fromJSON({
-		type: 'authorized_user',
+	const gmail = getGmailClient({
 		client_id: GOOGLE_CLIENT_ID,
 		client_secret: GOOGLE_CLIENT_SECRET,
 		refresh_token: GOOGLE_REFRESH_TOKEN
-	}) as Auth.OAuth2Client;
-
-	const gmail = google.gmail({ version: 'v1', auth });
+	});
 
 	const label = await gmail.users.labels
 		.create({
