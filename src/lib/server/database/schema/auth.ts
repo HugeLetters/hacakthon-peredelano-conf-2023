@@ -12,7 +12,7 @@ export const User = sqliteTable(
 			.notNull()
 			.default('basic')
 	},
-	(table) => ({ roleIndex: index('role_index').on(table.role) })
+	(table) => ({ roleIndex: index('user_role_index').on(table.role) })
 );
 
 export const UserKey = sqliteTable(
@@ -24,7 +24,7 @@ export const UserKey = sqliteTable(
 			.references(() => User.id),
 		hashedPassword: text('hashed_password', { length: 255 })
 	},
-	(table) => ({ userIdIndex: index('user_id_index').on(table.userId) })
+	(table) => ({ userIdIndex: index('user_key_user_id_index').on(table.userId) })
 );
 
 export const UserSession = sqliteTable(
@@ -37,5 +37,5 @@ export const UserSession = sqliteTable(
 		activeExpires: int('active_expires').notNull(),
 		idleExpires: int('idle_expires').notNull()
 	},
-	(table) => ({ userIdIndex: index('user_id_index').on(table.userId) })
+	(table) => ({ userIdIndex: index('user_session_user_id_index').on(table.userId) })
 );

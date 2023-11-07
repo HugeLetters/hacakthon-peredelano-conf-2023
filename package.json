@@ -18,7 +18,7 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"db-folder": "pnpm make-dir database",
 		"db-migrate": "pnpm db-folder&& drizzle-kit generate:sqlite&& tsx ./scripts/database/migrate.ts",
-		"db-push": "pnpm db-folder && rm ./database/db.sqlite && drizzle-kit push:sqlite",
+		"db-push": "pnpm db-folder && drizzle-kit push:sqlite",
 		"db-seed": "tsx ./scripts/database/seed.ts",
 		"db-studio": "drizzle-kit studio",
 		"gm-token": "tsx ./scripts/gmail/token.ts",

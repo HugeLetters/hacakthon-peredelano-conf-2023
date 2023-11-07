@@ -12,8 +12,8 @@ export const Case = sqliteTable(
 		assignedAdmindId: createUserIdColumn('assigned_admin_id').references(() => User.id)
 	},
 	(table) => ({
-		statusIndex: index('status_index').on(table.status),
-		assignedAdmindIdIndex: index('assigned_admin_id_index').on(table.assignedAdmindId)
+		statusIndex: index('case_status_index').on(table.status),
+		assignedAdmindIdIndex: index('case_assigned_admin_id_index').on(table.assignedAdmindId)
 	})
 );
 
@@ -28,7 +28,7 @@ export const CaseTodo = sqliteTable(
 			.notNull()
 	},
 	(table) => ({
-		caseIdIndex: index('case_id_index').on(table.caseId)
+		caseIdIndex: index('case_todo_case_id_index').on(table.caseId)
 	})
 );
 

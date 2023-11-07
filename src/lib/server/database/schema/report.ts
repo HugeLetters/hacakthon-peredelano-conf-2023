@@ -22,11 +22,11 @@ export const Report = sqliteTable(
 			.notNull()
 	},
 	(table) => ({
-		categoryIndex: index('category_index').on(table.category),
-		countryIndex: index('country_index').on(table.country),
-		organizationIndex: index('organization_index').on(table.organization),
-		creatorIdIndex: index('creator_id_index').on(table.creatorId),
-		caseIdIndex: index('case_id_index').on(table.caseId)
+		categoryIndex: index('report_category_index').on(table.category),
+		countryIndex: index('report_country_index').on(table.country),
+		organizationIndex: index('report_organization_index').on(table.organization),
+		creatorIdIndex: index('report_creator_id_index').on(table.creatorId),
+		caseIdIndex: index('report_case_id_index').on(table.caseId)
 	})
 );
 
@@ -47,8 +47,8 @@ export const Message = sqliteTable(
 			.notNull()
 	},
 	(table) => ({
-		createdAtIndex: index('created_at_index').on(table.createdAt),
-		reportIdIndex: index('report_id_index').on(table.reportId)
+		createdAtIndex: index('message_created_at_index').on(table.createdAt),
+		reportIdIndex: index('message_report_id_index').on(table.reportId)
 	})
 );
 
