@@ -2,7 +2,7 @@
 
 import type { Auth as MyAuth } from '$lib/server/auth';
 import type { InferSQLSelectModel } from '$lib/server/database';
-import type { user, userSession } from '$lib/server/database/schema/auth';
+import type { User, UserSession } from '$lib/server/database/schema/auth';
 import type { StrictOmit } from '$lib/utils';
 import type { AuthRequest } from 'lucia';
 
@@ -18,9 +18,9 @@ declare global {
 	}
 	namespace Lucia {
 		type Auth = MyAuth;
-		type DatabaseUserAttributes = StrictOmit<InferSQLSelectModel<typeof user>, 'id'>;
+		type DatabaseUserAttributes = StrictOmit<InferSQLSelectModel<typeof User>, 'id'>;
 		type DatabaseSessionAttributes = StrictOmit<
-			InferSQLSelectModel<typeof userSession>,
+			InferSQLSelectModel<typeof UserSession>,
 			'id' | 'active_expires' | 'idle_expires' | 'user_id'
 		>;
 	}

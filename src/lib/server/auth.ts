@@ -7,13 +7,13 @@ import { getTableConfig } from 'drizzle-orm/sqlite-core';
 import { lucia } from 'lucia';
 import { sveltekit } from 'lucia/middleware';
 import { libsqlClient } from './database';
-import { user, userKey, userSession } from './database/schema/auth';
+import { User, UserKey, UserSession } from './database/schema/auth';
 
 export const auth = lucia({
 	adapter: libsql(libsqlClient, {
-		user: getTableConfig(user).name,
-		key: getTableConfig(userKey).name,
-		session: getTableConfig(userSession).name
+		user: getTableConfig(User).name,
+		key: getTableConfig(UserKey).name,
+		session: getTableConfig(UserSession).name
 	}),
 	middleware: sveltekit(),
 	env: dev ? 'DEV' : 'PROD',

@@ -17,7 +17,7 @@ export const GET = async ({ url, cookies, locals }) => {
 		const getUser = async () => {
 			const existingUser = await getExistingUser();
 			if (existingUser) return existingUser;
-			return createUser({ attributes: { user_name: googleUser.name } });
+			return createUser({ attributes: { user_name: googleUser.name, role: 'basic' } });
 		};
 
 		const user = await getUser();
