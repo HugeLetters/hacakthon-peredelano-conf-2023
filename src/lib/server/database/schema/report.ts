@@ -14,6 +14,10 @@ export const Report = sqliteTable(
 		category: text('category', { length: 31 }).$type<Category>().notNull(),
 		country: text('country', { length: 2 }).$type<CountryCode>(),
 		organization: text('organization', { length: 63 }),
+		/** timestamp in ms */
+		createdAt: integer('created_at')
+			.notNull()
+			.default(sql`current_timestamp`),
 		creatorId: createUserIdColumn('creator_id')
 			.references(() => User.id)
 			.notNull(),
@@ -25,6 +29,7 @@ export const Report = sqliteTable(
 		categoryIndex: index('report_category_index').on(table.category),
 		countryIndex: index('report_country_index').on(table.country),
 		organizationIndex: index('report_organization_index').on(table.organization),
+		createdAtIndex: index('report_created_at_index').on(table.createdAt),
 		creatorIdIndex: index('report_creator_id_index').on(table.creatorId),
 		caseIdIndex: index('report_case_id_index').on(table.caseId)
 	})
@@ -36,7 +41,7 @@ export const Message = sqliteTable(
 		id: uuidPkColumn,
 		content: text('content', { length: 65535 }).notNull(),
 		/** timestamp in ms */
-		createdAt: integer('integer')
+		createdAt: integer('created_at')
 			.notNull()
 			.default(sql`current_timestamp`),
 		reportId: createUuidColumn('report_id')
