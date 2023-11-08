@@ -11,6 +11,7 @@
 - [pnpm](https://pnpm.io/) - package manager
 - [Svelte](https://svelte.dev/docs/introduction) - component framework
 - [SvelteKit](https://kit.svelte.dev/docs/introduction) - web framework
+- [melt-ui](https://www.melt-ui.com/docs/usage) - headless UI library for Svelte
 - [trpc](https://trpc.io/docs) - typed server-to-client library
 - [@tanstack/svelte-query - V5](https://tanstack.com/query/latest/docs/svelte/overview) - async state manager
   - доки по [Реакту](https://tanstack.com/query/latest/docs/react/overview) куда более полные, но многие идеи между фреймворкам аналогичные
