@@ -6,6 +6,8 @@
 
 [Miro Board for team work](https://miro.com/welcomeonboard/RWpDaFRWdm52cHZKNE42RjFWemxDenBwc0owNmp2MFdjY0IzUGhscWwyTzlXbHBPN0xaTUszaGxTejlMV2M4bXwzNDU4NzY0NTQyMTA2MjM1NDk1fDI=?share_link_id=333278440706)
 
+[Notion](https://www.notion.so/bab210af17544ead823023b30487dd6c)
+
 # Stack
 
 - [pnpm](https://pnpm.io/) - package manager
