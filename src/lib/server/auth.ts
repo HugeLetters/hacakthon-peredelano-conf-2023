@@ -1,8 +1,10 @@
 import { dev } from '$app/environment';
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '$env/static/private';
 import { PUBLIC_HOST_URL } from '$env/static/public';
+import { TRPC_UNAUTHENTICATED_ERROR_MESSAGE, getSignInUrl } from '$lib/auth';
 import { libsql } from '@lucia-auth/adapter-sqlite';
 import { google } from '@lucia-auth/oauth/providers';
+import { redirect, type RequestEvent } from '@sveltejs/kit';
 import { getTableConfig } from 'drizzle-orm/sqlite-core';
 import { lucia } from 'lucia';
 import { sveltekit } from 'lucia/middleware';
@@ -29,3 +31,27 @@ export const googleAuth = google(auth, {
 });
 
 export type Auth = typeof auth;
+
+export function redirectOnUnauthenticatedError<R>(
+	event: RequestEvent,
+	prefetchCallback: () => Promise<R>
+) {
+	return prefetchCallback().catch((error) => {
+		if (
+			hasProperty(error, 'body') &&
+			hasProperty(error.body, 'message') &&
+			error.body.message === TRPC_UNAUTHENTICATED_ERROR_MESSAGE
+		) {
+			throw redirect(302, getSignInUrl(event.url.href));
+		}
+
+		throw error;
+	});
+}
+
+function hasProperty<K extends PropertyKey>(
+	value: unknown,
+	property: K
+): value is Record<K, unknown> {
+	return !!value && typeof value === 'object' && property in value;
+}

@@ -1,4 +1,4 @@
-import { redirectOnUnauthenticatedError } from '$lib/auth';
+import { redirectOnUnauthenticatedError } from '$lib/server/auth';
 import { trpcServer } from '$lib/server/router';
 
 export async function load(event) {

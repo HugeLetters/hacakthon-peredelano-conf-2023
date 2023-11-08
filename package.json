@@ -22,7 +22,7 @@
 		"db-seed": "tsx ./scripts/database/seed.ts",
 		"db-studio": "drizzle-kit studio",
 		"gm-token": "tsx ./scripts/gmail/token.ts",
-		"gm-label": "tsx ./scripts/gmail/label.ts"
+		"gm-meta": "tsx ./scripts/gmail/meta.ts"
 	},
 	"dependencies": {
 		"@libsql/client": "^0.3.6",

@@ -51,7 +51,12 @@ async function main() {
 				);
 		});
 
-	if (!label) throw Error('Something went wrong');
+	const address = await gmail.users
+		.getProfile({ userId: 'me' })
+		.then((res) => res.data.emailAddress);
 
-	console.log('Your label id - ', label.id);
+	if (!label || !address) throw Error('Something went wrong');
+
+	console.log('Your label id -', label.id);
+	console.log('Your email address -', address);
 }

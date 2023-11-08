@@ -1,30 +1,57 @@
 import { z } from 'zod';
-import { decodeMessage, getLastSubject, gmail, sendMessage } from '../gmail';
+import {
+	MESSAGE_ID_HEADER,
+	UNREAD_LABEL,
+	decodeMessage,
+	getLastInboxMessage,
+	getReplyData,
+	gmail,
+	sendMessage,
+	userId
+} from '../gmail';
 import { protectedProcedure, router } from '../trpc';
+
+const newThreadSchema = z.object({
+	to: z.string(),
+	subject: z.string(),
+	content: z.string(),
+	cc: z.string().optional()
+});
+
 export const gmailRouter = router({
 	getThreadById: protectedProcedure.input(z.string()).query(({ input }) => {
-		return gmail.users.threads.get({ userId: 'me', id: input }).then((res) => {
+		return gmail.users.threads.get({ userId, id: input }).then((res) => {
 			if (!res.data.messages) return null;
 
+			const { messages } = res.data;
+			// writeFile('./email.json', JSON.stringify(res.data));
+
+			const lastInboxMessage = getLastInboxMessage(messages);
+			const isYourMessage = !lastInboxMessage;
+			const replyToMessage = (lastInboxMessage ?? messages.at(-1))?.payload;
+			const replyData = replyToMessage
+				? getReplyData({ message: replyToMessage, isYourMessage })
+				: {};
+
 			return {
-				messages: res.data.messages
+				messages: messages
 					.map((message) => message.payload)
 					.filter((message): message is NonNullable<typeof message> => !!message)
 					.map((message) => ({
 						data: decodeMessage(message),
-						id: message.headers?.find((header) => header.name === 'Message-ID')?.value
+						id: message.headers?.find((header) => header.name === MESSAGE_ID_HEADER)?.value
 					})),
-				subject: getLastSubject(res.data.messages),
-				unread: res.data.messages.some((message) => message.labelIds?.includes('UNREAD'))
+				unread: messages.some((message) => message.labelIds?.includes(UNREAD_LABEL)),
+				replyData
 			};
 		});
 	}),
 	markThreadAsRead: protectedProcedure.input(z.string()).mutation(({ input }) => {
 		return gmail.users.threads
 			.modify({
-				userId: 'me',
+				userId,
 				id: input,
-				requestBody: { removeLabelIds: ['UNREAD'] }
+				requestBody: { removeLabelIds: [UNREAD_LABEL] }
 			})
 			.then(() => {})
 			.catch((e) => {
@@ -32,31 +59,21 @@ export const gmailRouter = router({
 				throw Error('Error while trying mark thread as unread');
 			});
 	}),
-	sendMessage: protectedProcedure
+	startThread: protectedProcedure
+		.input(newThreadSchema)
+		.mutation(({ input: { subject, to, cc, content } }) => {
+			return sendMessage({ to, subject, content, cc });
+		}),
+	replyToThread: protectedProcedure
 		.input(
-			z.object({
-				to: z.string(),
-				content: z.string(),
-				/** Subject needs to match for all messages in the thread */
-				subject: z.string(),
-				thread: z
-					.object({
-						/** ThreadId must be provided for new messages to the same thread */
-						threadId: z.string(),
-						/** Specify to which message in the thread to reply to */
-						replyId: z.string()
-					})
-					.optional()
-			})
+			newThreadSchema.merge(
+				z.object({
+					replyId: z.string(),
+					threadId: z.string()
+				})
+			)
 		)
-		.mutation(({ input: { content, subject, thread, to } }) => {
-			if (!thread) return sendMessage({ to, content, subject });
-			return sendMessage({
-				to,
-				content,
-				subject,
-				threadId: thread.threadId,
-				replyId: thread.replyId
-			});
+		.mutation(({ input: { content, subject, replyId, threadId, cc, to } }) => {
+			return sendMessage({ to, content, subject, cc, replyId, threadId });
 		})
 });

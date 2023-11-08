@@ -1,4 +1,5 @@
 import {
+	GMAIL_EMAIL_ADDRESS,
 	GMAIL_PROCESSED_LABEL_ID,
 	GOOGLE_CLIENT_ID,
 	GOOGLE_CLIENT_SECRET,
@@ -15,26 +16,34 @@ export const gmail = getGmailClient({
 	refresh_token: GOOGLE_REFRESH_TOKEN
 });
 
-type SendMessageOptions = { content: string; to: string; subject: string } & DiscriminatedUnion<
-	{ threadId: string; replyId: string },
-	unknown
->;
+type ReplyMessageOptions = { threadId: string; replyId: string };
+type SendMessageOptions = {
+	content: string;
+	to: string;
+	subject: string;
+	cc?: string;
+} & DiscriminatedUnion<ReplyMessageOptions, unknown>;
 /**
  * @returns assigned thread id of the message
  */
-export function sendMessage({ to, content, subject, replyId, threadId }: SendMessageOptions) {
+export function sendMessage({ to, content, subject, replyId, threadId, cc }: SendMessageOptions) {
 	const message = createMimeMessage();
 	message.setTo(to);
 	message.setSender('');
 	message.setSubject(subject);
 	message.addMessage({ contentType: 'text/plain', data: content });
-	if (replyId) {
-		message.headers.set('References', replyId);
-		message.headers.set('In-Reply-To', replyId);
+	if (cc) {
+		message.setCc(ccToArray(cc));
 	}
+
+	if (replyId) {
+		message.headers.set(REFERENCES_HEADER, replyId);
+		message.headers.set(IN_REPLY_TO_HEADER, replyId);
+	}
+
 	const raw = message.asEncoded();
 
-	return gmail.users.messages.send({ userId: 'me', requestBody: { raw, threadId } }).then((res) => {
+	return gmail.users.messages.send({ userId, requestBody: { raw, threadId } }).then((res) => {
 		const responseThreadId = res.data.threadId;
 
 		if (!responseThreadId) throw Error("Couldn't retrieve threadId of the sent message");
@@ -42,7 +51,7 @@ export function sendMessage({ to, content, subject, replyId, threadId }: SendMes
 
 		return gmail.users.threads
 			.modify({
-				userId: 'me',
+				userId,
 				requestBody: { addLabelIds: [GMAIL_PROCESSED_LABEL_ID] },
 				id: responseThreadId
 			})
@@ -76,12 +85,74 @@ function base64ToString(string: string) {
 	return Buffer.from(string, 'base64').toString('utf-8');
 }
 
-export function getLastSubject(messages: Message[]) {
-	for (let i = messages.length - 1; i >= 0; i--) {
-		const message = messages[i];
-		if (!message) continue;
-
-		const subject = message.payload?.headers?.find((header) => header.name === 'Subject');
-		if (subject) return subject.value;
-	}
+export function getLastInboxMessage(messages: Message[]) {
+	return messages.findLast(
+		(message) =>
+			message.payload?.headers?.find(
+				(header) => header.name === FROM_HEADER && !header.value?.includes(GMAIL_EMAIL_ADDRESS)
+			)
+	);
 }
+
+type HeaderValue = string | null | undefined;
+type ReplyData = {
+	to?: HeaderValue;
+	cc?: HeaderValue;
+	subject?: HeaderValue;
+	replyMessageId?: HeaderValue;
+};
+export function getReplyData({
+	message,
+	isYourMessage
+}: {
+	message: MessagePayload;
+	isYourMessage?: boolean;
+}) {
+	const { headers } = message;
+	if (!headers) return {};
+
+	const toHeader = isYourMessage ? TO_HEADER : FROM_HEADER;
+	const result: ReplyData = {};
+	for (const header of headers) {
+		switch (header.name) {
+			case toHeader: {
+				result.to = header.value;
+				break;
+			}
+			case CC_HEADER: {
+				result.cc = header.value;
+				break;
+			}
+			case SUBJECT_HEADER: {
+				result.subject = header.value;
+				break;
+			}
+			case MESSAGE_Id_HEADER:
+			case MESSAGE_ID_HEADER: {
+				result.replyMessageId = header.value;
+				break;
+			}
+		}
+	}
+
+	return result;
+}
+
+function ccToArray(cc: string) {
+	return cc
+		.split(',')
+		.map((string) => string.trim())
+		.filter(Boolean);
+}
+
+export const FROM_HEADER = 'From';
+export const TO_HEADER = 'To';
+export const SUBJECT_HEADER = 'Subject';
+export const MESSAGE_ID_HEADER = 'Message-ID';
+export const MESSAGE_Id_HEADER = 'Message-Id';
+export const IN_REPLY_TO_HEADER = 'In-Reply-To';
+export const REFERENCES_HEADER = 'References';
+export const CC_HEADER = 'Cc';
+
+export const UNREAD_LABEL = 'UNREAD';
+export const userId = 'me';

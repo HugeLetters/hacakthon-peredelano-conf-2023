@@ -6,7 +6,7 @@
 			data.trpc.gmail.getThreadById.utils.invalidate(data.threadId);
 		}
 	});
-	const newMessageMutation = data.trpc.gmail.sendMessage.mutation({
+	const newMessageMutation = data.trpc.gmail.replyToThread.mutation({
 		onSuccess(data) {
 			if (!data) return;
 		},
@@ -21,24 +21,24 @@
 		const form = new FormData(e.currentTarget);
 
 		const text = form.get('text');
-		const to = form.get('to');
 
 		if (typeof text !== 'string') return;
-		if (typeof to !== 'string') return;
 
-		const replyId = $query.data?.messages.findLast((message) => !!message.id)?.id;
-		const subject = $query.data?.subject;
-		if (!replyId || !subject) return;
+		const to = $query.data?.replyData.to;
+		const replyId = $query.data?.replyData.replyMessageId;
+		const subject = $query.data?.replyData.subject;
+		if (!to || !replyId || !subject) return;
 
 		$newMessageMutation.mutate({
 			content: text,
 			to,
+			replyId,
 			subject,
-			thread: { threadId: data.threadId, replyId }
+			threadId: data.threadId,
+			cc: $query.data?.replyData.cc ?? undefined
 		});
 	}}
 >
-	<input placeholder="to" name="to" required />
 	<textarea placeholder="email body" name="text" required />
 	<button>send</button>
 </form>
@@ -70,6 +70,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+		white-space: pre-line;
 		> div {
 			outline: 2px solid red;
 			> div {

@@ -3,7 +3,7 @@
 
 	export let data;
 
-	const newMessageMutation = data.trpc.gmail.sendMessage.mutation({
+	const newMessageMutation = data.trpc.gmail.startThread.mutation({
 		onSuccess(result) {
 			if (!result) return;
 			goto(`/mail/${result}`);
@@ -19,20 +19,27 @@
 		const text = form.get('text');
 		const to = form.get('to');
 		const subject = form.get('subject');
+		const cc = form.get('cc') ?? undefined;
 
 		if (typeof text !== 'string') return;
 		if (typeof to !== 'string') return;
 		if (typeof subject !== 'string') return;
+		if (!!cc && typeof cc !== 'string') return;
 
-		$newMessageMutation.mutate({ content: text, to, subject });
+		$newMessageMutation.mutate({
+			content: text,
+			to,
+			subject,
+			cc
+		});
 	}}
 >
 	<input placeholder="subject" name="subject" required />
 	<input placeholder="to" name="to" required />
+	<input placeholder="cc - separate emails with ','" name="cc" />
 	<textarea placeholder="email body" name="text" required />
 	<button>send</button>
 </form>
-<slot />
 
 <style lang="scss">
 	form {
