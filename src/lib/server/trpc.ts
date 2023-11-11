@@ -10,7 +10,15 @@ export const createTrpcContext = async function (event: RequestEvent) {
  * Initialization of tRPC backend
  * Should be done only once per backend!
  */
-const t = initTRPC.context<typeof createTrpcContext>().create();
+const t = initTRPC.context<typeof createTrpcContext>().create({
+	errorFormatter({ shape: { code, message, data } }) {
+		return {
+			code,
+			message,
+			data: { code: data.code, httpStatus: data.httpStatus }
+		};
+	}
+});
 
 /**
  * Export reusable router and procedure helpers
