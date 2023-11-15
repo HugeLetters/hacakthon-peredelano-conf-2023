@@ -2,9 +2,9 @@
 	"recommendations": [
 		"dbaeumer.vscode-eslint",
 		"antfu.file-nesting",
-		"vunguyentuan.vscode-postcss",
 		"esbenp.prettier-vscode",
 		"yoavbls.pretty-ts-errors",
-		"svelte.svelte-vscode"
+		"svelte.svelte-vscode",
+		"somewhatstationery.some-sass"
 	]
 }
