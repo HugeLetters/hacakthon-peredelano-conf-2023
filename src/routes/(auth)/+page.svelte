@@ -2,7 +2,6 @@
 	import { createPopover, melt } from '@melt-ui/svelte';
 	import { onMount } from 'svelte';
 	import { fly } from 'svelte/transition';
-
 	export let data;
 
 	const query = data.trpc.greet.hello.query(undefined, { staleTime: Infinity });
@@ -43,7 +42,8 @@
 		padding: 1rem;
 	}
 	.popover-content {
-		background-color: aqua;
+		@include green-bg;
+		color: $custom-red;
 		border-radius: 0.5rem;
 		padding: 0.5rem;
 	}

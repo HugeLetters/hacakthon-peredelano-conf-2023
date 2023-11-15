@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { QueryClientProvider } from '@tanstack/svelte-query';
-	import '../app.scss';
+	import '$lib/css/reset.css';
 
 	export let data;
 	$: queryClient = data.trpc.hydrateFromServer(data.trpcHydrationClient);
