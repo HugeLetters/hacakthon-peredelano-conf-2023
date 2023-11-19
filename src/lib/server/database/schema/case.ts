@@ -40,7 +40,10 @@ export const Thread = sqliteTable(
 			.references(() => Case.id)
 			.notNull()
 	},
-	(table) => ({ primaryKey: primaryKey(table.caseId, table.threadId) })
+	(table) => ({
+		primaryKey: primaryKey(table.caseId, table.threadId),
+		threadIdIndex: index('thread_thread_id_index').on(table.threadId)
+	})
 );
 
 type CaseStatus = 'active' | 'closed';

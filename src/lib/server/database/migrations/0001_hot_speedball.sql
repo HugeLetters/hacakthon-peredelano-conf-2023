@@ -1,0 +1,1 @@
+CREATE INDEX `thread_thread_id_index` ON `thread` (`thread_id`);
