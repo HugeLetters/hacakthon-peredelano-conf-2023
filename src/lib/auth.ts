@@ -15,10 +15,7 @@ type SignOutOptions = { queryClient?: QueryClient; callbackUrl?: string };
 export function signOut(options?: SignOutOptions) {
 	return fetch('/api/auth/signout', { method: 'POST' }).then((res) => {
 		if (res.ok) {
-			if (options?.queryClient) {
-				invalidateSession(options.queryClient);
-			}
-
+			invalidateSession(options?.queryClient);
 			goto(getSignInUrl(options?.callbackUrl));
 		}
 

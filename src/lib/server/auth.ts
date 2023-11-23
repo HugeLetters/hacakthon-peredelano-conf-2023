@@ -10,6 +10,7 @@ import { lucia } from 'lucia';
 import { sveltekit } from 'lucia/middleware';
 import { libsqlClient } from './database';
 import { User, UserKey, UserSession } from './database/schema/auth';
+import { hasProperty } from '$lib/utils';
 
 export const auth = lucia({
 	adapter: libsql(libsqlClient, {
@@ -47,11 +48,4 @@ export function redirectOnUnauthenticatedError<R>(
 
 		throw error;
 	});
-}
-
-function hasProperty<K extends PropertyKey>(
-	value: unknown,
-	property: K
-): value is Record<K, unknown> {
-	return !!value && typeof value === 'object' && property in value;
 }

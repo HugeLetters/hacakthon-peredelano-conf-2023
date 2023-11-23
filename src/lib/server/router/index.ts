@@ -1,12 +1,9 @@
 import { createTRPCSvelteServer } from 'trpc-svelte-query/server';
 import { createTrpcContext, router } from '../trpc';
-import { greetRouter, privateGreetRouter } from './greet';
-import { gmailRouter } from './gmail';
+import { greetRouter } from './greet';
 
 export const appRouter = router({
-	greet: greetRouter,
-	privateGreet: privateGreetRouter,
-	gmail: gmailRouter
+	greet: greetRouter
 });
 export type AppRouter = typeof appRouter;
 
