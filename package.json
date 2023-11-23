@@ -29,13 +29,13 @@
 		"@lucia-auth/adapter-sqlite": "^2.0.1",
 		"@lucia-auth/oauth": "^3.3.1",
 		"@melt-ui/svelte": "^0.59.0",
-		"@tanstack/svelte-query": "^5.4.3",
-		"@trpc/client": "^10.43.0",
-		"@trpc/server": "^10.43.0",
+		"@tanstack/svelte-query": "^5.8.4",
+		"@trpc/client": "^10.44.0",
+		"@trpc/server": "^10.44.0",
 		"drizzle-orm": "^0.28.6",
 		"googleapis": "^128.0.0",
 		"lucia": "^2.7.2",
-		"trpc-svelte-query": "^2.0.3",
+		"trpc-svelte-query": "^2.0.5",
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
@@ -43,7 +43,7 @@
 		"@google-cloud/local-auth": "^3.0.0",
 		"@melt-ui/pp": "^0.1.2",
 		"@sveltejs/adapter-auto": "^2.1.0",
-		"@sveltejs/kit": "^1.27.2",
+		"@sveltejs/kit": "^1.27.6",
 		"@types/node": "^20.8.10",
 		"@types/tcp-port-used": "^1.0.3",
 		"@typescript-eslint/eslint-plugin": "^6.9.1",
@@ -68,10 +68,5 @@
 		"tsx": "^3.14.0",
 		"typescript": "^5.2.2",
 		"vite": "^4.5.0"
-	},
-	"pnpm": {
-		"patchedDependencies": {
-			"trpc-svelte-query@2.0.3": "patches/trpc-svelte-query@2.0.3.patch"
-		}
 	}
 }
