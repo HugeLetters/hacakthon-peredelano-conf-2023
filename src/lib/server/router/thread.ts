@@ -1,10 +1,19 @@
+import { eq } from 'drizzle-orm';
 import { createMimeMessage } from 'mimetext';
 import { z } from 'zod';
-import { gmail, userId } from '../gmail';
-import { adminProcedure, router } from '../trpc';
-import { throwInternalError } from './utils';
 import { db } from '../database';
 import { Thread } from '../database/schema/case';
+import {
+	IN_REPLY_TO_HEADER,
+	REFERENCES_HEADER,
+	decodeMessage,
+	getLastIncomingMessage,
+	getReplyData,
+	gmail,
+	userId
+} from '../gmail';
+import { adminProcedure, router } from '../trpc';
+import { throwInternalError } from './utils';
 
 export const threadRouter = router({
 	create: adminProcedure
@@ -12,7 +21,7 @@ export const threadRouter = router({
 			z.object({
 				caseId: z.string(),
 				to: z.string(),
-				cc: z.array(z.string()).optional(),
+				cc: z.string().optional(),
 				content: z.string(),
 				subject: z.string()
 			})
@@ -40,5 +49,85 @@ export const threadRouter = router({
 						.catch(throwInternalError);
 				})
 				.catch(throwInternalError);
+		}),
+	reply: adminProcedure
+		.input(
+			z.object({
+				threadId: z.string(),
+				to: z.string(),
+				cc: z.string().optional(),
+				content: z.string(),
+				subject: z.string(),
+				replyId: z.string()
+			})
+		)
+		.mutation(async ({ input }) => {
+			const message = createMimeMessage();
+			message.addMessage({ contentType: 'text/plain', data: input.content });
+			message.setSubject(input.subject);
+			message.setSender('');
+			message.setTo(input.to);
+			if (input.cc) {
+				message.setCc(input.cc);
+			}
+			if (input.replyId) {
+				message.headers.set(REFERENCES_HEADER, input.replyId);
+				message.headers.set(IN_REPLY_TO_HEADER, input.replyId);
+			}
+
+			return gmail.users.messages
+				.send({
+					userId: userId,
+					requestBody: { raw: message.asEncoded(), threadId: input.threadId }
+				})
+				.then(() => void 0)
+				.catch(throwInternalError);
+		}),
+	getThreadList: adminProcedure.input(z.object({ caseId: z.string() })).query(async ({ input }) => {
+		const threadIds = await db
+			.select()
+			.from(Thread)
+			.where(eq(Thread.caseId, input.caseId))
+			.all()
+			.catch(throwInternalError);
+
+		return Promise.all(
+			threadIds.map(({ threadId }) => gmail.users.threads.get({ userId, id: threadId }))
+		)
+			.then((threads) => {
+				return threads.map(({ data }) => ({
+					id: data.id,
+					snippet: data.messages?.at(-1)?.snippet ?? data.snippet
+				}));
+			})
+			.catch(throwInternalError);
+	}),
+	getThreadEmailList: adminProcedure
+		.input(z.object({ threadId: z.string() }))
+		.query(({ input }) => {
+			return gmail.users.threads
+				.get({
+					userId,
+					format: 'full',
+					id: input.threadId
+				})
+				.then(({ data }) => {
+					const messages =
+						data.messages
+							?.map(({ payload }) => (payload ? decodeMessage(payload) : null))
+							.filter((message): message is NonNullable<typeof message> => !!message) ?? [];
+
+					const lastInboxMessage = data.messages ? getLastIncomingMessage(data.messages) : null;
+					const isMyMessage = !lastInboxMessage;
+					const replyMessage = (lastInboxMessage ?? data.messages?.at(-1))?.payload;
+					const replyData = replyMessage
+						? getReplyData({ message: replyMessage, isMyMessage })
+						: {};
+
+					return {
+						messages,
+						replyData
+					};
+				});
 		})
 });
