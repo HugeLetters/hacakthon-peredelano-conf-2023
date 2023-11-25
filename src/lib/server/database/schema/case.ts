@@ -1,6 +1,6 @@
 import { index, integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import { createUuidColumn, uuidPkColumn } from '..';
 import { User, createUserIdColumn } from './auth';
+import { createUuidColumn, uuidPkColumn } from './utils';
 
 export const Case = sqliteTable(
 	'case',

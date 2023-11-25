@@ -1,9 +1,9 @@
 import { sql } from 'drizzle-orm';
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import type { Alpha2Code as CountryCode } from 'i18n-iso-countries';
-import { createUuidColumn, uuidPkColumn } from '..';
 import { User, createUserIdColumn } from './auth';
 import { Case } from './case';
+import { createUuidColumn, uuidPkColumn } from './utils';
 
 export const Report = sqliteTable(
 	'report',
