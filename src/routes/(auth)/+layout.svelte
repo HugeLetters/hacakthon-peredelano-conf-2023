@@ -1,9 +1,6 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import { SESSION_KEY, invalidateSession, signOut } from '$lib/auth';
-	import { createQuery, getQueryClientContext } from '@tanstack/svelte-query';
-
-	export let data;
+	import { SESSION_KEY, invalidateSession } from '$lib/auth';
+	import { createQuery } from '@tanstack/svelte-query';
 
 	const sesssionTracker = createQuery({
 		queryKey: [SESSION_KEY],
@@ -16,36 +13,17 @@
 		// so that session is considered fresh initially
 		initialData: null
 	});
-
-	const queryClient = getQueryClientContext();
 </script>
 
 <!-- this is hack so that svelte doesn't compile out query away since it doesn't think it has side-effects -->
 {#if false && $sesssionTracker.data}_{/if}
 
 <div class="root">
-	<header class="header">
-		<a href="/report/new">Create report</a>
-		{#if data.session.user.role === 'admin'}
-			<a href="/dashboard">Dashboard</a>
-		{/if}
-		<button on:click={() => signOut({ callbackUrl: $page.url.href, queryClient })}>
-			Sign out
-		</button>
-	</header>
 	<slot />
 </div>
 
 <style lang="scss">
 	.root {
 		min-height: 100%;
-	}
-
-	.header {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-		padding: 0.25rem;
-		background-color: #0003;
 	}
 </style>
