@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { statusList } from '$lib/options';
+	import Avia from '$lib/icons/avia.svelte';
+	import Bank from '$lib/icons/bank.svelte';
+	import Paper from '$lib/icons/paper.svelte';
+
 	export let data;
 
 	const caseId = $page.params.id;
@@ -8,6 +12,16 @@
 	const caseInfoMutation = data.trpc.case.updateCaseData.mutation();
 	const countries = new Map();
 	const categories = new Map();
+	function iconByCategory(category: string) {
+		switch (category) {
+			case 'Банк':
+				return Bank;
+			case 'ВНЖ':
+				return Paper;
+			case 'Авиалиния':
+				return Avia;
+		}
+	}
 	$caseInfo.data.reports.forEach((report, index) => {
 		if (report.countries) {
 			countries.set(report.countries, index);
@@ -20,6 +34,18 @@
 
 <div class="aboutCase">
 	<div class="statusWrapper">
+		<!-- <div class="countries">
+			{#each [...categories] as [key, val]}
+				<div class="country">
+					<svelte:component this={iconByCategory(key)} />
+				</div>
+			{/each}
+		</div>
+		<div class="countries">
+			{#each [...countries] as [key, val]}
+				<div class="country">{key},</div>
+			{/each}
+		</div> -->
 		<button
 			class={$caseInfo.data.status === 'active' ? 'status open' : 'status closed'}
 			on:click={() => {
@@ -45,7 +71,10 @@
 		<h4>Категории</h4>
 		<div class="countries">
 			{#each [...categories] as [key, val]}
-				<div class="country">{key},</div>
+				<div class="country">
+					<svelte:component this={iconByCategory(key)} />
+					<span>{key}</span>
+				</div>
 			{/each}
 		</div>
 	</div>
@@ -53,7 +82,7 @@
 		<h4>Страны</h4>
 		<div class="countries">
 			{#each [...countries] as [key, val]}
-				<div class="country">{key},</div>
+				<div class="country">{key}</div>
 			{/each}
 		</div>
 	</div>
@@ -75,7 +104,7 @@
 	}
 	.statusWrapper {
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
 	}
 	.status {
 		display: flex;
@@ -86,6 +115,9 @@
 		padding: 6px 16px;
 		background: #8d8d8d;
 		border-radius: 16px;
+		&:hover {
+			opacity: 0.4;
+		}
 	}
 	.open {
 		background: orange;
@@ -101,6 +133,12 @@
 		flex-wrap: wrap;
 	}
 	.country {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		margin-right: 16px;
+		span {
+			margin-left: 10px;
+		}
 	}
 </style>
