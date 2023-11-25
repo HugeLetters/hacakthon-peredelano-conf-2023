@@ -47,7 +47,7 @@ export const reportProcedure = userProcedure
 			ctx.session.user.role === 'admin'
 				? true
 				: !!(await db
-						.select()
+						.select({ id: Report.id })
 						.from(Report)
 						.where(eq(Report.creatorId, ctx.session.user.userId))
 						.get());

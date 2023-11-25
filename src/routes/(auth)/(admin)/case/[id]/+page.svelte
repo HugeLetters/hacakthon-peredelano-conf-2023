@@ -1,10 +1,24 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { statusList } from '$lib/options';
+	import Avia from '$lib/icons/avia.svelte';
+	import Bank from '$lib/icons/bank.svelte';
+	import Paper from '$lib/icons/paper.svelte';
+
 	export let data;
 
-	const caseId = $page.params.id ?? '';
-	const caseInfo = data.trpc.case.caseInfo.query({ caseId: caseId });
+	const caseInfo = data.trpc.case.caseInfo.query(
+		{ caseId: data.caseId },
+		{
+			select(data) {
+				if (!data) {
+					goto('/dashboard');
+					throw Error('No such case exists');
+				}
+				return data;
+			}
+		}
+	);
 	const caseInfoMutation = data.trpc.case.updateCaseData.mutation();
 	const countries = new Map();
 	const categories = new Map();
@@ -75,7 +89,7 @@
 	}
 	.statusWrapper {
 		display: flex;
-		justify-content: flex-end;
+		justify-content: space-between;
 	}
 	.status {
 		display: flex;
@@ -86,6 +100,9 @@
 		padding: 6px 16px;
 		background: #8d8d8d;
 		border-radius: 16px;
+		&:hover {
+			opacity: 0.4;
+		}
 	}
 	.open {
 		background: orange;
@@ -101,6 +118,12 @@
 		flex-wrap: wrap;
 	}
 	.country {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		margin-right: 16px;
+		span {
+			margin-left: 10px;
+		}
 	}
 </style>

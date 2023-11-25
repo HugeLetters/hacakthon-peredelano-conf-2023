@@ -1,4 +1,5 @@
 import { index, int, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { roleList } from '../../../options';
 
 export function createUserIdColumn<T extends string>(name: T) {
 	return text(name, { length: 15 });
@@ -8,9 +9,7 @@ export const User = sqliteTable(
 	{
 		id: createUserIdColumn('id').notNull().primaryKey(),
 		name: text('user_name', { length: 63 }).notNull(),
-		role: text('role', { enum: ['basic', 'admin'] })
-			.notNull()
-			.default('basic')
+		role: text('role', { enum: roleList }).notNull().default('basic')
 	},
 	(table) => ({ roleIndex: index('user_role_index').on(table.role) })
 );

@@ -1,9 +1,10 @@
+import { TRPCError } from '@trpc/server';
 import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../database';
 import { Case } from '../database/schema/case';
 import { Report, categorySchema, countrySchema } from '../database/schema/report';
-import { reportProcedure, router, userProcedure } from '../trpc';
+import { adminProcedure, reportProcedure, router, userProcedure } from '../trpc';
 import { throwInternalError } from './utils';
 
 export const reportRouter = router({
@@ -36,7 +37,9 @@ export const reportRouter = router({
 					country: input.country,
 					organization: input.organization
 				})
-				.then(() => {})
+				.returning()
+				.get()
+				.then((x) => x.id)
 				.catch(throwInternalError);
 		}),
 	getUserReportList: userProcedure.query(({ ctx }) =>
@@ -49,5 +52,18 @@ export const reportRouter = router({
 	),
 	getUserReport: reportProcedure.query(({ input }) =>
 		db.select().from(Report).where(eq(Report.id, input.reportId)).get().catch(throwInternalError)
-	)
+	),
+	reassignToCase: adminProcedure
+		.input(z.object({ caseId: z.string(), reportId: z.string() }))
+		.mutation(({ input }) =>
+			db
+				.update(Report)
+				.set({ caseId: input.caseId })
+				.where(eq(Report.id, input.reportId))
+				.then((query) => {
+					if (!query.rowsAffected) {
+						throw new TRPCError({ code: 'BAD_REQUEST', message: 'Such report does not exist' });
+					}
+				}, throwInternalError)
+		)
 });
