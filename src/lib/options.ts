@@ -1,3 +1,6 @@
+export type Category = (typeof categoryList)[number];
+export type CountryCode = (typeof countryList)[number];
+
 export const categoryList = ['Банк', 'ВНЖ', 'Авиалиния'] as const;
 export const countryList = [
 	'AF',
