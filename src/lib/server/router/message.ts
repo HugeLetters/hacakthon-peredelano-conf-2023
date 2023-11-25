@@ -1,9 +1,10 @@
+import { TRPCError } from '@trpc/server';
+import { asc, eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../database';
-import { Message } from '../database/schema/report';
-import { reportProcedure, router } from '../trpc';
+import { Message, Report } from '../database/schema/report';
+import { adminProcedure, reportProcedure, router } from '../trpc';
 import { throwInternalError } from './utils';
-import { asc, eq } from 'drizzle-orm';
 
 export const messageRouter = router({
 	send: reportProcedure
@@ -26,5 +27,18 @@ export const messageRouter = router({
 			.orderBy(asc(Message.createdAt))
 			.all()
 			.catch(throwInternalError);
-	})
+	}),
+	reassignToCase: adminProcedure
+		.input(z.object({ caseId: z.string(), reportId: z.string() }))
+		.mutation(({ input }) =>
+			db
+				.update(Report)
+				.set({ caseId: input.caseId })
+				.where(eq(Report.id, input.reportId))
+				.then((query) => {
+					if (!query.rowsAffected) {
+						throw new TRPCError({ code: 'BAD_REQUEST', message: 'Such report does not exist' });
+					}
+				}, throwInternalError)
+		)
 });
