@@ -37,7 +37,9 @@
 	});
 
 	let search = '';
-	$: filteredOptions = search.length ? options.filter((el) => el.name.includes(search)) : options;
+	$: filteredOptions = search.length
+		? options.filter((el) => el.name.toLowerCase().includes(search.toLowerCase()))
+		: options;
 </script>
 
 <div class="select">

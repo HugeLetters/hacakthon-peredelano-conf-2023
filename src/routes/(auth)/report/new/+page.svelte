@@ -2,9 +2,15 @@
 	import Textarea from '$lib/components/textarea.svelte';
 	import TextInput from '$lib/components/textInput.svelte';
 	import FormElement from '$lib/components/formElement.svelte';
+	import InputSelect from '$lib/components/InputSelect/index.svelte';
+	import { countryList } from '$lib/options';
 
 	let name: string = '';
 	let reportText: string = '';
+
+	let countryOptions = countryList.map((el, index) => {
+		return { id: index, name: el };
+	});
 </script>
 
 <div class="complaintForm">
@@ -15,8 +21,14 @@
 		label="Суть жалобы"
 		placeholder="Опишите суть проблемы"
 	/>
-	<div class="reportRow">Категория - селект</div>
-	<div class="reportRow">Страна - селект с поиском</div>
+	<FormElement component={InputSelect} value={reportText} label="Категория" />
+	<FormElement
+		component={InputSelect}
+		value={reportText}
+		label="Страна"
+		options={countryOptions}
+		isCountry={true}
+	/>
 	<div class="reportRow">
 		{reportText}
 	</div>
