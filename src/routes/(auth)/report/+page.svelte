@@ -1,12 +1,12 @@
 <script lang="ts">
 	export let data;
 
-	const chatListQuery = data.trpc.report.getUserReportList.query();
+	const reportListQuery = data.trpc.report.getUserReportList.query();
 </script>
 
-{#if $chatListQuery.isSuccess}
+{#if $reportListQuery.isSuccess}
 	<div class="reports">
-		{#each $chatListQuery.data as chat}
+		{#each $reportListQuery.data as report}
 			<div class="report">
 				<div>
 					<div class="user">
@@ -31,16 +31,16 @@
 						</div>
 
 						<div class="nameAndDate">
-							<span class="authorName">{chat.authorName}</span>
+							<span class="authorName">{report.authorName}</span>
 							<span>
-								{new Date(chat.createdAt).toLocaleDateString()}
+								{new Date(report.createdAt).toLocaleDateString()}
 							</span>
 						</div>
 					</div>
 					<!-- todo - fix this link - should lead to report info -->
-					<a class="caseLink link" href="/report/{chat.id}">Посмотреть жалобу</a>
+					<a class="caseLink link" href="/report/{report.id}">Посмотреть жалобу</a>
 				</div>
-				<a href="/report/{chat.id}" class="chatLink link">
+				<a href="/case/{report.caseId}/report/{report.id}" class="chatLink link">
 					<svg
 						width="36"
 						height="36"
