@@ -1,0 +1,105 @@
+<script lang="ts">
+	import Tabs from '$lib/components/Tabs/index.svelte';
+	import { page } from '$app/stores';
+	export let data;
+
+	const caseId = $page.params.id;
+	const reportMutation = data.trpc.report.create.mutation();
+	const caseQuery = data.trpc.case.findMany.query();
+	$: console.log($caseQuery.data, caseId);
+	const tabs = [
+		{
+			id: 0,
+			name: 'Кейс'
+		},
+		{
+			id: 1,
+			name: 'Жалобы'
+		},
+		{
+			id: 2,
+			name: 'Письма'
+		}
+	];
+	$: caseData = $caseQuery.data.filter((el) => el.id === caseId)[0];
+	$: console.log(caseData);
+	$: currentTab = tabs[0];
+</script>
+
+<section>
+	<div class="caseMenu">
+		<button>
+			<svg
+				width="32"
+				height="32"
+				viewBox="0 0 32 32"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					d="M17.2976 8.14304L11.4962 13.9197L11.2451 13.9197L11.2451 14.1697L11.4215 14.3469L11.5994 14.1697L25.1659 14.1697C25.6523 14.1697 26.1188 14.3627 26.4628 14.7063C26.8068 15.0498 27 15.5157 27 16.0016C27 16.4874 26.8068 16.9533 26.4628 17.2969C26.1188 17.6404 25.6523 17.8334 25.1659 17.8334L11.5994 17.8334L11.4215 17.6562L11.2451 17.8334L11.2451 18.0834L11.4962 18.0834L17.2976 8.14304ZM17.2976 8.14304C17.4695 7.97275 17.606 7.77014 17.6991 7.54692M17.2976 8.14304L17.6991 7.54692M17.6991 7.54692C17.7922 7.3237 17.8402 7.08427 17.8402 6.84244M17.6991 7.54692L17.8402 6.84244M17.8402 6.84244C17.8402 6.60062 17.7922 6.36119 17.6991 6.13797M17.8402 6.84244L17.6991 6.13797M17.6991 6.13797C17.606 5.91474 17.4695 5.71214 17.2976 5.54185L17.6991 6.13797ZM14.8699 5.71874L14.8706 5.71801C15.0179 5.56973 15.1931 5.45202 15.3861 5.37169C15.5792 5.29136 15.7863 5.25 15.9954 5.25C16.2046 5.25 16.4117 5.29136 16.6047 5.37169C16.7978 5.45202 16.973 5.56973 17.1202 5.71802L17.1217 5.71946C17.2702 5.86653 17.388 6.04148 17.4684 6.23421C17.5488 6.42695 17.5902 6.63367 17.5902 6.84244C17.5902 7.05122 17.5488 7.25794 17.4684 7.45067C17.388 7.64341 17.2702 7.81836 17.1217 7.96543L17.1212 7.96588L11.0687 13.9926L10.6397 14.4197L11.2451 14.4197L25.1659 14.4197C25.5861 14.4197 25.9891 14.5865 26.2861 14.8832C26.5832 15.1798 26.75 15.5821 26.75 16.0016C26.75 16.421 26.5832 16.8233 26.2861 17.12C25.9891 17.4167 25.5861 17.5834 25.1659 17.5834L11.2451 17.5834L10.6397 17.5834L11.0687 18.0105L17.121 24.037C17.121 24.037 17.121 24.037 17.121 24.037C17.4194 24.3351 17.587 24.7393 17.587 25.1607C17.587 25.5821 17.4194 25.9863 17.121 26.2844C16.8225 26.5825 16.4176 26.75 15.9954 26.75C15.7864 26.75 15.5794 26.7089 15.3862 26.629C15.1931 26.5491 15.0177 26.432 14.8699 26.2844L5.7014 17.1273C5.55807 16.9772 5.44569 16.8005 5.37064 16.6072L5.37068 16.6072L5.36879 16.6026C5.2104 16.2175 5.2104 15.7856 5.36879 15.4006L5.36883 15.4006L5.37064 15.3959C5.44569 15.2026 5.55808 15.0259 5.70141 14.8759L14.8699 5.71874Z"
+					fill="black"
+					stroke="#FEFEFD"
+					stroke-width="0.5"
+				/>
+			</svg>
+		</button>
+		<h1 class="caseName">Кейс: {caseData?.name}</h1>
+		<div class="menu">
+			<svg
+				width="32"
+				height="32"
+				viewBox="0 0 32 32"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					d="M26 18C27.1 18 28 17.1 28 16C28 14.9 27.1 14 26 14C24.9 14 24 14.9 24 16C24 17.1 24.9 18 26 18ZM6 18C7.1 18 8 17.1 8 16C8 14.9 7.1 14 6 14C4.9 14 4 14.9 4 16C4 17.1 4.9 18 6 18ZM16 18C17.1 18 18 17.1 18 16C18 14.9 17.1 14 16 14C14.9 14 14 14.9 14 16C14 17.1 14.9 18 16 18Z"
+					fill="black"
+				/>
+			</svg>
+		</div>
+	</div>
+
+	<div class="tabs">
+		<Tabs bind:value={currentTab} {tabs} />
+		<div class="content">
+			{#if currentTab.id === tabs[0].id}
+				<div class="aboutCase"></div>
+			{/if}
+			{#if currentTab.id === tabs[1].id}
+				<div class="aboutCase">Жалобы</div>
+			{/if}
+			{#if currentTab.id === tabs[2].id}
+				<div class="aboutCase">Письма</div>
+			{/if}
+		</div>
+	</div>
+</section>
+
+<!-- {#if $caseQuery.isSuccess}
+	{#each $caseQuery.data as caseData (caseData.id)}
+		<div>
+			<div>{caseData.name}</div>
+			{#each caseData.reports as report (report)}
+				<div>{report.content}</div>
+				<div>{report.country}</div>
+			{/each}
+		</div>
+	{/each}
+{/if} -->
+
+<style lang="scss">
+	.caseMenu {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		h1 {
+			font-size: 28px;
+		}
+		margin-bottom: 12px;
+	}
+	.menu {
+		cursor: pointer;
+	}
+</style>
