@@ -1,5 +1,5 @@
-<script>
-	export let text = '';
+<script lang="ts">
+	export let text: string;
 </script>
 
 <textarea placeholder="Опишите суть проблемы" bind:value={text} />
