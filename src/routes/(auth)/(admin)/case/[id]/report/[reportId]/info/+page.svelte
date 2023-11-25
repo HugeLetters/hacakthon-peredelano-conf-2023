@@ -57,7 +57,7 @@
 		</p>
 	</div>
 
-	<a href="/case/{data.caseId}/report/{chat.id}" class="chatLink"> icon </a>
+	<!-- <a href="/case/{data.caseId}/report/{chat.id}" class="chatLink"> icon </a> -->
 </div>
 
 <style lang="scss">
