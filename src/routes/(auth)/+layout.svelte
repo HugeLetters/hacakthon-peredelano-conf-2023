@@ -25,8 +25,12 @@
 
 <div class="root">
 	<header class="header">
+		<a href="/report/new">Create report</a>
+		{#if data.session.user.role === 'admin'}
+			<a href="/dashboard">Dashboard</a>
+		{/if}
 		<button on:click={() => signOut({ callbackUrl: $page.url.href, queryClient })}>
-			Sign out of {data.session.user.name}
+			Sign out
 		</button>
 	</header>
 	<slot />
@@ -35,7 +39,6 @@
 <style lang="scss">
 	.root {
 		min-height: 100%;
-		padding: 0 16px;
 	}
 
 	.header {
