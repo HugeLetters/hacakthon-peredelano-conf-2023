@@ -5,7 +5,10 @@
 
 	export let data;
 
-	const chat = data.trpc.message.getChat.query({ reportId: data.reportId });
+	const chat = data.trpc.message.getChat.query(
+		{ reportId: data.reportId },
+		{ refetchInterval: 10000 }
+	);
 	const sendMessage = data.trpc.message.send.mutation({
 		onSuccess() {
 			data.trpc.message.getChat.utils.invalidate({ reportId: data.reportId });
