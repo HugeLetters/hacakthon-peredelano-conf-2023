@@ -1,6 +1,7 @@
 <script lang="ts">
-	export let text: string;
+	export let value: string;
+	export let className: string;
 	export let placeholder: string;
 </script>
 
-<input type="text" {placeholder} value={text} />
+<input class={className} type="text" {placeholder} {value} />

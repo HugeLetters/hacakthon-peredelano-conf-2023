@@ -1,23 +1,29 @@
 <script lang="ts">
 	import Textarea from '$lib/components/textarea.svelte';
 	import TextInput from '$lib/components/textInput.svelte';
+	import FormElement from '$lib/components/formElement.svelte';
 
 	let name: string = '';
 	let reportText: string = '';
 </script>
 
 <div class="complaintForm">
-	<div class="reportRow"><TextInput bind:text={name} placeholder="Введите ваше имя" /></div>
+	<FormElement component={TextInput} value={name} label="Как к вам обращаться" placeholder="Имя" />
+	<FormElement
+		component={Textarea}
+		value={reportText}
+		label="Суть жалобы"
+		placeholder="Опишите суть проблемы"
+	/>
 	<div class="reportRow">Категория - селект</div>
 	<div class="reportRow">Страна - селект с поиском</div>
 	<div class="reportRow">
-		<Textarea bind:text={reportText} />
 		{reportText}
 	</div>
 </div>
 
 <style lang="scss">
-	.reportRow {
-		margin-bottom: 8px;
+	.complaintForm {
+		padding: 0 16px;
 	}
 </style>

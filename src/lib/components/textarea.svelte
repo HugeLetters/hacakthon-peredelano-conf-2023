@@ -1,16 +1,14 @@
 <script lang="ts">
-	export let text: string;
+	export let value: string;
+	export let className: string;
+	export let placeholder: string;
 </script>
 
-<textarea placeholder="Опишите суть проблемы" bind:value={text} />
+<textarea class={className} {placeholder} bind:value />
 
 <style lang="scss">
 	textarea {
-		width: 100%;
-		height: 350px;
-
-		&::placeholder {
-			color: gray;
-		}
+		height: 120px;
+		resize: vertical;
 	}
 </style>

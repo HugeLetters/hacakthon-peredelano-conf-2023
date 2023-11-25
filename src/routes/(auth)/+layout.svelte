@@ -35,8 +35,6 @@
 <style lang="scss">
 	.root {
 		min-height: 100%;
-		background: linear-gradient(to top, #000a, #0000);
-		background-attachment: fixed;
 	}
 
 	.header {
