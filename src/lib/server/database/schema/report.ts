@@ -4,7 +4,7 @@ import { User, createUserIdColumn } from './auth';
 import { Case } from './case';
 import { createUuidColumn, uuidPkColumn } from './utils';
 import { z } from 'zod';
-import { categoryList, countryList } from '$lib/options';
+import { categoryList, countryList } from '../../../options';
 
 export const Report = sqliteTable(
 	'report',
