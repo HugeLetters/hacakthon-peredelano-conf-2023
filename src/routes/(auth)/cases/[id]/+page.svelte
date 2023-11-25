@@ -28,7 +28,7 @@
 
 <section>
 	<div class="caseMenu">
-		<button>
+		<a href="/cases">
 			<svg
 				width="32"
 				height="32"
@@ -43,7 +43,7 @@
 					stroke-width="0.5"
 				/>
 			</svg>
-		</button>
+		</a>
 		<h1 class="caseName">Кейс: {caseData?.name}</h1>
 		<div class="menu">
 			<svg
@@ -65,7 +65,21 @@
 		<Tabs bind:value={currentTab} {tabs} />
 		<div class="content">
 			{#if currentTab.id === tabs[0].id}
-				<div class="aboutCase"></div>
+				<div class="aboutCase">
+					<div>date</div>
+					<div>
+						<h4>Содержание</h4>
+						<p class="summary">
+							{caseData?.summary}
+						</p>
+					</div>
+					<div>
+						<h4>Категории</h4>
+					</div>
+					<div>
+						<h4>Страны</h4>
+					</div>
+				</div>
 			{/if}
 			{#if currentTab.id === tabs[1].id}
 				<div class="aboutCase">Жалобы</div>
@@ -99,7 +113,23 @@
 		}
 		margin-bottom: 12px;
 	}
+	.content {
+		margin-top: 12px;
+	}
 	.menu {
 		cursor: pointer;
+	}
+	.aboutCase {
+		display: grid;
+		gap: 16px;
+	}
+	h4 {
+		font-size: 17px;
+		color: #8d8d8d;
+		margin-bottom: 8px;
+	}
+	.summary {
+		font-size: 17px;
+		color: #000000;
 	}
 </style>
