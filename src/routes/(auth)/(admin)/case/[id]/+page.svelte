@@ -8,9 +8,20 @@
 
 <div class="aboutCase">
 	<div class="statusWrapper">
-		<div class="status">
+		<button
+			class="status"
+			on:click={() => {
+				$caseInfoMutation.mutate({
+					caseId: data.caseId,
+					newSummary: 'new summary',
+					newStatus: 'closed'
+				});
+
+				data.trpc.case.caseInfo.utils.invalidate({ caseId: data.caseId });
+			}}
+		>
 			{$caseInfo.data.status}
-		</div>
+		</button>
 	</div>
 	<div>
 		<h4>Содержание</h4>
