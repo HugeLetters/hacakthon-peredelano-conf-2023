@@ -5,10 +5,9 @@
 </script>
 
 {#if $chatListQuery.isSuccess}
-	<div class="chats">
+	<div class="reports">
 		{#each $chatListQuery.data as chat}
-			<!-- <div>{chat.content}</div> -->
-			<div class="complaint">
+			<div class="report">
 				<div>
 					<div class="user">
 						<div class="image">
@@ -39,7 +38,7 @@
 						</div>
 					</div>
 					<!-- todo - fix this link - should lead to report info -->
-					<a class="caseLink link" href="/report/{chat.id}">Посмотреть кейс</a>
+					<a class="caseLink link" href="/report/{chat.id}">Посмотреть жалобу</a>
 				</div>
 				<a href="/report/{chat.id}" class="chatLink link">
 					<svg
@@ -63,11 +62,11 @@
 {/if}
 
 <style lang="scss">
-	.chats {
+	.reports {
 		display: grid;
 		gap: 10px;
 	}
-	.complaint {
+	.report {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;

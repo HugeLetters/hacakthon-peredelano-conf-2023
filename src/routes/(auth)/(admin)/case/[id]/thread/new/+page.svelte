@@ -14,7 +14,7 @@
 
 	const sendEmailMutation = data.trpc.thread.create.mutation({
 		onSuccess(threadId) {
-			goto(`/case/${data.caseId}/threads/${threadId}`);
+			goto(`/case/${data.caseId}/thread/${threadId}`);
 		}
 	});
 </script>
