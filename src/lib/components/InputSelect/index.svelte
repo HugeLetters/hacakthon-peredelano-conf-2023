@@ -20,7 +20,7 @@
 			icon: ''
 		}
 	];
-	export let categ = '';
+	export let categ;
 	export let isCountry = false;
 
 	const {
