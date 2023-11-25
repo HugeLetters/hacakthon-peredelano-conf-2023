@@ -22,9 +22,14 @@
 	];
 
 	const caseInfo = data.trpc.case.caseInfo.query({ caseId: caseId });
-	$: console.log($caseInfo?.data);
 
-	$: currentTab = tabs[0];
+	// проверяем роут и в зависимости от него отпределяем какой таб сделать активным
+	$: currentTab =
+		$page.route.id?.split('/').pop() === 'chats'
+			? tabs[1]
+			: $page.route.id?.split('/').pop() === 'threads'
+			? tabs[2]
+			: tabs[0];
 </script>
 
 {#if $caseInfo?.isSuccess}
