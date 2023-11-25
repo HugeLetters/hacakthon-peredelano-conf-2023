@@ -48,5 +48,28 @@ export const caseRouter = router({
 			.where(inArray(Thread.caseId, sq))
 			.all()
 			.catch(throwInternalError);
-	})
+	}),
+	updateCaseData: adminProcedure
+		.input(
+			z.object({
+				caseId: z.string(),
+				newStatus: z.enum(statusList).optional(),
+				newAdmin: z.string().optional(),
+				newName: z.string().optional(),
+				newSummary: z.string().optional()
+			})
+		)
+		.mutation(({ input }) => {
+			return db
+				.update(Case)
+				.set({
+					status: input.newStatus,
+					assignedAdmindId: input.newAdmin,
+					name: input.newName,
+					summary: input.newSummary
+				})
+				.where(eq(Case.id, input.caseId))
+				.then(() => void 0)
+				.catch(throwInternalError);
+		})
 });
