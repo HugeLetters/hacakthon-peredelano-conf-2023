@@ -1,8 +1,11 @@
 <script lang="ts">
 	import Bank from '$lib/icons/bank.svelte';
+	import Paper from '$lib/icons/paper.svelte';
+	import Avia from '$lib/icons/avia.svelte';
 	import Filter from '$lib/icons/filter.svelte';
 	import Arrow from '$lib/icons/arrow.svelte';
-	import type { CaseStatus } from '$lib/options.js';
+	import type { CaseStatus, categoryList } from '$lib/options.js';
+	import type { SvelteComponent } from 'svelte';
 
 	enum FilterFields {
 		statusFilter = 'statusFilter'
@@ -38,44 +41,59 @@
 		if (selectedFilters[filterId] === value) selectedFilters[filterId] = undefined;
 		else selectedFilters[filterId] = value;
 	}
+
+	function togglePopover() {
+		if (isPopoverOpened) activefilters = selectedFilters;
+		isPopoverOpened = !isPopoverOpened;
+	}
+
+	function iconByCategory(category: string) {
+		switch (category) {
+			case 'Банк':
+				return Bank;
+			case 'ВНЖ':
+				return Paper;
+			case 'Авиалиния':
+				return Avia;
+		}
+	}
 </script>
 
 <div class="cases">
 	<div class="header">
-		<button
-			class="headerButton"
-			type="button"
-			on:click={() => (isPopoverOpened = !isPopoverOpened)}
-		>
+		<button class="headerButton" type="button" on:click={togglePopover}>
 			<svelte:component this={isPopoverOpened ? Arrow : Filter} />
 		</button>
 		<div class="headerTitle">{isPopoverOpened ? 'Фильтры' : 'Кейсы'}</div>
 	</div>
 	{#if $cases.isSuccess && !isPopoverOpened}
-		{#each $cases.data as { id, name, status, assignedAdmindId } (id)}
+		{#each $cases.data as { id, name, status, assignedAdminName, reports: [{ category, country, createdAt }] } (id)}
 			<a href="/case/{id}" class="case">
 				<div class="caseInfo">
 					<div class="caseName">{name}</div>
 					{status}
 					<div class="caseProps">
-						<div class="caseCategory">
-							<!-- category icon calculated from reports -->
-							<Bank />
-						</div>
-						<div class="caseCountry">
-							<!-- countryCode calculated from reports-->
-							GE
-						</div>
-						<div class="caseDate">
-							<!-- caseDate from ??? -->
-							17.11.23
-						</div>
+						{#if category}
+							<div class="caseProp">
+								<svelte:component this={iconByCategory(category)} />
+							</div>
+						{/if}
+						{#if country}
+							<div class="caseProp">
+								{country}
+							</div>
+						{/if}
+						{#if createdAt}
+							<div class="caseProp">
+								{new Date(createdAt).toLocaleDateString('ru')}
+							</div>
+						{/if}
 					</div>
 				</div>
-				{#if assignedAdmindId}
+				{#if assignedAdminName}
 					<div class="caseAssignee">
 						<!-- assignee avatar -->
-						{assignedAdmindId}
+						{assignedAdminName}
 					</div>
 				{/if}
 			</a>
@@ -102,13 +120,8 @@
 				</div>
 			{/each}
 			<div class="filterPopup">
-				<button
-					class="confirmFiltersButton"
-					type="button"
-					on:click={() => {
-						isPopoverOpened = false;
-						activefilters = selectedFilters;
-					}}>Применить</button
+				<button class="confirmFiltersButton" type="button" on:click={togglePopover}
+					>Применить</button
 				>
 			</div>
 		</div>
@@ -165,9 +178,7 @@
 		gap: 6px;
 	}
 
-	.caseCategory,
-	.caseCountry,
-	.caseDate {
+	.caseProp {
 		font-size: 12px;
 		line-height: 18px;
 		color: #8d8d8d;
