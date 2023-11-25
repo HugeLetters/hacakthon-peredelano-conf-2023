@@ -2,23 +2,25 @@
 	import { page } from '$app/stores';
 	import Tabs from '$lib/components/Tabs/index.svelte';
 	export let data;
-
+	const caseId = $page.params.id;
 	const tabs = [
 		{
 			id: 0,
-			name: 'Кейс'
+			name: 'Кейс',
+			url: `/case/${caseId}`
 		},
 		{
 			id: 1,
-			name: 'Жалобы'
+			name: 'Жалобы',
+			url: `/case/${caseId}/chats`
 		},
 		{
 			id: 2,
-			name: 'Письма'
+			name: 'Письма',
+			url: `/case/${caseId}/threads`
 		}
 	];
 
-	const caseId = $page.params.id;
 	const caseInfo = data.trpc.case.caseInfo.query({ caseId: caseId });
 	$: console.log($caseInfo?.data);
 

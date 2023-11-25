@@ -5,14 +5,15 @@
 
 <div class="tabsWrapper">
 	{#each tabs as tab}
-		<button
+		<a
+			href={tab.url}
 			class={tab.id === value.id ? 'tab active' : 'tab'}
 			on:click={() => {
 				value = tab;
 			}}
 		>
 			{tab.name}
-		</button>
+		</a>
 	{/each}
 </div>
 

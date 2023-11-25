@@ -4,7 +4,6 @@
 
 	const caseId = $page.params.id;
 	const caseInfo = data.trpc.case.caseInfo.query({ caseId: caseId });
-	$: console.log($caseInfo?.data, '7');
 </script>
 
 <div class="aboutCase">
