@@ -26,6 +26,7 @@ export const caseRouter = router({
 				.groupBy(Case.id)
 				.orderBy(desc(Report.createdAt))
 				.all()
+				.then((caseList) => caseList.filter((caseData) => !!caseData.reports.length))
 				.catch(throwInternalError);
 		}),
 	caseInfo: adminProcedure.input(z.object({ caseId: z.string() })).query(({ input }) => {
