@@ -110,9 +110,6 @@
 		padding: 6px 16px;
 		background: #8d8d8d;
 		border-radius: 16px;
-		&:hover {
-			opacity: 0.4;
-		}
 	}
 	.open {
 		background: orange;
