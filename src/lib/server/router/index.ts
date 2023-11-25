@@ -1,15 +1,17 @@
 import { createTRPCSvelteServer } from 'trpc-svelte-query/server';
 import { createTrpcContext, router } from '../trpc';
-import { reportRouter } from './report';
 import { caseRouter } from './case';
-import { threadRouter } from './thread';
 import { messageRouter } from './message';
+import { reportRouter } from './report';
+import { threadRouter } from './thread';
+import { userRouter } from './user';
 
 export const appRouter = router({
 	report: reportRouter,
 	case: caseRouter,
 	thread: threadRouter,
-	message: messageRouter
+	message: messageRouter,
+	user: userRouter
 });
 
 export type AppRouter = typeof appRouter;
