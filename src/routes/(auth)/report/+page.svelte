@@ -1,14 +1,13 @@
 <script lang="ts">
 	export let data;
 
-	const chatListQuery = data.trpc.report.getUserReportList.query();
+	const reportListQuery = data.trpc.report.getUserReportList.query();
 </script>
 
-{#if $chatListQuery.isSuccess}
-	<div class="chats">
-		{#each $chatListQuery.data as chat}
-			<!-- <div>{chat.content}</div> -->
-			<div class="complaint">
+{#if $reportListQuery.isSuccess}
+	<div class="reports">
+		{#each $reportListQuery.data as report}
+			<div class="report">
 				<div>
 					<div class="user">
 						<div class="image">
@@ -32,16 +31,16 @@
 						</div>
 
 						<div class="nameAndDate">
-							<span class="authorName">{chat.authorName}</span>
+							<span class="authorName">{report.authorName}</span>
 							<span>
-								{new Date(chat.createdAt).toLocaleDateString()}
+								{new Date(report.createdAt).toLocaleDateString()}
 							</span>
 						</div>
 					</div>
 					<!-- todo - fix this link - should lead to report info -->
-					<a class="caseLink link" href="/report/{chat.id}">Посмотреть кейс</a>
+					<a class="caseLink link" href="/report/{report.id}">Посмотреть жалобу</a>
 				</div>
-				<a href="/report/{chat.id}" class="chatLink link">
+				<a href="/case/{report.caseId}/report/{report.id}" class="chatLink link">
 					<svg
 						width="36"
 						height="36"
@@ -61,13 +60,14 @@
 		{/each}
 	</div>
 {/if}
+<a class="createReportButton" href="/report/new">Добавить новую жалобу</a>
 
 <style lang="scss">
-	.chats {
+	.reports {
 		display: grid;
 		gap: 10px;
 	}
-	.complaint {
+	.report {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
@@ -107,5 +107,16 @@
 	}
 	.caseLink {
 		margin-top: 8px;
+	}
+
+	.createReportButton {
+		display: block;
+		margin-top: 16px;
+		padding: 1rem;
+		border-radius: 1rem;
+		background: gray;
+		color: white;
+		border: none;
+		text-align: center;
 	}
 </style>
