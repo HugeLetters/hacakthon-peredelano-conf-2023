@@ -23,7 +23,4 @@
 </div>
 
 <style lang="scss">
-	.complaintForm {
-		padding: 0 16px;
-	}
 </style>
