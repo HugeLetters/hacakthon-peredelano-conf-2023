@@ -1,6 +1,7 @@
 import { index, integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { User, createUserIdColumn } from './auth';
 import { createUuidColumn, uuidPkColumn } from './utils';
+import type { CaseStatus } from '$lib/options';
 
 export const Case = sqliteTable(
 	'case',
@@ -45,5 +46,3 @@ export const Thread = sqliteTable(
 		threadIdIndex: index('thread_thread_id_index').on(table.threadId)
 	})
 );
-
-type CaseStatus = 'active' | 'closed';
