@@ -1,9 +1,11 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { statusList } from '$lib/options';
 	export let data;
 
 	const caseId = $page.params.id;
 	const caseInfo = data.trpc.case.caseInfo.query({ caseId: caseId });
+	const caseInfoMutation = data.trpc.case.updateCaseData.mutation();
 </script>
 
 <div class="aboutCase">
@@ -14,7 +16,7 @@
 				$caseInfoMutation.mutate({
 					caseId: data.caseId,
 					newSummary: 'new summary',
-					newStatus: 'closed'
+					newStatus: $caseInfo.data.status === statusList[0] ? statusList[1] : statusList[0]
 				});
 
 				data.trpc.case.caseInfo.utils.invalidate({ caseId: data.caseId });
