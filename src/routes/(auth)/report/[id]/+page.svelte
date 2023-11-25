@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Button from '$lib/components/Button.svelte';
+	import Messages from '$lib/components/Messages.svelte';
 	import Textarea from '$lib/components/Textarea.svelte';
 	import WithLabel from '$lib/components/WithLabel.svelte';
 
@@ -19,9 +20,7 @@
 </script>
 
 {#if $chat.isSuccess}
-	{#each $chat.data as message (message.id)}
-		<div>{message.content}</div>
-	{/each}
+	<Messages messages={$chat.data} currUserId={data.session.user.userId} />
 {/if}
 <form
 	on:submit|preventDefault={() => {
@@ -31,6 +30,6 @@
 >
 	<WithLabel label="Ответить">
 		<Textarea bind:value={message} placeholder="Сообщение" />
+		<Button>Отправить</Button>
 	</WithLabel>
-	<Button>Отправить</Button>
 </form>
