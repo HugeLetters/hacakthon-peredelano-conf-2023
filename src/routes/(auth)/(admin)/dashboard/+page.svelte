@@ -22,7 +22,7 @@
 	];
 	export let selectedFilters: Object = {};
 
-	const cases = data.trpc.case.findMany.query();
+	const cases = data.trpc.case.findMany.query({ statusFilter: 'active' });
 
 	function toggleFilter(filterId, value) {
 		if (selectedFilters[filterId] === value) selectedFilters[filterId] = null;
@@ -43,7 +43,7 @@
 	</div>
 	{#if $cases.isSuccess && !isPopoverOpened}
 		{#each $cases.data as { id, name, status, assignedAdmindId } (id)}
-			<a class="case" href={`/cases/${id}`}>
+			<a href="/case/{id}" class="case">
 				<div class="caseInfo">
 					<div class="caseName">{name}</div>
 					{status}

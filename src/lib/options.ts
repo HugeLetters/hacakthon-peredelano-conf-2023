@@ -1,3 +1,8 @@
+export type Category = (typeof categoryList)[number];
+export type CountryCode = (typeof countryList)[number];
+export type CaseStatus = (typeof statusList)[number];
+
+export const statusList = ['active', 'closed'] as const;
 export const categoryList = ['Банк', 'ВНЖ', 'Авиалиния'] as const;
 export const countryList = [
 	'AF',
