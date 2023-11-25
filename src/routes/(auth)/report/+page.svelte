@@ -37,9 +37,9 @@
 							</span>
 						</div>
 					</div>
-					<a class="caseLink link" href="/report/{report.id}">Посмотреть жалобу</a>
+					<a class="caseLink link" href="/report/{report.id}/info">Посмотреть жалобу</a>
 				</div>
-				<a href="/case/{report.caseId}/report/{report.id}" class="chatLink link">
+				<a href="/report/{report.id}" class="chatLink link">
 					<svg
 						width="36"
 						height="36"
