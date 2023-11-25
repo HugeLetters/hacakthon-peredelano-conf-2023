@@ -1,11 +1,10 @@
 <script lang="ts">
-	import Bank from '$lib/icons/bank.svelte';
-	import Paper from '$lib/icons/paper.svelte';
-	import Avia from '$lib/icons/avia.svelte';
-	import Filter from '$lib/icons/filter.svelte';
 	import Arrow from '$lib/icons/arrow.svelte';
-	import type { CaseStatus, categoryList } from '$lib/options.js';
-	import type { SvelteComponent } from 'svelte';
+	import Avia from '$lib/icons/avia.svelte';
+	import Bank from '$lib/icons/bank.svelte';
+	import Filter from '$lib/icons/filter.svelte';
+	import Paper from '$lib/icons/paper.svelte';
+	import type { CaseStatus } from '$lib/options.js';
 
 	enum FilterFields {
 		statusFilter = 'statusFilter'
@@ -67,26 +66,30 @@
 		<div class="headerTitle">{isPopoverOpened ? 'Фильтры' : 'Кейсы'}</div>
 	</div>
 	{#if $cases.isSuccess && !isPopoverOpened}
-		{#each $cases.data as { id, name, status, assignedAdminName, reports: [{ category, country, createdAt }] } (id)}
+		{#each $cases.data as { id, name, status, assignedAdminName, reports } (id)}
+			{@const report = reports[0]}
 			<a href="/case/{id}" class="case">
 				<div class="caseInfo">
 					<div class="caseName">{name}</div>
 					{status}
 					<div class="caseProps">
-						{#if category}
-							<div class="caseProp">
-								<svelte:component this={iconByCategory(category)} />
-							</div>
-						{/if}
-						{#if country}
-							<div class="caseProp">
-								{country}
-							</div>
-						{/if}
-						{#if createdAt}
-							<div class="caseProp">
-								{new Date(createdAt).toLocaleDateString('ru')}
-							</div>
+						{#if report}
+							{@const { category, country, createdAt } = report}
+							{#if category}
+								<div class="caseProp">
+									<svelte:component this={iconByCategory(category)} />
+								</div>
+							{/if}
+							{#if country}
+								<div class="caseProp">
+									{country}
+								</div>
+							{/if}
+							{#if createdAt}
+								<div class="caseProp">
+									{new Date(createdAt).toLocaleDateString('ru')}
+								</div>
+							{/if}
 						{/if}
 					</div>
 				</div>
