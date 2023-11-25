@@ -4,7 +4,8 @@
 	export let data;
 
 	let content: string = '';
-	const reportMutation = data.trpc.report.create.mutation({});
+	const reportMutation = data.trpc.report.create.mutation();
+	const caseQuery = data.trpc.case.findMany.query();
 </script>
 
 <TextInput bind:text={content} placeholder="Введите содержание жалобы" />
@@ -21,3 +22,15 @@
 >
 	create report
 </button>
+
+{#if $caseQuery.isSuccess}
+	{#each $caseQuery.data as caseData (caseData.id)}
+		<div>
+			<div>{caseData.name}</div>
+			{#each caseData.reports as report (report)}
+				<div>{report.content}</div>
+				<div>{report.country}</div>
+			{/each}
+		</div>
+	{/each}
+{/if}
