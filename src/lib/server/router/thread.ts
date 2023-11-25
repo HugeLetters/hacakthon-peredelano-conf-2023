@@ -1,9 +1,11 @@
+import { GMAIL_EMAIL_ADDRESS } from '$env/static/private';
 import { eq } from 'drizzle-orm';
 import { createMimeMessage } from 'mimetext';
 import { z } from 'zod';
 import { db } from '../database';
 import { Thread } from '../database/schema/case';
 import {
+	FROM_HEADER,
 	IN_REPLY_TO_HEADER,
 	REFERENCES_HEADER,
 	decodeMessage,
@@ -96,8 +98,13 @@ export const threadRouter = router({
 		)
 			.then((threads) => {
 				return threads.map(({ data }) => ({
+					from: data.messages
+						? getLastIncomingMessage(data.messages)?.payload?.headers?.find(
+								(header) => header.name === FROM_HEADER
+						  )?.value ?? GMAIL_EMAIL_ADDRESS
+						: null,
 					id: data.id,
-					snippet: data.messages?.at(-1)?.snippet ?? data.snippet
+					snippet: data.snippet ?? data.messages?.at(-1)?.snippet
 				}));
 			})
 			.catch(throwInternalError);
