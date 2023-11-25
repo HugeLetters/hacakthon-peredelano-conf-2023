@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let authorName: string;
-	export let country: string;
-	export let createdAt: string;
+	export let country: string | null;
+	export let createdAt: number;
 	export let content: string;
 	export let chatLink: string;
 </script>
