@@ -3,17 +3,25 @@
 
 	export let data;
 
-	const helloQuery = data.trpc.greet.hello.query(undefined, { staleTime: 5000 });
-	const usersQuery = data.trpc.greet.usernames.query();
+	let content: string;
+	const reportMutation = data.trpc.report.create.mutation({});
 	let text: string;
 </script>
 
-<div>{$helloQuery.data} {data.session.user.name}</div>
-{#if $usersQuery.isSuccess}
-	{#each $usersQuery.data as { name }}
-		<div>{name}</div>
-	{/each}
-{/if}
+<input bind:value={content} />
+<button
+	on:click={() => {
+		$reportMutation.mutate({
+			content,
+			category: 'Авиалиния',
+			name: 'Reported',
+			country: 'FI',
+			organization: 'org'
+		});
+	}}
+>
+	create report
+</button>
 
 <Textarea bind:text />
 

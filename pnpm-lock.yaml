@@ -94,9 +94,6 @@ devDependencies:
   eslint-plugin-svelte:
     specifier: ^2.34.0
     version: 2.34.0(eslint@8.52.0)(svelte@4.2.2)
-  i18n-iso-countries:
-    specifier: ^7.7.0
-    version: 7.7.0
   make-dir-cli:
     specifier: ^3.1.0
     version: 3.1.0
@@ -1650,10 +1647,6 @@ packages:
   /devalue@4.3.2:
     resolution: {integrity: sha512-KqFl6pOgOW+Y6wJgu80rHpo2/3H07vr8ntR9rkkFIRETewbf5GaYYcakYfiKz89K+sLsuPkQIZaXDMjUObZwWg==}
 
-  /diacritics@1.3.0:
-    resolution: {integrity: sha512-wlwEkqcsaxvPJML+rDh/2iS824jbREk6DUMUKkEaSlxdYHeS43cClJtsWglvw2RfeXGm6ohKDqsXteJ5sP5enA==}
-    dev: true
-
   /difflib@0.2.4:
     resolution: {integrity: sha512-9YVwmMb0wQHQNr5J9m6BSj6fk4pfGITGQOOs+D9Fl+INODWFOfvhIU1hNv6GgR1RBoC/9NJcwu77zShxV0kT7w==}
     dependencies:
@@ -2433,13 +2426,6 @@ packages:
       debug: 4.3.4
     transitivePeerDependencies:
       - supports-color
-
-  /i18n-iso-countries@7.7.0:
-    resolution: {integrity: sha512-07zMatrSsR1Z+cnxW//7s14Xf4v5g6U6ORHPaH8+Ox4uPqV+y46Uq78veYV8H1DKTr76EfdjSeaTxHpnaYq+bw==}
-    engines: {node: '>= 12'}
-    dependencies:
-      diacritics: 1.3.0
-    dev: true
 
   /iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
