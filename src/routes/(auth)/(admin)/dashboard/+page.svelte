@@ -3,7 +3,7 @@
 
 	export let data;
 
-	const cases = data.trpc.case.findMany.query();
+	const cases = data.trpc.case.findMany.query({ statusFilter: 'active' });
 </script>
 
 <div class="cases">
