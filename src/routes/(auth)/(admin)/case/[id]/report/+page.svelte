@@ -2,7 +2,6 @@
 	export let data;
 
 	const chatListQuery = data.trpc.case.caseChatList.query({ caseId: data.caseId });
-	console.log($chatListQuery.data);
 </script>
 
 {#if $chatListQuery.isSuccess}
