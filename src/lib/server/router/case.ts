@@ -11,7 +11,7 @@ export const caseRouter = router({
 		return db
 			.select({
 				...getTableColumns(Case),
-				reports: aggregateArrayColumns({ content: Report.content, country: Report.country })
+				reports: aggregateArrayColumns(getTableColumns(Report))
 			})
 			.from(Case)
 			.leftJoin(Report, eq(Report.caseId, Case.id))
