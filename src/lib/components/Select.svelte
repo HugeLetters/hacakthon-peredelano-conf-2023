@@ -3,8 +3,6 @@
 </script>
 
 <script lang="ts" generics="V extends string">
-	import Input from './Input.svelte';
-
 	import { createSelect, melt } from '@melt-ui/svelte';
 	import { fade } from 'svelte/transition';
 
@@ -33,9 +31,9 @@
 </script>
 
 <div class="select">
-	<button class="btnChoose" use:melt={$trigger} aria-label="Food">
+	<button class="btnChoose" use:melt={$trigger}>
 		{$selectedLabel || defaultLabel}
-		<div class={$open ? 'chevronOpen' : 'chevron'}>
+		<div class="chevron {$open ? 'chevronOpen' : ''}">
 			<svg
 				width="24"
 				height="24"
@@ -103,6 +101,7 @@
 	.chevron {
 		width: 24px;
 		height: 24px;
+		transition: transform 150ms;
 	}
 	.chevronOpen {
 		transform: rotate(180deg);
