@@ -5,6 +5,7 @@
 	// const reportId = $page.params.id;
 	// const caseInfo = data.trpc.report
 	// console.log($caseInfo);
+	// report.getUserReport
 </script>
 
 <div class="wrapper">
