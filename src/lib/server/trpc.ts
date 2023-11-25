@@ -34,4 +34,12 @@ const enforceUserSession = t.middleware(({ ctx, next }) => {
 	}
 	return next({ ctx: { session: ctx.session } });
 });
-export const protectedProcedure = publicProcedure.use(enforceUserSession);
+
+export const userProcedure = publicProcedure.use(enforceUserSession);
+
+export const adminProcedure = userProcedure.use(({ ctx, next }) => {
+	if (ctx.session.user.role !== 'admin') {
+		throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User lacks admin permsissions' });
+	}
+	return next({ ctx });
+});
