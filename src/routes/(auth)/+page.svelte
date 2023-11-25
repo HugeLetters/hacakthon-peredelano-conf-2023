@@ -4,11 +4,12 @@
 	export let data;
 
 	let content: string;
-	const reportMutation = data.trpc.report.create.mutation({});
-	let text: string;
+	const reportMutation = data.trpc.report.create.mutation();
+	const caseQuery = data.trpc.case.findMany.query();
 </script>
 
-<input bind:value={content} />
+<Textarea bind:text={content} />
+{content}
 <button
 	on:click={() => {
 		$reportMutation.mutate({
@@ -23,6 +24,14 @@
 	create report
 </button>
 
-<Textarea bind:text />
-
-{text}
+{#if $caseQuery.isSuccess}
+	{#each $caseQuery.data as caseData (caseData.id)}
+		<div>
+			<div>{caseData.name}</div>
+			{#each caseData.reports as report (report)}
+				<div>{report.content}</div>
+				<div>{report.country}</div>
+			{/each}
+		</div>
+	{/each}
+{/if}

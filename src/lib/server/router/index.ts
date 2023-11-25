@@ -1,9 +1,11 @@
 import { createTRPCSvelteServer } from 'trpc-svelte-query/server';
 import { createTrpcContext, router } from '../trpc';
 import { reportRouter } from './report';
+import { caseRouter } from './case';
 
 export const appRouter = router({
-	report: reportRouter
+	report: reportRouter,
+	case: caseRouter
 });
 
 export type AppRouter = typeof appRouter;

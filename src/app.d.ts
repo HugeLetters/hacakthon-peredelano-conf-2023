@@ -1,7 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
 
 import type { Auth as MyAuth } from '$lib/server/auth';
-import type { InferSQLSelectModel } from '$lib/server/database';
+import type { InferSQLSelectModel } from '$lib/server/database/utils';
 import type { User, UserSession } from '$lib/server/database/schema/auth';
 import type { StrictOmit } from '$lib/utils';
 import type { AuthRequest } from 'lucia';
