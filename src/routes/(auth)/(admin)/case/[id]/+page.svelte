@@ -6,6 +6,16 @@
 	const caseId = $page.params.id;
 	const caseInfo = data.trpc.case.caseInfo.query({ caseId: caseId });
 	const caseInfoMutation = data.trpc.case.updateCaseData.mutation();
+	const countries = new Map();
+	const categories = new Map();
+	$caseInfo.data.reports.forEach((report, index) => {
+		if (report.countries) {
+			countries.set(report.countries, index);
+		}
+		if (report.categories) {
+			categories.set(report.categories, index);
+		}
+	});
 </script>
 
 <div class="aboutCase">
@@ -22,7 +32,7 @@
 				data.trpc.case.caseInfo.utils.invalidate({ caseId: data.caseId });
 			}}
 		>
-			{$caseInfo.data.status}
+			{$caseInfo.data.status.toUpperCase()}
 		</button>
 	</div>
 	<div>
@@ -33,9 +43,19 @@
 	</div>
 	<div>
 		<h4>Категории</h4>
+		<div class="countries">
+			{#each [...categories] as [key, val]}
+				<div class="country">{key},</div>
+			{/each}
+		</div>
 	</div>
 	<div>
 		<h4>Страны</h4>
+		<div class="countries">
+			{#each [...countries] as [key, val]}
+				<div class="country">{key},</div>
+			{/each}
+		</div>
 	</div>
 </div>
 
@@ -75,5 +95,12 @@
 	.closed {
 		background: green;
 		border: 1px solid #ffffff;
+	}
+	.countries {
+		display: flex;
+		flex-wrap: wrap;
+	}
+	.country {
+		margin-right: 16px;
 	}
 </style>
