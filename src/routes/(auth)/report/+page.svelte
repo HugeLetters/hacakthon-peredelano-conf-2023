@@ -37,7 +37,6 @@
 							</span>
 						</div>
 					</div>
-					<!-- todo - fix this link - should lead to report info -->
 					<a class="caseLink link" href="/report/{report.id}">Посмотреть жалобу</a>
 				</div>
 				<a href="/case/{report.caseId}/report/{report.id}" class="chatLink link">
