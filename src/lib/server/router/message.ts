@@ -3,7 +3,7 @@ import { db } from '../database';
 import { Message } from '../database/schema/report';
 import { reportProcedure, router } from '../trpc';
 import { throwInternalError } from './utils';
-import { eq } from 'drizzle-orm';
+import { asc, eq } from 'drizzle-orm';
 
 export const messageRouter = router({
 	send: reportProcedure
@@ -23,6 +23,7 @@ export const messageRouter = router({
 			.select()
 			.from(Message)
 			.where(eq(Message.reportId, input.reportId))
+			.orderBy(asc(Message.createdAt))
 			.all()
 			.catch(throwInternalError);
 	})
