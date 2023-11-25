@@ -35,6 +35,7 @@
 <style lang="scss">
 	.root {
 		min-height: 100%;
+		padding: 0 16px;
 	}
 
 	.header {
