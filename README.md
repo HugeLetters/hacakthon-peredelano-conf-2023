@@ -8,6 +8,8 @@
 
 [Notion](https://www.notion.so/bab210af17544ead823023b30487dd6c)
 
+[Figma](https://www.figma.com/file/EeKuVBPYqkbLLF943mW922/%D1%85%D0%B0%D0%BA%D0%B0%D1%82%D0%BE%D0%BD?type=design&node-id=0%3A1&mode=design&t=9SEhp6IpUqf76ujL-1)
+
 # Stack
 
 - [pnpm](https://pnpm.io/) - package manager
