@@ -13,7 +13,8 @@
 	<button class="signout" on:click={() => signOut({ callbackUrl: $page.url.href, queryClient })}>
 		Выйти из аккаунта
 	</button>
-	<a href="/report/new">Мои жалобы <ArrowRight /></a>
+	<!-- todo this page -->
+	<a href="/404">Мои жалобы <ArrowRight /></a>
 	<a href="/report/new">Написать новую жалобу <ArrowRight /></a>
 	{#if data.session.user.role === 'admin'}
 		<a href="/dashboard">Дэшборд <ArrowRight /></a>

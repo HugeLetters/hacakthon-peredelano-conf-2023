@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { page } from '$app/stores';
 	import { SESSION_KEY, invalidateSession } from '$lib/auth';
+	import Home from '$lib/icons/Home.svelte';
 	import { createQuery } from '@tanstack/svelte-query';
 
 	const sesssionTracker = createQuery({
@@ -19,10 +21,24 @@
 {#if false && $sesssionTracker.data}_{/if}
 
 <div class="root">
+	{#if $page.url.pathname !== '/'}
+		<div class="home">
+			<span>gera.lt</span>
+			<a href="/" aria-label="homepage">
+				<Home height="2rem" width="2rem" />
+			</a>
+		</div>
+	{/if}
 	<slot />
 </div>
 
 <style lang="scss">
+	.home {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.5rem;
+	}
 	.root {
 		min-height: 100%;
 	}
