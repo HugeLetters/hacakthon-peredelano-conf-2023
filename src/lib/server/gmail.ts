@@ -1,4 +1,9 @@
-import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN } from '$env/static/private';
+import {
+	GMAIL_EMAIL_ADDRESS,
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_SECRET,
+	GOOGLE_REFRESH_TOKEN
+} from '$env/static/private';
 import type { gmail_v1 } from 'googleapis';
 import { getGmailClient } from '../../../scripts/gmail/client';
 
@@ -26,6 +31,59 @@ export function decodeMessage(message: MessagePayload): Array<MessagePart> {
 
 function base64ToString(string: string) {
 	return Buffer.from(string, 'base64').toString('utf-8');
+}
+
+export function getLastIncomingMessage(messages: Message[]) {
+	return messages.findLast(
+		(message) =>
+			message.payload?.headers?.find(
+				(header) => header.name === FROM_HEADER && !header.value?.includes(GMAIL_EMAIL_ADDRESS)
+			)
+	);
+}
+
+type HeaderValue = string | null | undefined;
+type ReplyData = {
+	to?: HeaderValue;
+	cc?: HeaderValue;
+	subject?: HeaderValue;
+	replyMessageId?: HeaderValue;
+};
+export function getReplyData({
+	message,
+	isMyMessage
+}: {
+	message: MessagePayload;
+	isMyMessage?: boolean;
+}) {
+	const { headers } = message;
+	if (!headers) return {};
+
+	const toHeader = isMyMessage ? TO_HEADER : FROM_HEADER;
+	const result: ReplyData = {};
+	for (const header of headers) {
+		switch (header.name) {
+			case toHeader: {
+				result.to = header.value;
+				break;
+			}
+			case CC_HEADER: {
+				result.cc = header.value;
+				break;
+			}
+			case SUBJECT_HEADER: {
+				result.subject = header.value;
+				break;
+			}
+			case MESSAGE_Id_HEADER:
+			case MESSAGE_ID_HEADER: {
+				result.replyMessageId = header.value;
+				break;
+			}
+		}
+	}
+
+	return result;
 }
 
 export const FROM_HEADER = 'From';

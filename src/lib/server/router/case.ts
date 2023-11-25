@@ -45,6 +45,7 @@ export const caseRouter = router({
 			.leftJoin(Report, eq(Report.caseId, Case.id))
 			.leftJoin(User, eq(Case.assignedAdmindId, User.id))
 			.get()
+			.then((caseInfo) => (caseInfo?.reports.length ? caseInfo : null))
 			.catch(throwInternalError);
 	}),
 	caseChatList: adminProcedure.input(z.object({ caseId: z.string() })).query(({ input }) => {

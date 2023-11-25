@@ -1,13 +1,15 @@
 <script lang="ts">
-	export let tabs = [];
-	export let value;
+	type Tab = { url: string; name: string };
+
+	export let tabs: ReadonlyArray<Tab> = [];
+	export let value: Tab;
 </script>
 
 <div class="tabsWrapper">
 	{#each tabs as tab}
 		<a
 			href={tab.url}
-			class={tab.id === value.id ? 'tab active' : 'tab tabLink'}
+			class={tab.name === value.name ? 'tab active' : 'tab tabLink'}
 			on:click={() => {
 				value = tab;
 			}}
