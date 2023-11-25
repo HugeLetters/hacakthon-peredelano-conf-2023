@@ -8,7 +8,7 @@
 	const caseQuery = data.trpc.case.findMany.query();
 </script>
 
-<TextInput bind:text={content} placeholder="Введите содержание жалобы" />
+<TextInput className="formElementInput" value={content} placeholder="Введите содержание жалобы" />
 <button
 	on:click={() => {
 		$reportMutation.mutate({
