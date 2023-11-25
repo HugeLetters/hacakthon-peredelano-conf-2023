@@ -1,6 +1,5 @@
 <script lang="ts">
 	export let data;
-	import { page } from '$app/stores';
 
 	const chatListQuery = data.trpc.case.caseChatList.query({ caseId: data.caseId });
 </script>
@@ -38,9 +37,10 @@
 							</span>
 						</div>
 					</div>
-					<a class="caseLink link" href="/">Посмотреть кейс</a>
+					<!-- todo - fix this link - should lead to report info -->
+					<a class="caseLink link" href="/case/{data.caseId}/report/{chat.id}">Посмотреть кейс</a>
 				</div>
-				<a href="/case/{$page.params.id}/chats/{chat.id}" class="chatLink link">
+				<a href="/case/{data.caseId}/report/{chat.id}" class="chatLink link">
 					<svg
 						width="36"
 						height="36"

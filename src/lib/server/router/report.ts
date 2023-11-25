@@ -1,8 +1,9 @@
+import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../database';
 import { Case } from '../database/schema/case';
 import { Report, categorySchema, countrySchema } from '../database/schema/report';
-import { router, userProcedure } from '../trpc';
+import { reportProcedure, router, userProcedure } from '../trpc';
 import { throwInternalError } from './utils';
 
 export const reportRouter = router({
@@ -37,5 +38,16 @@ export const reportRouter = router({
 				})
 				.then(() => {})
 				.catch(throwInternalError);
-		})
+		}),
+	getUserReportList: userProcedure.query(({ ctx }) =>
+		db
+			.select()
+			.from(Report)
+			.where(eq(Report.creatorId, ctx.session.user.userId))
+			.all()
+			.catch(throwInternalError)
+	),
+	getUserReport: reportProcedure.query(({ input }) =>
+		db.select().from(Report).where(eq(Report.id, input.reportId)).get().catch(throwInternalError)
+	)
 });
