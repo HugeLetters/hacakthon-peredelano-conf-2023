@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../database';
 import { Case } from '../database/schema/case';
@@ -37,5 +38,13 @@ export const reportRouter = router({
 				})
 				.then(() => {})
 				.catch(throwInternalError);
-		})
+		}),
+	getUserReportList: userProcedure.query(({ ctx }) =>
+		db
+			.select()
+			.from(Report)
+			.where(eq(Report.creatorId, ctx.session.user.userId))
+			.all()
+			.catch(throwInternalError)
+	)
 });
