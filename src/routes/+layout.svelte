@@ -24,5 +24,6 @@
 	.root {
 		max-width: 450px;
 		width: 100%;
+		position: relative;
 	}
 </style>

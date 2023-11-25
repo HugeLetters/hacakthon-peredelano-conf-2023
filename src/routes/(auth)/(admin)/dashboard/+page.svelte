@@ -2,30 +2,40 @@
 	import Bank from '$lib/icons/bank.svelte';
 	import Filter from '$lib/icons/filter.svelte';
 	import Arrow from '$lib/icons/arrow.svelte';
+	import type { CaseStatus } from '$lib/options.js';
+
+	enum FilterFields {
+		statusFilter = 'statusFilter'
+	}
 
 	export let data;
+
 	let isPopoverOpened: boolean = false;
 	let filterRows: {
 		title: string;
-		filterId: string;
-		buttons: { name: string; value: string }[];
+		filterId: FilterFields;
+		buttons: { name: string; value: CaseStatus }[];
 	}[] = [
 		{
 			title: 'Статус',
-			filterId: 'status',
+			filterId: FilterFields.statusFilter,
 			buttons: [
-				{ name: 'Todo', value: 'todo' },
-				{ name: 'In process', value: 'inprocess' },
-				{ name: 'Done', value: 'done' }
+				{ name: 'Todo', value: 'active' },
+				{ name: 'Done', value: 'closed' }
 			]
 		}
 	];
-	export let selectedFilters: Object = {};
+	let selectedFilters: { [FilterFields.statusFilter]: CaseStatus | undefined } = {
+		statusFilter: undefined
+	};
+	let activefilters: { [FilterFields.statusFilter]: CaseStatus | undefined } = {
+		statusFilter: undefined
+	};
 
-	const cases = data.trpc.case.findMany.query({ statusFilter: 'active' });
+	$: cases = data.trpc.case.findMany.query(activefilters);
 
-	function toggleFilter(filterId, value) {
-		if (selectedFilters[filterId] === value) selectedFilters[filterId] = null;
+	function toggleFilter(filterId: FilterFields, value: CaseStatus) {
+		if (selectedFilters[filterId] === value) selectedFilters[filterId] = undefined;
 		else selectedFilters[filterId] = value;
 	}
 </script>
@@ -79,19 +89,27 @@
 					<div class="popoverTitle">{title}</div>
 					<div class="popoverButtons">
 						{#each buttons as { name, value }}
-							<div
+							<button
 								class="popoverButton"
 								class:active={selectedFilters?.[filterId] === value}
 								on:click={() => toggleFilter(filterId, value)}
+								type="button"
 							>
 								{name}
-							</div>
+							</button>
 						{/each}
 					</div>
 				</div>
 			{/each}
 			<div class="filterPopup">
-				<button type="button" on:click={() => (isPopoverOpened = false)}>Применить</button>
+				<button
+					class="confirmFiltersButton"
+					type="button"
+					on:click={() => {
+						isPopoverOpened = false;
+						activefilters = selectedFilters;
+					}}>Применить</button
+				>
 			</div>
 		</div>
 	{/if}
@@ -156,8 +174,10 @@
 	}
 
 	.popover {
-		position: absolute;
-		top: 80px;
+		height: calc(100vh - 200px);
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 	}
 
 	.popoverRow {
@@ -177,7 +197,9 @@
 
 	.popoverButton {
 		padding: 6px 16px;
+		border: none;
 		border-radius: 16px;
+		outline: none;
 		background: #f6f6f6;
 		font-size: 17px;
 		line-height: 23.8px;
@@ -186,5 +208,19 @@
 			background: #8d8d8d;
 			color: #fff;
 		}
+	}
+
+	.confirmFiltersButton {
+		width: 100%;
+		padding: 12px;
+		color: #fff;
+		background: #8d8d8d;
+		border: 0;
+		border-radius: 16px;
+		outline: 0;
+		text-align: center;
+		font-size: 17px;
+		line-height: 25.5px;
+		font-weight: bold;
 	}
 </style>
