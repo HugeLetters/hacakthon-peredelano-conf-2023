@@ -65,4 +65,7 @@ pnpm db-seed
 
 # Generate and apply migration to database after schema changes
 pnpm db-migrate
+
+# Toggle a role for selected user
+pnpm db-role
 ```
