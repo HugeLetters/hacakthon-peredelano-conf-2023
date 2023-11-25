@@ -1,11 +1,13 @@
 <script lang="ts">
+	import TextInput from '$lib/components/textInput.svelte';
+
 	export let data;
 
-	let content: string;
+	let content: string = '';
 	const reportMutation = data.trpc.report.create.mutation({});
 </script>
 
-<input bind:value={content} />
+<TextInput bind:text={content} placeholder="Введите содержание жалобы" />
 <button
 	on:click={() => {
 		$reportMutation.mutate({
