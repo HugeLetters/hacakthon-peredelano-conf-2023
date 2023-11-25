@@ -1,33 +1,27 @@
-<script>
+<script lang="ts">
 	import { createSelect, melt } from '@melt-ui/svelte';
 	import { fade } from 'svelte/transition';
 
-	//todo: куда вынести опции как enum?
-	export let data = {
-		selectLabel: 'Категория обращения',
-		selectMessage: 'Выбери категорию',
-		options: [
-			{
-				id: 1,
-				name: 'ВНЖ',
-				icon: ''
-			},
-			{
-				id: 2,
-				name: 'Банкинг',
-				icon: ''
-			},
-			{
-				id: 3,
-				name: 'Авиабилеты',
-				icon: ''
-			}
-		]
-	};
-
-	const options = {
-		items: data.options
-	};
+	export let selectMessage = 'Выбери категорию';
+	export let options = [
+		{
+			id: 1,
+			name: 'ВНЖ',
+			icon: ''
+		},
+		{
+			id: 2,
+			name: 'Банкинг',
+			icon: ''
+		},
+		{
+			id: 3,
+			name: 'Авиабилеты',
+			icon: ''
+		}
+	];
+	export let categ;
+	export let isCountry = false;
 
 	const {
 		elements: { trigger, menu, option, group, label },
@@ -41,28 +35,50 @@
 			sameWidth: true
 		}
 	});
+
+	let search = '';
+	$: filteredOptions = search.length
+		? options.filter((el) => el.name.toLowerCase().includes(search.toLowerCase()))
+		: options;
 </script>
 
 <div class="select">
-	<!-- svelte-ignore a11y-label-has-associated-control - $label contains the 'for' attribute -->
-	<label class="label" use:melt={$label}>{data.selectLabel}</label>
 	<button class="btnChoose" use:melt={$trigger} aria-label="Food">
-		{$selectedLabel || data.selectMessage}
-		<div class="chevron" />
+		{$selectedLabel || selectMessage}
+		<div class={$open ? 'chevronOpen' : 'chevron'}>
+			<svg
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					d="M12.5607 16.7597L20.7861 8.12701C20.9234 7.98297 21 7.7916 21 7.5926C21 7.39359 20.9234 7.20223 20.7861 7.05818L20.7768 7.04889C20.7102 6.97882 20.6301 6.92302 20.5413 6.8849C20.4525 6.84677 20.3568 6.82711 20.2602 6.82711C20.1635 6.82711 20.0679 6.84677 19.9791 6.8849C19.8903 6.92302 19.8102 6.97882 19.7436 7.04889L11.9985 15.1782L4.25641 7.04889C4.18985 6.97882 4.10972 6.92302 4.02091 6.8849C3.9321 6.84677 3.83646 6.82711 3.73981 6.82711C3.64316 6.82711 3.54752 6.84677 3.45871 6.8849C3.3699 6.92302 3.28978 6.97882 3.22321 7.04889L3.21392 7.05818C3.0766 7.20223 3 7.39359 3 7.5926C3 7.7916 3.0766 7.98297 3.21392 8.12701L11.4393 16.7597C11.5116 16.8357 11.5986 16.8961 11.695 16.9374C11.7914 16.9787 11.8951 17 12 17C12.1049 17 12.2086 16.9787 12.305 16.9374C12.4014 16.8961 12.4884 16.8357 12.5607 16.7597Z"
+					fill="black"
+				/>
+			</svg>
+		</div>
 	</button>
 	{#if $open}
-		<div class="" use:melt={$menu} transition:fade={{ duration: 150 }}>
-			{#each Object.entries(options) as [key, arr]}
-				<div use:melt={$group(key)}>
-					{#each arr as item}
-						<div class="" use:melt={$option({ value: item.id, label: item.name })}>
-							<div class="check {$isSelected(item) ? 'block' : 'hidden'}">
-								<!-- <Check class="square-4" /> -->
-							</div>
-							{item.name}
-						</div>
-					{/each}
-				</div>
+		<div class="popup" use:melt={$menu} transition:fade={{ duration: 150 }}>
+			{#if isCountry}
+				<input bind:value={search} />
+			{/if}
+			{#each filteredOptions as item}
+				<button
+					class=""
+					on:click={() => {
+						categ = item.name;
+						search = '';
+					}}
+					use:melt={$option({ value: item.id, label: item.name })}
+				>
+					<div class="check {$isSelected(item) ? 'block' : 'hidden'}">
+						<div class="checked"></div>
+					</div>
+					{item.name}
+				</button>
 			{/each}
 		</div>
 	{/if}
@@ -70,14 +86,26 @@
 
 <style lang="scss">
 	.select {
-		display: flex;
-		flex-direction: column;
-	}
-	.label {
+		position: relative;
 	}
 	.btnChoose {
+		padding: 0;
+		border: none;
+		font: inherit;
+		color: inherit;
+		background-color: transparent;
+		cursor: pointer;
+		display: flex;
+		justify-content: space-between;
+		background: #ffffff;
+		width: 100%;
+		text-align: left;
+		padding: 12px 12px;
+		border-radius: 16px;
+		border: 1px solid #8d8d8d;
 	}
 	.check {
+		display: flex;
 		position: absolute;
 		left: 2px;
 		top: 50%;
@@ -86,5 +114,16 @@
 		color: $custom-red;
 	}
 	.chevron {
+		width: 24px;
+		height: 24px;
+	}
+	.chevronOpen {
+		transform: rotate(180deg);
+	}
+	.popup {
+		display: flex;
+		flex-direction: column;
+		background: white;
+		widows: 100%;
 	}
 </style>
