@@ -1,11 +1,13 @@
 <script lang="ts">
-	// export let data;
-	// import { page } from '$app/stores';
+	export let data;
+	import { page } from '$app/stores';
 
+	console.log(data);
 	// const reportId = $page.params.id;
 	// const caseInfo = data.trpc.report
 	// console.log($caseInfo);
-	// report.getUserReport
+	const report = data.trpc.report.getUserReportList.query();
+	console.log($report.data, '10');
 </script>
 
 <div class="wrapper">
