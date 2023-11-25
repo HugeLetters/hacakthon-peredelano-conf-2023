@@ -26,6 +26,7 @@
 		"gm-meta": "tsx ./scripts/gmail/meta.ts"
 	},
 	"dependencies": {
+		"@fontsource-variable/inter": "^5.0.15",
 		"@libsql/client": "^0.3.6",
 		"@lucia-auth/adapter-sqlite": "^2.0.1",
 		"@lucia-auth/oauth": "^3.3.1",
