@@ -1,9 +1,9 @@
+import { asc, eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../database';
 import { Message } from '../database/schema/report';
 import { reportProcedure, router } from '../trpc';
 import { throwInternalError } from './utils';
-import { asc, eq } from 'drizzle-orm';
 
 export const messageRouter = router({
 	send: reportProcedure
