@@ -29,6 +29,7 @@
 		options={countryOptions}
 		isCountry={true}
 	/>
+	<FormElement component={TextInput} value={name} label="Организация" placeholder="TBS" />
 	<div class="reportRow">
 		{reportText}
 	</div>
