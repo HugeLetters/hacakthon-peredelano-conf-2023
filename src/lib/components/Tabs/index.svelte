@@ -37,8 +37,12 @@
 		height: 28px;
 		border: 0;
 		border-radius: 5px;
+		&:hover {
+			background: #ffffff;
+		}
 	}
 	.active {
 		background: #ffffff;
+		cursor: auto;
 	}
 </style>
