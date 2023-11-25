@@ -1,11 +1,8 @@
 <script lang="ts">
-	import Textarea from '$lib/components/textarea.svelte';
-
 	export let data;
 
 	let content: string;
 	const reportMutation = data.trpc.report.create.mutation({});
-	let text: string;
 </script>
 
 <input bind:value={content} />
@@ -22,7 +19,3 @@
 >
 	create report
 </button>
-
-<Textarea bind:text />
-
-{text}
