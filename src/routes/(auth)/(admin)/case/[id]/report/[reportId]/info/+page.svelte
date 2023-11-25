@@ -11,11 +11,13 @@
 {#if $report.isSuccess}
 	<Report
 		authorName={$report.data?.authorName}
+		category={$report.data?.category}
 		country={$report.data?.country}
 		createdAt={$report.data?.createdAt}
 		content={$report.data?.content}
 		chatLink={`/case/{caseId}/report/{reportId}`}
-	/>
+		organization={$report.data?.organization}
+		/>
 {/if}
 
 <style lang="scss">
