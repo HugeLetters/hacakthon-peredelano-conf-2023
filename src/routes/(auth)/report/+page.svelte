@@ -4,5 +4,17 @@
 </script>
 
 <div class="complaintForm">
-	<Textarea bind:text={reportText} />
+	<div class="reportRow">Ваше имя - инпут</div>
+	<div class="reportRow">Категория - селект</div>
+	<div class="reportRow">Страна - селект с поиском</div>
+	<div class="reportRow">
+		<Textarea bind:text={reportText} />
+		{reportText}
+	</div>
 </div>
+
+<style lang="scss">
+	.reportRow {
+		margin-bottom: 8px;
+	}
+</style>
