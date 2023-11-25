@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import Textarea from '$lib/components/Textarea.svelte';
@@ -56,7 +57,7 @@
 	<WithLabel label="Организация">
 		<Input bind:value={organization} placeholder="С какой организацией возникла проблема?" />
 	</WithLabel>
-	<button class="submit">Отправить</button>
+	<Button>Отправить</Button>
 </form>
 
 <style lang="scss">
@@ -66,12 +67,5 @@
 		flex-direction: column;
 		justify-content: center;
 		gap: 1rem;
-	}
-	.submit {
-		border: none;
-		background-color: gray;
-		color: white;
-		padding: 1rem;
-		border-radius: 1rem;
 	}
 </style>
