@@ -1,32 +1,21 @@
-<script lang="ts">
+<script lang="ts" context="module">
+	type V = string;
+</script>
+
+<script lang="ts" generics="V extends string">
+	import Input from './Input.svelte';
+
 	import { createSelect, melt } from '@melt-ui/svelte';
 	import { fade } from 'svelte/transition';
 
-	export let selectMessage = 'Выбери категорию';
-	export let options = [
-		{
-			id: 1,
-			name: 'ВНЖ',
-			icon: ''
-		},
-		{
-			id: 2,
-			name: 'Банкинг',
-			icon: ''
-		},
-		{
-			id: 3,
-			name: 'Авиабилеты',
-			icon: ''
-		}
-	];
-	export let categ;
-	export let isCountry = false;
+	export let defaultLabel: string;
+	export let options: ReadonlyArray<{ value: V; label?: string }>;
+	export let onChange: (value: V) => void;
+	export let withFilter: boolean = false;
 
 	const {
-		elements: { trigger, menu, option, group, label },
-		states: { selectedLabel, open },
-		helpers: { isSelected }
+		elements: { trigger, menu, option },
+		states: { selectedLabel, open }
 	} = createSelect({
 		forceVisible: true,
 		positioning: {
@@ -36,15 +25,16 @@
 		}
 	});
 
-	let search = '';
-	$: filteredOptions = search.length
-		? options.filter((el) => el.name.toLowerCase().includes(search.toLowerCase()))
-		: options;
+	let filter = '';
+	$: filteredOptions =
+		withFilter && filter.length
+			? options.filter((el) => (el.label ?? el.value).toLowerCase().includes(filter.toLowerCase()))
+			: options;
 </script>
 
 <div class="select">
 	<button class="btnChoose" use:melt={$trigger} aria-label="Food">
-		{$selectedLabel || selectMessage}
+		{$selectedLabel || defaultLabel}
 		<div class={$open ? 'chevronOpen' : 'chevron'}>
 			<svg
 				width="24"
@@ -62,22 +52,19 @@
 	</button>
 	{#if $open}
 		<div class="popup" use:melt={$menu} transition:fade={{ duration: 150 }}>
-			{#if isCountry}
-				<input bind:value={search} />
+			{#if withFilter}
+				<input class="filter" bind:value={filter} placeholder="Фильтр" />
 			{/if}
 			{#each filteredOptions as item}
 				<button
-					class=""
+					use:melt={$option({ value: item.value })}
+					class="optionButton"
 					on:click={() => {
-						categ = item.name;
-						search = '';
+						onChange(item.value);
+						filter = '';
 					}}
-					use:melt={$option({ value: item.id, label: item.name })}
 				>
-					<div class="check {$isSelected(item) ? 'block' : 'hidden'}">
-						<div class="checked"></div>
-					</div>
-					{item.name}
+					{item.label ?? item.value}
 				</button>
 			{/each}
 		</div>
@@ -124,6 +111,23 @@
 		display: flex;
 		flex-direction: column;
 		background: white;
-		widows: 100%;
+		gap: 0.5rem;
+		padding: 1rem;
+		border-radius: 1rem;
+		box-shadow: 0 0 5px #0003;
+		overflow-y: scroll;
+	}
+	.optionButton {
+		border: none;
+		transition: background-color 150ms;
+
+		&:hover,
+		:focus-within {
+			background-color: #8883;
+		}
+	}
+	.filter {
+		padding: 0.25rem;
+		border-radius: 0.5rem;
 	}
 </style>

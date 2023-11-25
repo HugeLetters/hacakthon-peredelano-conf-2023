@@ -18,7 +18,7 @@
 <style lang="scss">
 	.outer {
 		display: flex;
-		align-items: center;
+		align-items: start;
 		justify-content: center;
 	}
 	.root {

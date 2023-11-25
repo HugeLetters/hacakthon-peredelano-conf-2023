@@ -1,10 +1,10 @@
 import { sql } from 'drizzle-orm';
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { z } from 'zod';
+import { categoryList, countryList, type Category, type CountryCode } from '../../../options';
 import { User, createUserIdColumn } from './auth';
 import { Case } from './case';
 import { createUuidColumn, uuidPkColumn } from './utils';
-import { z } from 'zod';
-import { categoryList, countryList } from '../../../options';
 
 export const Report = sqliteTable(
 	'report',
@@ -59,7 +59,4 @@ export const Message = sqliteTable(
 );
 
 export const categorySchema = z.enum(categoryList);
-type Category = z.infer<typeof categorySchema>;
-
-type CountryCode = z.infer<typeof countrySchema>;
 export const countrySchema = z.enum(countryList);
