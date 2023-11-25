@@ -1,29 +1,22 @@
 <script lang="ts">
+	import Bank from '$lib/icons/bank.svelte';
+
 	export let data;
 
-	const caseQuery = data.trpc.case.findMany.query();
-
-	let cases = [
-		{
-			content: '',
-			category: 'Авиалиния',
-			name: 'Reported',
-			country: 'FI',
-			organization: 'org'
-		}
-	];
+	const cases = data.trpc.case.findMany.query();
 </script>
 
 <div class="cases">
-	{#if $caseQuery.isSuccess}
-		{#each $caseQuery.data as { id, name, assignedAdmindId } (id)}
+	{#if $cases.isSuccess}
+		{#each $cases.data as { id, name, status, assignedAdmindId } (id)}
 			<div class="case">
 				<div class="caseInfo">
 					<div class="caseName">{name}</div>
+					{status}
 					<div class="caseProps">
 						<div class="caseCategory">
 							<!-- category icon calculated from reports -->
-							bank
+							<Bank />
 						</div>
 						<div class="caseCountry">
 							<!-- countryCode calculated from reports-->
@@ -35,10 +28,12 @@
 						</div>
 					</div>
 				</div>
-				<div class="caseAssignee">
-					<!-- assignee avatar -->
-					{assignedAdmindId}
-				</div>
+				{#if assignedAdmindId}
+					<div class="caseAssignee">
+						<!-- assignee avatar -->
+						{assignedAdmindId}
+					</div>
+				{/if}
 			</div>
 		{/each}
 	{/if}
