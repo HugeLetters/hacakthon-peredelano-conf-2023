@@ -43,6 +43,7 @@
 		"@google-cloud/local-auth": "^3.0.0",
 		"@melt-ui/pp": "^0.1.2",
 		"@sveltejs/adapter-auto": "^2.1.0",
+		"@sveltejs/adapter-vercel": "^3.1.0",
 		"@sveltejs/kit": "^1.27.6",
 		"@types/node": "^20.8.10",
 		"@types/tcp-port-used": "^1.0.3",
