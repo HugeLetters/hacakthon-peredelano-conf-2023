@@ -11,7 +11,7 @@
 <div class="aboutCase">
 	<div class="statusWrapper">
 		<button
-			class="status"
+			class={$caseInfo.data.status === 'active' ? 'status open' : 'status closed'}
 			on:click={() => {
 				$caseInfoMutation.mutate({
 					caseId: data.caseId,
@@ -58,9 +58,22 @@
 		justify-content: flex-end;
 	}
 	.status {
-		widows: 83px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 83px;
 		height: 30px;
 		padding: 6px 16px;
 		background: #8d8d8d;
+		border-radius: 16px;
+	}
+	.open {
+		background: orange;
+		border: 1px solid orange;
+		color: #ffffff;
+	}
+	.closed {
+		background: green;
+		border: 1px solid #ffffff;
 	}
 </style>

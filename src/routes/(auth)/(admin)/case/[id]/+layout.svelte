@@ -63,6 +63,7 @@
 			</div>
 		</div>
 		<Tabs bind:value={currentTab} {tabs} />
+		<div class="divider"></div>
 		<slot />
 	</div>
 {/if}
@@ -82,5 +83,8 @@
 	}
 	.menu {
 		cursor: pointer;
+	}
+	.divider {
+		height: 12px;
 	}
 </style>
