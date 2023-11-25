@@ -9,7 +9,7 @@
 	{#each tabs as tab}
 		<a
 			href={tab.url}
-			class={tab.name === value.name ? 'tab active' : 'tab tabLink'}
+			class="tab {tab.name === value.name ? 'active' : 'tabLink'}"
 			on:click={() => {
 				value = tab;
 			}}
