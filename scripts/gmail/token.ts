@@ -1,11 +1,10 @@
 import { authenticate } from '@google-cloud/local-auth';
-import { config } from 'dotenv';
+import 'dotenv/config';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { check } from 'tcp-port-used';
 
-config();
 main();
 async function main() {
 	// If modifying these scopes - you need to retrieve new refresh token

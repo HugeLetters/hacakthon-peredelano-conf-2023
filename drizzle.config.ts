@@ -1,4 +1,5 @@
 import { type Config } from 'drizzle-kit';
+import 'dotenv/config';
 
 export default {
 	out: './src/lib/server/database/migrations',
@@ -6,6 +7,11 @@ export default {
 	driver: 'turso',
 	breakpoints: true,
 	dbCredentials: {
-		url: 'file:./database/db.sqlite'
+		url: process.env.DB_URL ?? raise('Database url is not set in your environment variables'),
+		authToken: process.env.DB_TOKEN
 	}
 } satisfies Config;
+
+function raise(message: string): never {
+	throw Error(message);
+}

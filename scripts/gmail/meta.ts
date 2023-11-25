@@ -1,6 +1,6 @@
-import { config } from 'dotenv';
+import 'dotenv/config';
 import { getGmailClient } from './client';
-config();
+
 main();
 async function main() {
 	const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
