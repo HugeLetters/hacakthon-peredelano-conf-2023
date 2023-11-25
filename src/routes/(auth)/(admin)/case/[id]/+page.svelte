@@ -3,12 +3,12 @@
 	import { statusList } from '$lib/options';
 	export let data;
 
-	const caseId = $page.params.id;
+	const caseId = $page.params.id ?? '';
 	const caseInfo = data.trpc.case.caseInfo.query({ caseId: caseId });
 	const caseInfoMutation = data.trpc.case.updateCaseData.mutation();
 	const countries = new Map();
 	const categories = new Map();
-	$caseInfo.data.reports.forEach((report, index) => {
+	$caseInfo.data?.reports.forEach((report, index) => {
 		if (report.countries) {
 			countries.set(report.countries, index);
 		}
@@ -21,18 +21,18 @@
 <div class="aboutCase">
 	<div class="statusWrapper">
 		<button
-			class={$caseInfo.data.status === 'active' ? 'status open' : 'status closed'}
+			class={$caseInfo.data?.status === 'active' ? 'status open' : 'status closed'}
 			on:click={() => {
 				$caseInfoMutation.mutate({
 					caseId: data.caseId,
 					newSummary: 'new summary',
-					newStatus: $caseInfo.data.status === statusList[0] ? statusList[1] : statusList[0]
+					newStatus: $caseInfo.data?.status === statusList[0] ? statusList[1] : statusList[0]
 				});
 
 				data.trpc.case.caseInfo.utils.invalidate({ caseId: data.caseId });
 			}}
 		>
-			{$caseInfo.data.status.toUpperCase()}
+			{$caseInfo.data?.status.toUpperCase()}
 		</button>
 	</div>
 	<div>

@@ -1,15 +1,14 @@
 <script lang="ts">
 	export let data;
+	import { page } from '$app/stores';
 
 	const chatListQuery = data.trpc.case.caseChatList.query({ caseId: data.caseId });
-	console.log($chatListQuery.data);
 </script>
 
 {#if $chatListQuery.isSuccess}
 	<div class="chats">
 		{#each $chatListQuery.data as chat}
-			<!-- <div>{chat.content}</div> -->
-			<div class="complaint">
+			<div class="report">
 				<div>
 					<div class="user">
 						<div class="image">
@@ -41,7 +40,7 @@
 					</div>
 					<a class="caseLink link" href="/">Посмотреть кейс</a>
 				</div>
-				<a href="/" class="chatLink link">
+				<a href="/case/{$page.params.id}/chats/{chat.id}" class="chatLink link">
 					<svg
 						width="36"
 						height="36"
@@ -67,7 +66,7 @@
 		display: grid;
 		gap: 10px;
 	}
-	.complaint {
+	.report {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;

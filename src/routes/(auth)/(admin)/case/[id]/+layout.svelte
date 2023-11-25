@@ -2,7 +2,7 @@
 	import { page } from '$app/stores';
 	import Tabs from '$lib/components/Tabs/index.svelte';
 	export let data;
-	const caseId = $page.params.id;
+	const caseId = $page.params.id ?? '';
 	const tabs = [
 		{
 			id: 0,
@@ -24,12 +24,15 @@
 	const caseInfo = data.trpc.case.caseInfo.query({ caseId: caseId });
 
 	// проверяем роут и в зависимости от него отпределяем какой таб сделать активным
-	$: currentTab =
-		$page.route.id?.split('/').pop() === 'chats'
-			? tabs[1]
-			: $page.route.id?.split('/').pop() === 'threads'
-			? tabs[2]
-			: tabs[0];
+	console.log($page.route.id);
+	
+	$: currentTab = tabs[(() => {
+		const route = $page.route.id?.split('/')
+
+		if (route?.includes('chats')) return 1
+		if (route?.includes('threads')) return 2
+		return 0
+	})()]
 </script>
 
 {#if $caseInfo?.isSuccess}
@@ -51,7 +54,7 @@
 					/>
 				</svg>
 			</a>
-			<h1 class="caseName">Кейс: {$caseInfo.data.name}</h1>
+			<h1 class="caseName">Кейс: {$caseInfo.data?.name}</h1>
 			<div class="menu">
 				<svg
 					width="32"
