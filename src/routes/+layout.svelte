@@ -17,13 +17,12 @@
 
 <style lang="scss">
 	.outer {
-		display: flex;
-		align-items: start;
-		justify-content: center;
+		min-height: 100vh;
+		max-width: 450px;
+		margin: 0 auto;
+		position: relative;
 	}
 	.root {
-		max-width: 450px;
 		width: 100%;
-		position: relative;
 	}
 </style>

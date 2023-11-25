@@ -7,8 +7,7 @@
 {#if $chatListQuery.isSuccess}
 	<div class="chats">
 		{#each $chatListQuery.data as chat}
-			<!-- <div>{chat.content}</div> -->
-			<div class="complaint">
+			<div class="report">
 				<div>
 					<div class="user">
 						<div class="image">
@@ -69,7 +68,7 @@
 		display: grid;
 		gap: 10px;
 	}
-	.complaint {
+	.report {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;

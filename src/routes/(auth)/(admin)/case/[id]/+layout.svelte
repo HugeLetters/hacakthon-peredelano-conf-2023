@@ -3,7 +3,6 @@
 	import { page } from '$app/stores';
 	import Tabs from '$lib/components/Tabs/index.svelte';
 	export let data;
-
 	const tabs = [
 		{
 			name: 'Кейс',
@@ -33,11 +32,16 @@
 	);
 
 	// проверяем роут и в зависимости от него отпределяем какой таб сделать активным
-	$: currentTab = $page.url.pathname.includes('report')
-		? tabs[1]
-		: $page.url.pathname.includes('thread')
-		? tabs[2]
-		: tabs[0];
+	$: currentTab =
+		tabs[
+			(() => {
+				const route = $page.route.id?.split('/');
+
+				if (route?.includes('report')) return 1;
+				if (route?.includes('thread')) return 2;
+				return 0;
+			})()
+		];
 </script>
 
 {#if $caseInfo.isSuccess}
