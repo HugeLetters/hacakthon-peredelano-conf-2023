@@ -2,6 +2,7 @@
 	import Button from '$lib/components/Button.svelte';
 	import Textarea from '$lib/components/Textarea.svelte';
 	import WithLabel from '$lib/components/WithLabel.svelte';
+	import Messages from '$lib/components/Messages.svelte';
 
 	export let data;
 
@@ -19,9 +20,9 @@
 </script>
 
 {#if $chat.isSuccess}
-	{#each $chat.data as message (message.id)}
-		<div>{message.content}</div>
-	{/each}
+	{#if $chat.isSuccess}
+		<Messages messages={$chat.data} currUserId={data.session.user.userId} />
+	{/if}
 {/if}
 <form
 	on:submit|preventDefault={() => {

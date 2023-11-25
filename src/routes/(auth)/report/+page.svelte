@@ -60,6 +60,7 @@
 		{/each}
 	</div>
 {/if}
+<a class="createReportButton" href="/report/new">Добавить новую жалобу</a>
 
 <style lang="scss">
 	.reports {
@@ -106,5 +107,16 @@
 	}
 	.caseLink {
 		margin-top: 8px;
+	}
+
+	.createReportButton {
+		display: block;
+		margin-top: 16px;
+		padding: 1rem;
+		border-radius: 1rem;
+		background: gray;
+		color: white;
+		border: none;
+		text-align: center;
 	}
 </style>
