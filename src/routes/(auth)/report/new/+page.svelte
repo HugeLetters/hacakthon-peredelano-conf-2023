@@ -1,10 +1,11 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import Input from '$lib/components/Input.svelte';
 	import Select from '$lib/components/Select.svelte';
 	import Textarea from '$lib/components/Textarea.svelte';
 	import WithLabel from '$lib/components/WithLabel.svelte';
-	import { categoryList, countryList, type CountryCode, type Category } from '$lib/options';
+	import { categoryList, countryList, type Category, type CountryCode } from '$lib/options';
 
 	export let data;
 
@@ -14,7 +15,11 @@
 	let country: CountryCode;
 	let organization: string = '';
 
-	const createReportMutation = data.trpc.report.create.mutation();
+	const createReportMutation = data.trpc.report.create.mutation({
+		onSuccess(data) {
+			goto(`/report/${data}`);
+		}
+	});
 </script>
 
 <form
@@ -57,6 +62,11 @@
 	<WithLabel label="Организация">
 		<Input bind:value={organization} placeholder="С какой организацией возникла проблема?" />
 	</WithLabel>
+	{#if $createReportMutation.isError}
+		<div class="error">
+			{$createReportMutation.error.message}
+		</div>
+	{/if}
 	<Button>Отправить</Button>
 </form>
 
@@ -67,5 +77,14 @@
 		flex-direction: column;
 		justify-content: center;
 		gap: 1rem;
+	}
+	.error {
+		background-color: hsla(0, 70%, 60%, 90%);
+		color: white;
+		padding: 1rem;
+		border-radius: 1rem;
+		font-weight: 600;
+		display: flex;
+		justify-content: center;
 	}
 </style>

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
 import { categoryList, countryList } from '../../src/lib/options';
 import { User } from '../../src/lib/server/database/schema/auth';
-import { Case } from '../../src/lib/server/database/schema/case';
+import { Case, Thread } from '../../src/lib/server/database/schema/case';
 import { Message, Report } from '../../src/lib/server/database/schema/report';
 import { db } from './client';
 
@@ -11,6 +11,7 @@ main();
 async function main() {
 	await db.delete(Message).all();
 	await db.delete(Report).all();
+	await db.delete(Thread).all();
 	await db.delete(Case).all();
 
 	const admins = await db.select().from(User).where(eq(User.role, 'admin')).all();

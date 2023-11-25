@@ -1,5 +1,5 @@
-import { roleList } from '$lib/options';
 import { index, int, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { roleList } from '../../../options';
 
 export function createUserIdColumn<T extends string>(name: T) {
 	return text(name, { length: 15 });

@@ -1,63 +1,70 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 	import { statusList } from '$lib/options';
 	export let data;
 
-	const caseId = $page.params.id;
-	const caseInfo = data.trpc.case.caseInfo.query({ caseId: caseId });
+	const caseInfo = data.trpc.case.caseInfo.query(
+		{ caseId: data.caseId },
+		{
+			select(data) {
+				if (!data) {
+					goto('/dashboard');
+					throw Error('No such case exists');
+				}
+				return data;
+			}
+		}
+	);
 	const caseInfoMutation = data.trpc.case.updateCaseData.mutation();
-	const countries = new Map();
-	const categories = new Map();
-	$caseInfo.data.reports.forEach((report, index) => {
-		if (report.countries) {
-			countries.set(report.countries, index);
-		}
-		if (report.categories) {
-			categories.set(report.categories, index);
-		}
-	});
 </script>
 
-<div class="aboutCase">
-	<div class="statusWrapper">
-		<button
-			class={$caseInfo.data.status === 'active' ? 'status open' : 'status closed'}
-			on:click={() => {
-				$caseInfoMutation.mutate({
-					caseId: data.caseId,
-					newSummary: 'new summary',
-					newStatus: $caseInfo.data.status === statusList[0] ? statusList[1] : statusList[0]
-				});
+{#if $caseInfo.isSuccess}
+	{@const caseData = $caseInfo.data}
+	<div class="aboutCase">
+		<div class="statusWrapper">
+			<button
+				class={caseData.status === 'active' ? 'status open' : 'status closed'}
+				on:click={() => {
+					$caseInfoMutation.mutate({
+						caseId: data.caseId,
+						newSummary: 'new summary',
+						newStatus: caseData.status === statusList[0] ? statusList[1] : statusList[0]
+					});
 
-				data.trpc.case.caseInfo.utils.invalidate({ caseId: data.caseId });
-			}}
-		>
-			{$caseInfo.data.status.toUpperCase()}
-		</button>
-	</div>
-	<div>
-		<h4>Содержание</h4>
-		<p class="summary">
-			{$caseInfo.data?.summary || 'Пусто'}
-		</p>
-	</div>
-	<div>
-		<h4>Категории</h4>
-		<div class="countries">
-			{#each [...categories] as [key, val]}
-				<div class="country">{key},</div>
-			{/each}
+					data.trpc.case.caseInfo.utils.invalidate({ caseId: data.caseId });
+				}}
+			>
+				{caseData.status.toUpperCase()}
+			</button>
+		</div>
+		<div>
+			<h4>Содержание</h4>
+			<p class="summary">
+				{caseData?.summary || 'Пусто'}
+			</p>
+		</div>
+		<div>
+			<h4>Категории</h4>
+			<div class="countries">
+				{#each [...new Set(caseData.reports
+							.filter((x) => !!x.category)
+							.map((report) => report.category))] as category (category)}
+					<div class="country">{category}</div>
+				{/each}
+			</div>
+		</div>
+		<div>
+			<h4>Страны</h4>
+			<div class="countries">
+				{#each [...new Set(caseData.reports
+							.filter((x) => !!x.country)
+							.map((report) => report.country))] as country (country)}
+					<div class="country">{country}</div>
+				{/each}
+			</div>
 		</div>
 	</div>
-	<div>
-		<h4>Страны</h4>
-		<div class="countries">
-			{#each [...countries] as [key, val]}
-				<div class="country">{key},</div>
-			{/each}
-		</div>
-	</div>
-</div>
+{/if}
 
 <style lang="scss">
 	.aboutCase {

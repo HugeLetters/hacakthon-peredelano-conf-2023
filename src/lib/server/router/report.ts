@@ -37,7 +37,9 @@ export const reportRouter = router({
 					country: input.country,
 					organization: input.organization
 				})
-				.then(() => {})
+				.returning()
+				.get()
+				.then((x) => x.id)
 				.catch(throwInternalError);
 		}),
 	getUserReportList: userProcedure.query(({ ctx }) =>

@@ -34,8 +34,8 @@ export const caseRouter = router({
 			.select({
 				...getTableColumns(Case),
 				reports: aggregateArrayColumns({
-					countries: Report.country,
-					categories: Report.category,
+					country: Report.country,
+					category: Report.category,
 					createdAt: Report.createdAt
 				}),
 				assignedAdminName: User.name

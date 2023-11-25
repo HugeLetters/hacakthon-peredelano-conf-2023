@@ -31,7 +31,7 @@
 </script>
 
 <div class="select">
-	<button class="btnChoose" use:melt={$trigger}>
+	<button class="btnChoose" type="button" use:melt={$trigger}>
 		{$selectedLabel || defaultLabel}
 		<div class="chevron {$open ? 'chevronOpen' : ''}">
 			<svg
@@ -57,6 +57,7 @@
 				<button
 					use:melt={$option({ value: item.value })}
 					class="optionButton"
+					type="button"
 					on:click={() => {
 						onChange(item.value);
 						filter = '';
