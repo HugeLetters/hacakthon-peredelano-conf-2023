@@ -29,7 +29,22 @@ export const caseRouter = router({
 				.catch(throwInternalError);
 		}),
 	caseInfo: adminProcedure.input(z.object({ caseId: z.string() })).query(({ input }) => {
-		return db.select().from(Case).where(eq(Case.id, input.caseId)).get().catch(throwInternalError);
+		return db
+			.select({
+				...getTableColumns(Case),
+				reports: aggregateArrayColumns({
+					countries: Report.country,
+					categories: Report.category,
+					createdAt: Report.createdAt
+				}),
+				assignedAdminName: User.name
+			})
+			.from(Case)
+			.where(eq(Case.id, input.caseId))
+			.leftJoin(Report, eq(Report.caseId, Case.id))
+			.leftJoin(User, eq(Case.assignedAdmindId, User.id))
+			.get()
+			.catch(throwInternalError);
 	}),
 	caseChatList: adminProcedure.input(z.object({ caseId: z.string() })).query(({ input }) => {
 		const sq = db.select({ caseId: Case.id }).from(Case).where(eq(Case.id, input.caseId));
