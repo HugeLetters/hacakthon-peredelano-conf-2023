@@ -15,6 +15,11 @@ async function main() {
 	await migrate(db, { migrationsFolder: './src/lib/server/database/migrations' });
 }
 
-function raise(message: string): never {
+/**
+ *
+ * @param {string} message
+ * @returns {never}
+ */
+function raise(message) {
 	throw Error(message);
 }
