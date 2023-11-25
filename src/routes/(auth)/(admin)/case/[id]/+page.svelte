@@ -3,7 +3,6 @@
 	import Avia from '$lib/icons/avia.svelte';
 	import Bank from '$lib/icons/bank.svelte';
 	import Paper from '$lib/icons/paper.svelte';
-	import { statusList } from '$lib/options';
 
 	export let data;
 
@@ -19,7 +18,11 @@
 			}
 		}
 	);
-	const caseInfoMutation = data.trpc.case.updateCaseData.mutation();
+	const caseInfoMutation = data.trpc.case.updateCaseData.mutation({
+		onSuccess() {
+			data.trpc.case.caseInfo.utils.invalidate({ caseId: data.caseId });
+		}
+	});
 	function iconByCategory(category: string) {
 		switch (category) {
 			case 'Банк':
@@ -46,10 +49,8 @@
 					$caseInfoMutation.mutate({
 						caseId: data.caseId,
 						newSummary: 'new summary',
-						newStatus: caseData.status === statusList[0] ? statusList[1] : statusList[0]
+						newStatus: caseData.status === 'active' ? 'closed' : 'active'
 					});
-
-					data.trpc.case.caseInfo.utils.invalidate({ caseId: data.caseId });
 				}}
 			>
 				{caseData.status.toUpperCase()}
@@ -109,9 +110,6 @@
 		padding: 6px 16px;
 		background: #8d8d8d;
 		border-radius: 16px;
-		&:hover {
-			opacity: 0.4;
-		}
 	}
 	.open {
 		background: orange;

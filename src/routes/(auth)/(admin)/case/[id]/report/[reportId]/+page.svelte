@@ -38,7 +38,7 @@
 
 <style lang="scss">
 	.chat {
-		padding: 0 8px;
+		padding: 0.5rem;
 		background: #f6f6f6;
 	}
 </style>

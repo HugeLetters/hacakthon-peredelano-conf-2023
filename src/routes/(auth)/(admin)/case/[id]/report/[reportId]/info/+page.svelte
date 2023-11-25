@@ -1,11 +1,23 @@
 <script lang="ts">
-	export let data;
 	import Report from '$lib/pages/Report/index.svelte';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
-	const reportId = $page.params.reportId;
+	export let data;
+
 	const caseId = $page.params.id;
-	const report = data.trpc.report.getUserReport.query({ reportId: reportId });
+	const report = data.trpc.report.getUserReport.query(
+		{ reportId: data.reportId },
+		{
+			select(data) {
+				if (!data) {
+					goto('/dashboard');
+					throw Error('No such case exists');
+				}
+				return data;
+			}
+		}
+	);
 </script>
 
 {#if $report.isSuccess}
