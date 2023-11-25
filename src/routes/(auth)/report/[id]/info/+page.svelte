@@ -3,8 +3,7 @@
 	import Report from '$lib/pages/Report/index.svelte';
 	import { page } from '$app/stores';
 
-	const reportId = $page.params.reportId;
-	const caseId = $page.params.id;
+	const reportId = $page.params.id;
 	const report = data.trpc.report.getUserReport.query({ reportId: reportId });
 </script>
 
@@ -14,7 +13,7 @@
 		country={$report.data?.country}
 		createdAt={$report.data?.createdAt}
 		content={$report.data?.content}
-		chatLink={`/case/{caseId}/report/${reportId}`}
+		chatLink={`/report/${reportId}`}
 	/>
 {/if}
 
