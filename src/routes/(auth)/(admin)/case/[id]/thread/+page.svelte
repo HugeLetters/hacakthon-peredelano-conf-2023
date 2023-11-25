@@ -7,8 +7,8 @@
 <div>case threads</div>
 {#if $threadList.isSuccess}
 	{#each $threadList.data as thread (thread.id)}
-		<a href="/case/{data.caseId}/threads/{thread.id}">{thread.snippet}</a>
+		<a href="/case/{data.caseId}/thread/{thread.id}">{thread.snippet}</a>
 	{/each}
 {/if}
 
-<a href="/case/{data.caseId}/threads/new">create new thread</a>
+<a href="/case/{data.caseId}/thread/new">create new thread</a>
