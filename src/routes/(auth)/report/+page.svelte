@@ -8,7 +8,6 @@
 {#if $chatListQuery.isSuccess}
 	<div class="chats">
 		{#each $chatListQuery.data as chat}
-			<!-- <div>{chat.content}</div> -->
 			<div class="complaint">
 				<div>
 					<div class="user">
@@ -39,7 +38,6 @@
 							</span>
 						</div>
 					</div>
-					<!-- todo - fix this link - should lead to report info -->
 					<a class="caseLink link" href="/report/{chat.id}/info"> Посмотреть жалобу </a>
 				</div>
 				<a href="/report/{chat.id}" class="chatLink link">
