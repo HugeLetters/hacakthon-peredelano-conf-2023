@@ -9,7 +9,7 @@
 <div class="cases">
 	{#if $cases.isSuccess}
 		{#each $cases.data as { id, name, status, assignedAdmindId } (id)}
-			<div class="case">
+			<a href="/case/{id}" class="case">
 				<div class="caseInfo">
 					<div class="caseName">{name}</div>
 					{status}
@@ -34,7 +34,7 @@
 						{assignedAdmindId}
 					</div>
 				{/if}
-			</div>
+			</a>
 		{/each}
 	{/if}
 </div>
