@@ -25,6 +25,26 @@
 
 		return date.toLocaleDateString('ru');
 	}
+
+	// function handleClickOutside(event) {
+	// 	isMenuOpen = false;
+	// }
+
+	// function clickOutside(node) {
+	// 	const handleClick = (event) => {
+	// 		if (node && !node.contains(event.target) && !event.defaultPrevented) {
+	// 			node.dispatchEvent(new CustomEvent('click_outside', node));
+	// 		}
+	// 	};
+
+	// 	document.addEventListener('click', handleClick, true);
+
+	// 	return {
+	// 		destroy() {
+	// 			document.removeEventListener('click', handleClick, true);
+	// 		}
+	// 	};
+	// }
 </script>
 
 <div class="header">
