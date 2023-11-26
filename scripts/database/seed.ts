@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
-import { categoryList, countryList } from '../../src/lib/options';
+import { categoryList, countryList, statusList } from '../../src/lib/options';
 import { User } from '../../src/lib/server/database/schema/auth';
 import { Case, Thread } from '../../src/lib/server/database/schema/case';
 import { Message, Report } from '../../src/lib/server/database/schema/report';
@@ -27,7 +27,7 @@ async function main() {
 					assignedAdmindId: faker.helpers.maybe(() =>
 						faker.helpers.arrayElement(admins.map((x) => x.id))
 					),
-					status: faker.helpers.arrayElement(['active', 'inprogress', 'closed'] as const),
+					status: faker.helpers.arrayElement(statusList),
 					summary: faker.helpers.maybe(() => faker.lorem.paragraphs(10))
 				}),
 				{ count: 200 }

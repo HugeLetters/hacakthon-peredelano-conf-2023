@@ -9,6 +9,7 @@ import {
 	FROM_HEADER,
 	IN_REPLY_TO_HEADER,
 	REFERENCES_HEADER,
+	UNREAD_LABEL,
 	decodeMessage,
 	getLastIncomingMessage,
 	getReplyData,
@@ -105,7 +106,8 @@ export const threadRouter = router({
 						  )?.value ?? GMAIL_EMAIL_ADDRESS
 						: null,
 					id: data.id,
-					snippet: data.snippet ?? data.messages?.at(-1)?.snippet
+					snippet: data.snippet ?? data.messages?.at(-1)?.snippet,
+					unread: !!data.messages?.find((message) => message.labelIds?.includes(UNREAD_LABEL))
 				}));
 			})
 			.catch(throwInternalError);
@@ -145,5 +147,11 @@ export const threadRouter = router({
 						replyData
 					};
 				});
-		})
+		}),
+	markThreadAsRead: adminProcedure.input(z.object({ threadId: z.string() })).mutation(({ input }) =>
+		gmail.users.threads
+			.modify({ userId, requestBody: { removeLabelIds: [UNREAD_LABEL] }, id: input.threadId })
+			.then(() => void 0)
+			.catch(throwInternalError)
+	)
 });

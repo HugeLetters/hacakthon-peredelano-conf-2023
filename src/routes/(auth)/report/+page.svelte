@@ -1,12 +1,9 @@
 <script lang="ts">
+	import Initial from '$lib/components/Initial.svelte';
+
 	export let data;
 
 	const reportListQuery = data.trpc.report.getUserReportList.query();
-
-	function getInitials(name: string) {
-		const [first, second] = name.split(/[\s_+.-]/);
-		return (first && second ? `${first.at(0)}${second.at(0)}` : name.slice(0, 2)).toUpperCase();
-	}
 </script>
 
 {#if $reportListQuery.isSuccess}
@@ -16,7 +13,7 @@
 				<div>
 					<div class="user">
 						<div class="image">
-							{getInitials(report.authorName)}
+							<Initial name={report.authorName} color="gray" />
 						</div>
 
 						<div class="nameAndDate">
@@ -68,15 +65,9 @@
 		align-items: center;
 	}
 	.image {
-		display: flex;
-		justify-content: center;
-		align-items: center;
 		width: 2.5rem;
 		height: 2.5rem;
 		margin-right: 10px;
-		border-radius: 99999px;
-		background-color: gray;
-		color: white;
 	}
 	.nameAndDate {
 		display: flex;

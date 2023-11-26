@@ -1,10 +1,8 @@
 <script lang="ts">
-	import Report from '$lib/pages/Report/index.svelte';
-	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import Report from '$lib/pages/Report/index.svelte';
 
 	export let data;
-	const caseId = $page.params.id;
 	const report = data.trpc.report.getUserReport.query(
 		{ reportId: data.reportId },
 		{

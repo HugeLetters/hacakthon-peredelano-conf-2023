@@ -90,15 +90,6 @@
 		border-radius: 16px;
 		border: 1px solid #8d8d8d;
 	}
-	.check {
-		display: flex;
-		position: absolute;
-		left: 2px;
-		top: 50%;
-		z-index: 20;
-		translate: 0 calc(-50% + 1px);
-		color: $custom-red;
-	}
 	.chevron {
 		width: 24px;
 		height: 24px;
@@ -115,9 +106,10 @@
 		padding: 1rem;
 		border-radius: 1rem;
 		box-shadow: 0 0 5px #0003;
-		overflow-y: scroll;
+		overflow-y: auto;
 	}
 	.optionButton {
+		padding: 10px 0;
 		border: none;
 		transition: background-color 150ms;
 		text-align: left;
@@ -144,7 +136,7 @@
 			border: 2px solid #949894;
 			position: absolute;
 			right: 0;
-			top: 0;
+			top: 10px;
 		}
 	}
 	.filter {
