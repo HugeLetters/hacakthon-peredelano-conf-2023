@@ -4,9 +4,9 @@
 	import Bank from '$lib/icons/bank.svelte';
 	import Paper from '$lib/icons/paper.svelte';
 
-	export let category: Category;
+	export let category: Category | string;
 
-	function iconByCategory(category: Category) {
+	function iconByCategory(category: Category | string) {
 		switch (category) {
 			case 'Банкинг':
 				return Bank;
