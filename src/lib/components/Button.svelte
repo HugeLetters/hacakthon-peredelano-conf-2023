@@ -10,7 +10,7 @@
 <style lang="scss">
 	.submit {
 		border: none;
-		background-color: gray;
+		background-color: #8fa5fb;
 		color: white;
 		padding: 1rem;
 		border-radius: 1rem;

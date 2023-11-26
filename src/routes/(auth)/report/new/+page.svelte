@@ -34,6 +34,7 @@
 		});
 	}}
 >
+	<div class="formTitle">Жалоба</div>
 	<WithLabel label="Как к вам обращаться">
 		<Input placeholder="Имя" bind:value={name} />
 	</WithLabel>
@@ -84,6 +85,16 @@
 		justify-content: center;
 		gap: 1rem;
 	}
+
+	.formTitle {
+		padding: 16px 0;
+		border-radius: 16px;
+		background: #f2f6ff;
+		font-size: 28px;
+		line-height: 42px;
+		text-align: center;
+	}
+
 	.error {
 		background-color: hsla(0, 70%, 60%, 90%);
 		color: white;
