@@ -1,11 +1,10 @@
 <script lang="ts">
-	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
-	import Initial from '$lib/components/Initial.svelte';
 	import Filter from '$lib/icons/filter.svelte';
+	import SmallCase from '$lib/components/SmallCase.svelte';
 	import type { CaseStatus } from '$lib/options.js';
 	import { createDialog, melt } from '@melt-ui/svelte';
-	import type { Action } from 'svelte/action';
 	import { fly } from 'svelte/transition';
+	import type { Action } from 'svelte/action';
 
 	export let data;
 
@@ -66,37 +65,9 @@
 		{@const cases = $cases.data.pages.flatMap((x) => x)}
 		{#each cases as { id, name, reports, assignedAdminName } (id)}
 			{@const report = reports[0]}
-
-			<a href="/case/{id}" class="case" use:observer={{ active: id === cases.at(-10)?.id }}>
-				<div class="caseInfo">
-					<div class="caseName">{name}</div>
-					<div class="caseProps">
-						{#if report}
-							{@const { category, country, createdAt } = report}
-							{#if category}
-								<div class="caseProp">
-									<CategoryIcon {category} />
-								</div>
-							{/if}
-							{#if country}
-								<div class="caseProp">
-									{country}
-								</div>
-							{/if}
-							{#if createdAt}
-								<div class="caseProp">
-									{new Date(createdAt).toLocaleDateString('ru')}
-								</div>
-							{/if}
-						{/if}
-					</div>
-				</div>
-				{#if assignedAdminName}
-					<div class="caseAssignee">
-						<Initial name={assignedAdminName} />
-					</div>
-				{/if}
-			</a>
+			<div use:observer={{ active: id === cases.at(-10)?.id }}>
+				<SmallCase href={`/case/${id}`} {name} {report} {assignedAdminName} />
+			</div>
 		{/each}
 	{/if}
 	{#if $open}
@@ -158,45 +129,6 @@
 		flex-direction: column;
 		gap: 6px;
 		padding: 16px 16px;
-	}
-
-	.case {
-		display: flex;
-		justify-content: space-between;
-		gap: 10px;
-		padding: 12px;
-		border-radius: 16px;
-		background: #f2f6ff;
-	}
-
-	.caseInfo {
-		display: flex;
-		flex-direction: column;
-		overflow: hidden;
-	}
-
-	.caseName,
-	.caseAssignee {
-		overflow: hidden;
-		white-space: nowrap;
-		text-overflow: ellipsis;
-	}
-
-	.caseProps {
-		height: 1rem;
-		display: flex;
-		gap: 6px;
-	}
-
-	.caseProp {
-		font-size: 12px;
-		line-height: 18px;
-		color: #8d8d8d;
-	}
-
-	.caseAssignee {
-		width: 36px;
-		height: 36px;
 	}
 
 	.popover {
