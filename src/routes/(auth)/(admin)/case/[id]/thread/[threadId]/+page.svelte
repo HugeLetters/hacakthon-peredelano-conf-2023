@@ -1,18 +1,25 @@
 <script lang="ts">
 	import Textarea from '$lib/components/Textarea.svelte';
 	import Send from '$lib/icons/Send.svelte';
-	import { onMount } from 'svelte';
 
 	export let data;
 
-	const threadInfo = data.trpc.thread.getThreadEmailList.query({ threadId: data.threadId });
+	const threadInfo = data.trpc.thread.getThreadEmailList.query(
+		{ threadId: data.threadId },
+		{
+			select(res) {
+				if (res.unread) {
+					$markAsRead.mutate({ threadId: data.threadId });
+				}
+
+				return res;
+			}
+		}
+	);
 	const markAsRead = data.trpc.thread.markThreadAsRead.mutation({
 		onSuccess() {
 			data.trpc.thread.getThreadList.utils.invalidate({ caseId: data.caseId });
 		}
-	});
-	onMount(() => {
-		$markAsRead.mutate({ threadId: data.threadId });
 	});
 
 	const sendReply = data.trpc.thread.reply.mutation({

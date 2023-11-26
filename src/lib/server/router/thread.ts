@@ -143,7 +143,8 @@ export const threadRouter = router({
 
 					return {
 						messages,
-						replyData
+						replyData,
+						unread: !!data.messages?.find((message) => message.labelIds?.includes(UNREAD_LABEL))
 					};
 				});
 		}),

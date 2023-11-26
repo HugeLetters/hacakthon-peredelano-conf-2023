@@ -66,5 +66,15 @@ export const reportRouter = router({
 						throw new TRPCError({ code: 'BAD_REQUEST', message: 'Such report does not exist' });
 					}
 				}, throwInternalError)
-		)
+		),
+	markAsRead: reportProcedure.mutation(({ ctx, input }) =>
+		db
+			.update(Report)
+			.set(ctx.session.user.role === 'admin' ? { isReadByAdmin: true } : { isReadByUser: true })
+			.where(eq(Report.id, input.reportId))
+			.returning()
+			.get()
+			.then(() => void 0)
+			.catch(throwInternalError)
+	)
 });

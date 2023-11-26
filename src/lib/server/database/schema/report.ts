@@ -24,7 +24,9 @@ export const Report = sqliteTable(
 			.notNull(),
 		caseId: createUuidColumn('case_id')
 			.references(() => Case.id)
-			.notNull()
+			.notNull(),
+		isReadByAdmin: integer('is-read-by-admin', { mode: 'boolean' }),
+		isReadByUser: integer('is-read-by-user', { mode: 'boolean' })
 	},
 	(table) => ({
 		categoryIndex: index('report_category_index').on(table.category),

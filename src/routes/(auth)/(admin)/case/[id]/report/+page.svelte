@@ -3,7 +3,7 @@
 	import ChatBubble from '$lib/icons/SpeechBubble.svelte';
 	export let data;
 
-	const chatListQuery = data.trpc.case.caseChatList.query({ caseId: data.caseId });
+	const reportList = data.trpc.case.caseChatList.query({ caseId: data.caseId });
 
 	const formatter = new Intl.DateTimeFormat('ru', {
 		day: '2-digit',
@@ -12,25 +12,32 @@
 	});
 </script>
 
-{#if $chatListQuery.isSuccess}
+{#if $reportList.isSuccess}
 	<div class="chats">
-		{#each $chatListQuery.data as chat}
-			<a class="report" href="/case/{data.caseId}/report/{chat.id}/info">
+		{#each $reportList.data as report}
+			<a class="report" href="/case/{data.caseId}/report/{report.id}/info">
 				<div>
 					<div class="user">
 						<div class="image">
-							<Initial name={chat.authorName} />
+							<Initial name={report.authorName} />
 						</div>
 
 						<div class="nameAndDate">
-							<span class="authorName">{chat.authorName}</span>
+							<span class="authorName">{report.authorName}</span>
 							<span class="date">
-								{formatter.format(new Date(chat.createdAt))}
+								{formatter.format(new Date(report.createdAt))}
 							</span>
 						</div>
 					</div>
 				</div>
-				<a href="/case/{data.caseId}/report/{chat.id}" class="chatLink link">
+				<a
+					href="/case/{data.caseId}/report/{report.id}"
+					class="chatLink link {(
+						data.session.user.role === 'admin' ? report.isReadByAdmin : report.isReadByUser
+					)
+						? ''
+						: 'unread'}"
+				>
 					<ChatBubble />
 				</a>
 			</a>
@@ -75,6 +82,9 @@
 	.link {
 		margin-top: 8px;
 		cursor: pointer;
+		&.unread {
+			color: $green;
+		}
 	}
 	.chatLink {
 		margin-top: 0;

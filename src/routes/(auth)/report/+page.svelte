@@ -32,7 +32,15 @@
 						<div>{dateFormatter.format(new Date(report.createdAt))}</div>
 					</div>
 				</a>
-				<a href="/report/{report.id}" class="chatLink" aria-label="Открыть чат по жалобе">
+				<a
+					href="/report/{report.id}"
+					class="chatLink {(
+						data.session.user.role === 'admin' ? report.isReadByAdmin : report.isReadByUser
+					)
+						? ''
+						: 'unread'}"
+					aria-label="Открыть чат по жалобе"
+				>
 					<SpeechBubble width="100%" height="100%" />
 				</a>
 			</div>
@@ -89,6 +97,9 @@
 		color: $violet;
 		font-size: 0.75rem;
 		height: 2rem;
+		&.unread {
+			color: $green;
+		}
 	}
 	.noReports {
 		display: flex;

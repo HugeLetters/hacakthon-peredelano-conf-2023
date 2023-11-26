@@ -47,7 +47,9 @@ async function main() {
 					content: faker.lorem.paragraphs(5),
 					creatorId: faker.helpers.arrayElement(users.map((x) => x.id)),
 					country: faker.helpers.maybe(() => faker.helpers.arrayElement(countryCodeList)),
-					organization: faker.helpers.maybe(faker.company.name)
+					organization: faker.helpers.maybe(faker.company.name),
+					isReadByAdmin: faker.helpers.maybe(() => true),
+					isReadByUser: faker.helpers.maybe(() => true)
 				}),
 				{ count: 2000 }
 			)

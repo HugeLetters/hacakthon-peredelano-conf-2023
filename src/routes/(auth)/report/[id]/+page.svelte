@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
 	import Messages from '$lib/components/Messages.svelte';
 	import Textarea from '$lib/components/Textarea.svelte';
@@ -8,8 +9,27 @@
 
 	const chat = data.trpc.message.getChat.query(
 		{ reportId: data.reportId },
-		{ refetchInterval: 10000 }
+		{
+			refetchInterval: 10000,
+			select(res) {
+				if (!res) {
+					goto('/report');
+					throw Error('No such report exists');
+				}
+
+				if (!res.read) {
+					$markAsRead.mutate({ reportId: data.reportId });
+				}
+
+				return res;
+			}
+		}
 	);
+	const markAsRead = data.trpc.report.markAsRead.mutation({
+		onSuccess() {
+			data.trpc.report.getUserReportList.utils.invalidate();
+		}
+	});
 	const sendMessage = data.trpc.message.send.mutation({
 		onSuccess() {
 			data.trpc.message.getChat.utils.invalidate({ reportId: data.reportId });
@@ -21,7 +41,7 @@
 
 <div class="chat">
 	{#if $chat.isSuccess}
-		<Messages messages={$chat.data} currUserId={data.session.user.userId} />
+		<Messages messages={$chat.data.messages} currUserId={data.session.user.userId} />
 	{/if}
 	<form
 		on:submit|preventDefault={() => {
