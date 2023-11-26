@@ -12,7 +12,7 @@
 <header class="root">
 	<div class="user">
 		<div class="initials">
-			<Initial name={data.session.user.name} color="rgba(143, 165, 251, 1)" />
+			<Initial name={data.session.user.name} />
 		</div>
 		<div class="userdata">
 			<div>{data.session.user.name}</div>
