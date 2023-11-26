@@ -25,7 +25,7 @@
 		country={$report.data?.country}
 		createdAt={$report.data?.createdAt}
 		content={$report.data?.content}
-		chatLink={`/report/{reportId}`}
+		chatLink={`/report/${data.reportId}`}
 		organization={$report.data?.organization}
 	/>
 {/if}

@@ -25,6 +25,7 @@
 	{/if}
 	<form
 		on:submit|preventDefault={() => {
+			if (!message) return;
 			$sendMessage.mutate({ content: message, reportId: data.reportId });
 			message = '';
 		}}

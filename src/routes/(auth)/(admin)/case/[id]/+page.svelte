@@ -25,6 +25,7 @@
 					goto('/dashboard');
 					throw Error('No such case exists');
 				}
+				caseSummary = data.summary ?? '';
 				return data;
 			}
 		}

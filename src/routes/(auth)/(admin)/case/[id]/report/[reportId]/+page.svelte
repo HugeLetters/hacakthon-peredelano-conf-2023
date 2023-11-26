@@ -26,14 +26,15 @@
 	<form
 		class="form"
 		on:submit|preventDefault={() => {
+			if (!message) return;
 			$sendMessage.mutate({ content: message, reportId: data.reportId });
 			message = '';
 		}}
 	>
 		<WithLabel label="Ответить">
 			<Textarea bind:value={message} placeholder="Сообщение" />
+			<Button>Отправить</Button>
 		</WithLabel>
-		<Button>Отправить</Button>
 	</form>
 </div>
 
