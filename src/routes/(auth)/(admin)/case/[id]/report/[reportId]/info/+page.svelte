@@ -4,7 +4,6 @@
 	import { goto } from '$app/navigation';
 
 	export let data;
-
 	const caseId = $page.params.id;
 	const report = data.trpc.report.getUserReport.query(
 		{ reportId: data.reportId },
@@ -18,10 +17,15 @@
 			}
 		}
 	);
+	const reassignMutation = data.trpc.report.reassignToCase.mutation();
 </script>
 
 {#if $report.isSuccess}
 	<Report
+		reassingReport={(newCaseId) => {
+			$reassignMutation.mutate({ caseId: newCaseId, reportId: data.reportId });
+		}}
+		reportId={data.reportId}
 		authorName={$report.data?.authorName}
 		category={$report.data?.category}
 		country={$report.data?.country}
@@ -29,7 +33,7 @@
 		content={$report.data?.content}
 		chatLink={`/case/{caseId}/report/{reportId}`}
 		organization={$report.data?.organization}
-		/>
+	/>
 {/if}
 
 <style lang="scss">
