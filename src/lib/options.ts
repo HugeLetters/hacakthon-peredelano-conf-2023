@@ -4,7 +4,7 @@ export type CaseStatus = (typeof statusList)[number];
 export type UserRole = (typeof roleList)[number];
 
 export const roleList = ['basic', 'admin'] as const;
-export const statusList = ['active', 'closed'] as const;
+export const statusList = ['active', 'inprogress', 'closed'] as const;
 export const categoryList = ['Банк', 'ВНЖ', 'Авиалиния'] as const;
 export const countryList = [
 	'AF',
