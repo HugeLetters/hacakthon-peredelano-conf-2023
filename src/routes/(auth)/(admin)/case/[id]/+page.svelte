@@ -22,8 +22,9 @@
 				if (!data) {
 					goto('/dashboard');
 					throw Error('No such case exists');
+				} else {
+					caseSummary = data.summary ?? '';
 				}
-				caseSummary = data.summary ?? '';
 				return data;
 			}
 		}
@@ -54,34 +55,60 @@
 	function getUniqueValues<T>(arr: T[]) {
 		return [...new Set(arr.filter((x): x is NonNullable<T> => !!x))];
 	}
+
+	function formatDate(dateNumber: number | undefined) {
+		if (!dateNumber) return null;
+
+		const date = new Date(dateNumber);
+
+		return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(
+			2,
+			'0'
+		)}`;
+	}
 </script>
 
 {#if $caseInfo.isSuccess}
 	{@const caseData = $caseInfo.data}
 	<div class="aboutCase">
-		<div class="statusWrapper">
-			<button
-				class="status active"
-				type="button"
-				on:click={() => {
-					isButtonStatusesOpened = !isButtonStatusesOpened;
-				}}
-			>
-				{statuses.find(({ value }) => {
-					return value === caseData.status;
-				})?.name}
-			</button>
-			{#if isButtonStatusesOpened}
-				<div class="changeStatusButtons">
-					{#each statuses as status}
-						{#if status.value !== caseData.status}
-							<button class="status" type="button" on:click={() => changeStatus(status.value)}>
-								{status.name}
-							</button>
-						{/if}
-					{/each}
+		<div class="caseHeader">
+			<div class="props">
+				{#each getUniqueValues(caseData.reports.map((x) => x.category)) as category}
+					<div class="prop">
+						<CategoryIcon {category} />
+					</div>
+				{/each}
+				{#each getUniqueValues(caseData.reports.map((x) => x.country)).filter((val, index) => index < 2) as country}
+					<div class="prop">{country}</div>
+				{/each}
+				<div class="prop">
+					{formatDate(caseData.reports[0]?.createdAt)}
 				</div>
-			{/if}
+			</div>
+			<div class="statusWrapper">
+				<button
+					class="status highlighted {isButtonStatusesOpened ? 'active' : ''}"
+					type="button"
+					on:click={() => {
+						isButtonStatusesOpened = !isButtonStatusesOpened;
+					}}
+				>
+					{statuses.find(({ value }) => {
+						return value === caseData.status;
+					})?.name}
+				</button>
+				{#if isButtonStatusesOpened}
+					<div class="changeStatusButtons">
+						{#each statuses as status}
+							{#if status.value !== caseData.status}
+								<button class="status" type="button" on:click={() => changeStatus(status.value)}>
+									{status.name}
+								</button>
+							{/if}
+						{/each}
+					</div>
+				{/if}
+			</div>
 		</div>
 		<div>
 			<h4>Содержание</h4>
@@ -130,9 +157,18 @@
 		display: grid;
 		gap: 16px;
 	}
+
+	.caseHeader {
+		display: flex;
+		justify-content: space-between;
+
+		.prop {
+			color: #b6b6b6;
+		}
+	}
 	h4 {
 		font-size: 17px;
-		color: #8d8d8d;
+		color: #8fa5fb;
 		margin-bottom: 8px;
 	}
 	.summary {
@@ -158,24 +194,30 @@
 		position: relative;
 	}
 	.status {
+		width: 100px;
 		padding: 6px 16px;
-		background: #6f6f6f;
 		border: none;
-		border-radius: 16px;
 		font-size: 12px;
 		line-height: 18px;
 
+		&.highlighted {
+			border-radius: 16px;
+			background: #9da5b5;
+			color: #fff;
+		}
+
 		&.active {
-			background: #8d8d8d;
+			border-radius: 16px 16px 0 0;
 		}
 	}
 
 	.changeStatusButtons {
 		display: flex;
 		flex-direction: column;
-		gap: 10px;
 		position: absolute;
 		top: 30px;
+		border-radius: 0 0 16px 16px;
+		background: #9da5b5;
 	}
 	.props {
 		display: flex;
