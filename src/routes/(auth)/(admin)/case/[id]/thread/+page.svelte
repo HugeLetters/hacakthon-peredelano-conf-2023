@@ -10,7 +10,7 @@
 
 <div
 	class="root"
-	transition:pageFly|global={{ x: 200 * ($pageTransitionDirectionStore === 'left' ? 1 : -1) }}
+	transition:pageFly={{ x: 200 * ($pageTransitionDirectionStore === 'left' ? 1 : -1) }}
 >
 	{#if $threadList.isSuccess}
 		<div class="cardList">
