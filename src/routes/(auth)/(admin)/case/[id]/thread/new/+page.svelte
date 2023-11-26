@@ -36,7 +36,7 @@
 	<hr class="break" />
 	<label class="input">
 		<span class="label">Cc</span>
-		<input placeholder="cc1@mail.com, cc2@mail.com" bind:value={to} />
+		<input placeholder="cc1@mail.com, cc2@mail.com" bind:value={cc} />
 	</label>
 	<hr class="break" />
 	<input placeholder="Тема письма" bind:value={subject} required />
