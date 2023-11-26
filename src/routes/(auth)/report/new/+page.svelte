@@ -11,9 +11,10 @@
 
 	let name: string = '';
 	let content: string = '';
-	let category: Category = 'Банк';
+	let category: Category;
 	let country: CountryCode;
 	let organization: string = '';
+	let error: boolean = false;
 
 	const createReportMutation = data.trpc.report.create.mutation({
 		onSuccess(data) {
@@ -25,6 +26,11 @@
 <form
 	class="form"
 	on:submit|preventDefault={() => {
+		if (!(category && content && name)) {
+			error = true;
+			return;
+		}
+
 		$createReportMutation.mutate({
 			category,
 			content,
@@ -36,11 +42,11 @@
 >
 	<div class="formTitle">Жалоба</div>
 	<WithLabel label="Как к вам обращаться">
-		<Input placeholder="Имя" bind:value={name} required />
+		<Input placeholder="Имя" required bind:value={name} />
 	</WithLabel>
 	<WithLabel label="Суть жалобы">
 		<div class="textarea">
-			<Textarea placeholder="Опишите суть проблемы" bind:value={content} required />
+			<Textarea placeholder="Опишите суть проблемы" required bind:value={content} />
 		</div>
 	</WithLabel>
 	<WithLabel label="Категория">
@@ -71,9 +77,9 @@
 			maxlength={50}
 		/>
 	</WithLabel>
-	{#if $createReportMutation.isError}
+	{#if $createReportMutation.isError || error}
 		<div class="error">
-			{$createReportMutation.error.message}
+			{$createReportMutation.error?.message || 'Выберите категорию'}
 		</div>
 	{/if}
 	<Button>Отправить</Button>

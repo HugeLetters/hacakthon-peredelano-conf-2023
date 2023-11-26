@@ -121,11 +121,13 @@
 		justify-content: space-between;
 		border-radius: 0.75rem;
 
-		&[data-highlighted] {
+		&[data-highlighted],
+		&[data-selected] {
 			background-color: #8883;
 		}
 
-		&[data-highlighted]::after {
+		&[data-highlighted]::after,
+		&[data-selected]::after {
 			border-color: $green;
 			background: radial-gradient(circle, $green 50%, white 50%);
 		}
