@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { pageFly } from '$lib/hooks';
 	import Plus from '$lib/icons/Plus.svelte';
 	import Temple from '$lib/icons/Temple.svelte';
 
@@ -7,7 +8,7 @@
 	const threadList = data.trpc.thread.getThreadList.query({ caseId: data.caseId });
 </script>
 
-<div class="root">
+<div class="root" transition:pageFly|global={{ x: 200 }}>
 	{#if $threadList.isSuccess}
 		<div class="cardList">
 			{#each $threadList.data as thread (thread.id)}
@@ -40,6 +41,9 @@
 	.root {
 		position: relative;
 		height: 100%;
+		width: 100%;
+		// uhm this fixes fixed position of a new thread button for whatever reason
+		transform: translate(0px);
 	}
 	.cardList {
 		display: flex;
@@ -94,8 +98,8 @@
 		color: white;
 		border-radius: 99999px;
 		position: fixed;
-		bottom: 1rem;
-		right: 1rem;
+		bottom: 0;
+		right: 0;
 		height: 4rem;
 		width: 4rem;
 		padding: 0.5rem;

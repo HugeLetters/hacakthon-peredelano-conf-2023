@@ -43,11 +43,17 @@
 		</div>
 		<Tabs value={currentTab} {tabs} />
 		<div class="divider"></div>
-		<slot />
+		<div class="slot">
+			<slot />
+		</div>
 	</div>
 {/if}
 
 <style lang="scss">
+	.slot {
+		position: relative;
+		height: 100%;
+	}
 	.wrapper {
 		padding: 1rem;
 		display: flex;

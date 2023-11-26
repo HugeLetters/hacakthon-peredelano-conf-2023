@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Initial from '$lib/components/Initial.svelte';
+	import { pageFly } from '$lib/hooks';
 	import ChatBubble from '$lib/icons/SpeechBubble.svelte';
 	export let data;
 
@@ -13,7 +14,7 @@
 </script>
 
 {#if $reportList.isSuccess}
-	<div class="chats">
+	<div class="chats" transition:pageFly|global={{ x: 200 }}>
 		{#each $reportList.data as report}
 			<div class="report">
 				<a class="reportLeft" href="/case/{data.caseId}/report/{report.id}/info">
