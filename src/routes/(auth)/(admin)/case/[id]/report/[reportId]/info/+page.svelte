@@ -3,6 +3,7 @@
 	import Report from '$lib/pages/Report/index.svelte';
 
 	export let data;
+	console.log(data);
 	const report = data.trpc.report.getUserReport.query(
 		{ reportId: data.reportId },
 		{
