@@ -2,6 +2,10 @@
 	export let data;
 
 	const chatListQuery = data.trpc.case.caseChatList.query({ caseId: data.caseId });
+	function getInitials(name: string) {
+		const [first, second] = name.split(/[\s_+.-]/);
+		return (first && second ? `${first.at(0)}${second.at(0)}` : name.slice(0, 2)).toUpperCase();
+	}
 </script>
 
 {#if $chatListQuery.isSuccess}
@@ -11,23 +15,7 @@
 				<div>
 					<div class="user">
 						<div class="image">
-							<svg
-								width="36"
-								height="36"
-								viewBox="0 0 36 36"
-								fill="none"
-								xmlns="http://www.w3.org/2000/svg"
-							>
-								<circle cx="18" cy="18" r="18" fill="#8D8D8D" />
-								<path
-									d="M16.0605 23.3188V15.8042H15.936L10.8311 23.3188H9V12.75H10.8823V20.2793H11.0068L16.1045 12.75H17.9355V23.3188H16.0605Z"
-									fill="white"
-								/>
-								<path
-									d="M22.2786 23.3188H20.3816V12.75H26.9954V14.3906H22.2786V23.3188Z"
-									fill="white"
-								/>
-							</svg>
+							{getInitials(chat.authorName)}
 						</div>
 
 						<div class="nameAndDate">
@@ -78,13 +66,18 @@
 	}
 	.user {
 		display: flex;
-		// flex-direction: column;
+		align-items: center;
 	}
 	.image {
-		display: block;
-		width: 36px;
-		height: 36px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 2.5rem;
+		height: 2.5rem;
 		margin-right: 10px;
+		border-radius: 99999px;
+		background-color: gray;
+		color: white;
 	}
 	.nameAndDate {
 		display: flex;
