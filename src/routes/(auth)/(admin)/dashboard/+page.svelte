@@ -3,6 +3,7 @@
 	import Filter from '$lib/icons/filter.svelte';
 	import type { CaseStatus } from '$lib/options.js';
 	import { createDialog, melt } from '@melt-ui/svelte';
+	import type { Action } from 'svelte/action';
 	import { fly } from 'svelte/transition';
 
 	export let data;
@@ -29,6 +30,28 @@
 		elements: { trigger, portalled, content },
 		states: { open }
 	} = createDialog({ forceVisible: true });
+
+	const observer: Action<HTMLElement, { active: boolean }> = (node, { active }) => {
+		if (!active) return {};
+
+		const observer = new IntersectionObserver((events) => {
+			events.forEach((event) => {
+				if (event.target !== node || !event.isIntersecting || $cases.isFetching) return;
+
+				$cases.fetchNextPage();
+			});
+		});
+		observer.observe(node);
+
+		return {
+			update(parameter) {
+				active = parameter.active;
+			},
+			destroy() {
+				observer.disconnect();
+			}
+		};
+	};
 </script>
 
 <div class="cases">
@@ -39,9 +62,11 @@
 		<div class="headerTitle">Кейсы</div>
 	</div>
 	{#if $cases.isSuccess}
-		{#each $cases.data.pages.flatMap((x) => x) as { id, name, reports, assignedAdminName } (id)}
+		{@const cases = $cases.data.pages.flatMap((x) => x)}
+		{#each cases as { id, name, reports, assignedAdminName } (id)}
 			{@const report = reports[0]}
-			<a href="/case/{id}" class="case">
+
+			<a href="/case/{id}" class="case" use:observer={{ active: id === cases.at(-10)?.id }}>
 				<div class="caseInfo">
 					<div class="caseName">{name}</div>
 					<div class="caseProps">
