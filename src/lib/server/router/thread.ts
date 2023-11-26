@@ -36,7 +36,7 @@ export const threadRouter = router({
 			message.setSender('');
 			message.setTo(input.to);
 			if (input.cc) {
-				message.setCc(input.cc);
+				message.setCc(input.cc.split(','));
 			}
 
 			return gmail.users.messages
@@ -71,7 +71,7 @@ export const threadRouter = router({
 			message.setSender('');
 			message.setTo(input.to);
 			if (input.cc) {
-				message.setCc(input.cc);
+				message.setCc(input.cc.split(','));
 			}
 			if (input.replyId) {
 				message.headers.set(REFERENCES_HEADER, input.replyId);
