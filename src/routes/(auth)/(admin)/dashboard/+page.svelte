@@ -66,7 +66,7 @@
 		{#each cases as { id, name, reports, assignedAdminName } (id)}
 			{@const report = reports[0]}
 			<div use:observer={{ active: id === cases.at(-10)?.id }}>
-				<SmallCase {id} {name} {report} {assignedAdminName} />
+				<SmallCase href={`/case/${id}`} {name} {report} {assignedAdminName} />
 			</div>
 		{/each}
 	{/if}

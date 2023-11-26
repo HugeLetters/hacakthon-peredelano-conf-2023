@@ -3,6 +3,7 @@
 	import { page } from '$app/stores';
 	import Tabs from '$lib/components/Tabs/index.svelte';
 	export let data;
+
 	const tabs = [
 		{
 			name: 'Кейс',
@@ -18,7 +19,7 @@
 		}
 	] as const;
 
-	const caseInfo = data.trpc.case.caseInfo.query(
+	$: caseInfo = data.trpc.case.caseInfo.query(
 		{ caseId: data.caseId },
 		{
 			select(data) {
@@ -73,6 +74,6 @@
 	}
 
 	.divider {
-		height: 12px;
+		min-height: 12px;
 	}
 </style>

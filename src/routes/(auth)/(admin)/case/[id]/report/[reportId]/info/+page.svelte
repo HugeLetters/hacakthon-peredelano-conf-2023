@@ -15,14 +15,24 @@
 			}
 		}
 	);
+	let filter: string;
 	const reassignMutation = data.trpc.report.reassignToCase.mutation();
+	let casesFiltered;
+
+	const searchCaseHandler = (filter: string) => {
+		casesFiltered = data.trpc.case.findManyByName.query({ filter });
+	};
+	$: searchCaseHandler(filter);
 </script>
 
 {#if $report.isSuccess}
 	<Report
+		bind:filter
+		casesFiltered={$casesFiltered.data}
 		isAdmin={data.session.user.role === 'admin'}
 		reassignReport={(newCaseId) => {
 			$reassignMutation.mutate({ caseId: newCaseId, reportId: data.reportId });
+			data.trpc.case.utils.invalidate();
 		}}
 		authorName={$report.data?.authorName}
 		category={$report.data?.category}
@@ -33,3 +43,6 @@
 		organization={$report.data?.organization}
 	/>
 {/if}
+
+<style lang="scss">
+</style>
