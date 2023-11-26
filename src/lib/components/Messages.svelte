@@ -81,6 +81,10 @@
 					border-top-left-radius: 8px;
 					border-bottom-left-radius: 8px;
 				}
+
+				&:first-child:last-child {
+					border-radius: 16px;
+				}
 			}
 
 			&.mine {
@@ -95,6 +99,10 @@
 				&:not(:first-child):not(:last-child) {
 					border-top-right-radius: 8px;
 					border-bottom-right-radius: 8px;
+				}
+
+				&:first-child:last-child {
+					border-radius: 16px;
 				}
 			}
 		}
