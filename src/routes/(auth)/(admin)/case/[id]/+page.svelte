@@ -195,6 +195,7 @@
 	}
 
 	.statusWrapper {
+		height: fit-content;
 		display: flex;
 		justify-content: space-between;
 		position: relative;
