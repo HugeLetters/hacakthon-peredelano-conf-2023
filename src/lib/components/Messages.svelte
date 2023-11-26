@@ -16,18 +16,37 @@
 			'0'
 		)}`;
 	}
+
+	$: formattedMessages = () => {
+		let formattedMessages = [[]];
+		let isMine = false;
+
+		for (const message of messages) {
+			if ((message.authorId === currUserId) !== isMine) {
+				formattedMessages.push([]);
+				isMine = !isMine;
+			}
+			formattedMessages[formattedMessages.length - 1]?.push(message);
+		}
+
+		return formattedMessages;
+	};
 </script>
 
 <div class="dateBubble">26 ноября</div>
-{#each messages as message (message.id)}
-	<div class="message {message.authorId === currUserId ? 'mine' : ''}">
-		{message.content}
-		<span class="time">
-			{formatDate(message.createdAt)}
-			<div class="time-inner">
-				{formatDate(message.createdAt)}
+{#each formattedMessages() as messageGroup}
+	<div class="messageGroup">
+		{#each messageGroup as message (message.id)}
+			<div class="message {message.authorId === currUserId ? 'mine' : ''}">
+				{message.content}
+				<span class="time">
+					{formatDate(message.createdAt)}
+					<div class="time-inner">
+						{formatDate(message.createdAt)}
+					</div>
+				</span>
 			</div>
-		</span>
+		{/each}
 	</div>
 {/each}
 
@@ -45,10 +64,46 @@
 		line-height: 16px;
 	}
 
+	.messageGroup {
+		margin-top: 8px;
+
+		.message {
+			&:not(.mine) {
+				&:first-child {
+					border-bottom-left-radius: 8px;
+				}
+
+				&:last-child {
+					border-top-left-radius: 8px;
+				}
+
+				&:not(:first-child):not(:last-child) {
+					border-top-left-radius: 8px;
+					border-bottom-left-radius: 8px;
+				}
+			}
+
+			&.mine {
+				&:first-child {
+					border-bottom-right-radius: 8px;
+				}
+
+				&:last-child {
+					border-top-right-radius: 8px;
+				}
+
+				&:not(:first-child):not(:last-child) {
+					border-top-right-radius: 8px;
+					border-bottom-right-radius: 8px;
+				}
+			}
+		}
+	}
+
 	.message {
 		width: fit-content;
 		max-width: 358px;
-		margin-top: 8px;
+		margin-top: 2px;
 		padding: 6px 12px;
 		border-radius: 16px;
 		position: relative;
@@ -56,23 +111,10 @@
 		word-break: break-word;
 		overflow: auto;
 
-		+ :not(.mine) {
-			margin-top: 2px;
-		}
-
 		&.mine {
-			margin-top: 8px;
 			margin-left: auto;
 			background: #8d8d8d;
 			color: #fff;
-
-			+ .mine {
-				margin-top: 2px;
-			}
-
-			+ :not(.mine) {
-				margin-top: 8px;
-			}
 
 			.time {
 				color: rgba(235, 235, 245, 0.6);

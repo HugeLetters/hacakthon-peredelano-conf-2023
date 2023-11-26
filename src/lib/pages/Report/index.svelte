@@ -15,8 +15,8 @@
 	export let content: string;
 	export let chatLink: string;
 	export let organization: string | null;
-	export let filter: string;
-	export let casesFiltered: [];
+	export let filter: string = '';
+	export let casesFiltered: [] = [];
 
 	function formatDate(dateNumber: number | undefined) {
 		if (!dateNumber) return null;

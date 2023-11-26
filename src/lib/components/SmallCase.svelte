@@ -2,14 +2,14 @@
 	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
 	import Initial from '$lib/components/Initial.svelte';
 
-	export let href: string;
+	export let href: string | null = null;
 	export let name: string;
 	export let report: {
 		category: string;
 		country: string;
 		createdAt: number;
 	} = { category: '', country: '', createdAt: 0 };
-	export let assignedAdminName: string | null;
+	export let assignedAdminName: string | null = null;
 </script>
 
 <svelte:element this={href ? 'a' : 'div'} {href} class="case">
