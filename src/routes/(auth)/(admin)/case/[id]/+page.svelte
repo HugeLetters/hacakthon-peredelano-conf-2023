@@ -101,8 +101,8 @@
 					<div
 						class="changeStatusButtons"
 						use:melt={$content}
-						in:slide={{ axis: 'y', delay: 200 }}
-						out:slide={{ axis: 'y' }}
+						in:slide={{ axis: 'y', delay: 200, duration: 150 }}
+						out:slide={{ axis: 'y', duration: 150 }}
 					>
 						{#each statusLabelList as status}
 							{#if status.value !== caseData.status}
@@ -224,9 +224,9 @@
 			color: white;
 		}
 
-		transition: border-radius 200ms 250ms;
+		transition: border-radius 150ms 150ms;
 		&.active {
-			transition: border-radius 200ms 0ms;
+			transition: border-radius 150ms 0ms;
 			border-radius: 1rem 1rem 0 0;
 		}
 	}
