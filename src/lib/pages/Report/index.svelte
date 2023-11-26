@@ -97,7 +97,7 @@
 </div>
 
 <div class="reportData">
-	<span>
+	<span class="categoryIcon">
 		<CategoryIcon {category} />
 	</span>
 	{#if country}
@@ -187,6 +187,11 @@
 		margin-bottom: 16px;
 		color: #8d8d8d;
 		gap: 10px;
+	}
+
+	.categoryIcon {
+		width: 32px;
+		height: 32px;
 	}
 	h4 {
 		color: #8d8d8d;

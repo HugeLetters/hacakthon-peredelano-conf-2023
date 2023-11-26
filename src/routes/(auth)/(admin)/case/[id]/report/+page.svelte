@@ -47,7 +47,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		background: #fafafa;
+		background: #f2f6ff;
 		padding: 12px 12px;
 		border-radius: 1rem;
 	}
@@ -66,7 +66,12 @@
 	}
 	.authorName {
 		font-size: 17px;
-		color: #000000;
+	}
+
+	.date {
+		color: #8fa5fb;
+		font-size: 12px;
+		line-height: 18px;
 	}
 	.date {
 		font-size: 0.75rem;
