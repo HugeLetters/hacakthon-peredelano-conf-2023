@@ -86,7 +86,4 @@
 		color: #8d8d8d;
 		font-size: 12px;
 	}
-	.caseLink {
-		margin-top: 8px;
-	}
 </style>

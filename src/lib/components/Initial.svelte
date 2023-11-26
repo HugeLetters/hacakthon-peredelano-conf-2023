@@ -18,7 +18,7 @@
 		width: 100%;
 		height: 100%;
 		border-radius: 99999px;
-		background-color: #8fa5fb;
+		background-color: $violet;
 		color: white;
 	}
 </style>
