@@ -21,7 +21,7 @@
 {#if $report.isSuccess}
 	<Report
 		isAdmin={data.session.user.role === 'admin'}
-		reassingReport={(newCaseId) => {
+		reassignReport={(newCaseId) => {
 			$reassignMutation.mutate({ caseId: newCaseId, reportId: data.reportId });
 		}}
 		authorName={$report.data?.authorName}
@@ -29,7 +29,7 @@
 		country={$report.data?.country}
 		createdAt={$report.data?.createdAt}
 		content={$report.data?.content}
-		chatLink={`/case/{caseId}/report/{reportId}`}
+		chatLink={`/case/${caseId}/report/${data.reportId}`}
 		organization={$report.data?.organization}
 	/>
 {/if}

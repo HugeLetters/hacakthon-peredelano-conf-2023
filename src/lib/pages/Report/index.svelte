@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let reassingReport: (caseId: string) => void;
+	export let reassignReport: (caseId: string) => void = () => {};
 
 	import Initial from '$lib/components/Initial.svelte';
 	import Input from '$lib/components/Input.svelte';
@@ -64,7 +64,7 @@
 				{#if isInputShown}
 					<div>
 						<Input bind:value={inputValue} placeholder="Вставь айди кейса" />
-						<button disabled={inputValue.length === 0} on:click={() => reassingReport(inputValue)}>
+						<button disabled={inputValue.length === 0} on:click={() => reassignReport(inputValue)}>
 							Привязать
 						</button>
 						<button
