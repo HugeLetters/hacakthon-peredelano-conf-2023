@@ -38,7 +38,6 @@ export const messageRouter = router({
 			.where(eq(Message.reportId, input.reportId))
 			.leftJoin(Report, eq(Report.id, Message.reportId))
 			.orderBy(asc(Message.createdAt))
-			.groupBy(Report.id)
 			.get()
 			.then((x) => x ?? null)
 			.catch(throwInternalError);
