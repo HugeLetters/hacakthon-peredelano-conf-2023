@@ -94,6 +94,7 @@ export const MESSAGE_Id_HEADER = 'Message-Id';
 export const IN_REPLY_TO_HEADER = 'In-Reply-To';
 export const REFERENCES_HEADER = 'References';
 export const CC_HEADER = 'Cc';
+export const DATE_HEADER = 'Date';
 
 export const UNREAD_LABEL = 'UNREAD';
 export const userId = 'me';
