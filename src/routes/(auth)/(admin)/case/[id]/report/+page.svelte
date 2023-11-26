@@ -15,8 +15,8 @@
 {#if $reportList.isSuccess}
 	<div class="chats">
 		{#each $reportList.data as report}
-			<a class="report" href="/case/{data.caseId}/report/{report.id}/info">
-				<div>
+			<div class="report">
+				<a class="reportLeft" href="/case/{data.caseId}/report/{report.id}/info">
 					<div class="user">
 						<div class="image">
 							<Initial name={report.authorName} />
@@ -29,14 +29,14 @@
 							</span>
 						</div>
 					</div>
-				</div>
+				</a>
 				<a href="/case/{data.caseId}/report/{report.id}" class="chatLink link">
 					<ChatBubble />
 					{#if data.session.user.role === 'admin' ? report.isReadByAdmin : report.isReadByUser}
 						<div class="unread" />
 					{/if}
 				</a>
-			</a>
+			</div>
 		{/each}
 	</div>
 {/if}
@@ -53,6 +53,9 @@
 		background: #f2f6ff;
 		padding: 12px 12px;
 		border-radius: 1rem;
+		.reportLeft {
+			flex-grow: 1;
+		}
 	}
 	.user {
 		display: flex;
