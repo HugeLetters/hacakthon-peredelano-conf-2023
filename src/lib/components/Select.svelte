@@ -111,6 +111,11 @@
 	.optionButton {
 		border: none;
 		transition: background-color 150ms;
+		border-radius: 0.5rem;
+
+		&[data-highlighted] {
+			background-color: $lightgray;
+		}
 	}
 	.filter {
 		padding: 0.25rem;

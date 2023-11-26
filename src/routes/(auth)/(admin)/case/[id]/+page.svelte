@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
 	import Textarea from '$lib/components/Textarea.svelte';
-	import Avia from '$lib/icons/avia.svelte';
-	import Bank from '$lib/icons/bank.svelte';
-	import Paper from '$lib/icons/paper.svelte';
 	import type { CaseStatus } from '$lib/options.js';
 
 	export let data;
@@ -35,17 +33,6 @@
 			data.trpc.case.caseInfo.utils.invalidate({ caseId: data.caseId });
 		}
 	});
-
-	function iconByCategory(category: string) {
-		switch (category) {
-			case 'Банк':
-				return Bank;
-			case 'ВНЖ':
-				return Paper;
-			case 'Авиалиния':
-				return Avia;
-		}
-	}
 
 	function toggleSummaryEdit() {
 		if (isSummaryEditing)
@@ -121,7 +108,7 @@
 			<div class="props">
 				{#each getUniqueValues(caseData.reports.map((x) => x.category)) as category}
 					<div class="prop">
-						<svelte:component this={iconByCategory(category)} />
+						<CategoryIcon {category} />
 						{category}
 					</div>
 				{/each}
@@ -188,7 +175,7 @@
 		flex-direction: column;
 		gap: 10px;
 		position: absolute;
-		top: 30px
+		top: 30px;
 	}
 	.props {
 		display: flex;

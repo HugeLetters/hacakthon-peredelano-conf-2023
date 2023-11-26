@@ -1,9 +1,7 @@
 <script lang="ts">
+	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
 	import Arrow from '$lib/icons/arrow.svelte';
-	import Avia from '$lib/icons/avia.svelte';
-	import Bank from '$lib/icons/bank.svelte';
 	import Filter from '$lib/icons/filter.svelte';
-	import Paper from '$lib/icons/paper.svelte';
 	import type { CaseStatus } from '$lib/options.js';
 
 	enum FilterFields {
@@ -46,17 +44,6 @@
 		if (isPopoverOpened) activefilters = selectedFilters;
 		isPopoverOpened = !isPopoverOpened;
 	}
-
-	function iconByCategory(category: string) {
-		switch (category) {
-			case 'Банк':
-				return Bank;
-			case 'ВНЖ':
-				return Paper;
-			case 'Авиалиния':
-				return Avia;
-		}
-	}
 </script>
 
 <div class="cases">
@@ -77,7 +64,7 @@
 							{@const { category, country, createdAt } = report}
 							{#if category}
 								<div class="caseProp">
-									<svelte:component this={iconByCategory(category)} />
+									<CategoryIcon {category} />
 								</div>
 							{/if}
 							{#if country}
