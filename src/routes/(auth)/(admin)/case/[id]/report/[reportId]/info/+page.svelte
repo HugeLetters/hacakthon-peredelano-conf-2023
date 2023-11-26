@@ -17,15 +17,10 @@
 	);
 	let filter: string;
 	const reassignMutation = data.trpc.report.reassignToCase.mutation();
-	let casesFiltered;
-
-	const searchCaseHandler = (filter: string) => {
-		casesFiltered = data.trpc.case.findManyByName.query({ filter });
-	};
-	$: searchCaseHandler(filter);
+	$: casesFiltered = data.trpc.case.findManyByName.query({ filter });
 </script>
 
-{#if $report.isSuccess}
+{#if $report.isSuccess && $casesFiltered.isSuccess}
 	<Report
 		bind:filter
 		casesFiltered={$casesFiltered.data}

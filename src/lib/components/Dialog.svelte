@@ -1,28 +1,31 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import type { RouterOutput } from '$lib/trpc';
 	import { createDialog, melt } from '@melt-ui/svelte';
 	import { fade } from 'svelte/transition';
 	import SmallCase from './SmallCase.svelte';
 
-	export let reassignReport: (caseId) => void;
+	export let reassignReport: (caseId: string) => void;
 	export let filter: string;
-	export let casesFiltered: [];
+	export let cases: RouterOutput['case']['findManyByName'];
+	export let portalId: string | undefined = undefined;
 
+	$: innterPortalId = $open ? portalId : undefined;
 	const {
 		elements: { trigger, content, overlay, close, portalled },
 		states: { open }
 	} = createDialog({
-		forceVisible: true
+		forceVisible: true,
+		portal: innterPortalId
 	});
-	// $: console.log(casesFiltered);
 </script>
 
 <button use:melt={$trigger} class="menuPopupText"> Привязать к другому кейсу </button>
 
-<div use:melt={$portalled}>
-	{#if $open}
-		<div use:melt={$overlay} transition:fade={{ duration: 150 }} />
-		<div class="content" use:melt={$content}>
+{#if $open}
+	<div use:melt={$portalled}>
+		<div use:melt={$overlay} />
+		<div class="content" use:melt={$content} transition:fade={{ duration: 150 }}>
 			<button use:melt={$close} aria-label="close" class="close"> X </button>
 			<div class="imputWrapper">
 				<input
@@ -48,9 +51,9 @@
 					</div>
 				{/if}
 			</div>
-			{#if casesFiltered && casesFiltered.length}
+			{#if cases && cases.length}
 				<div class="casesList">
-					{#each casesFiltered as caseData}
+					{#each cases as caseData}
 						<button
 							on:click={() => {
 								reassignReport(caseData.id);
@@ -60,21 +63,12 @@
 						>
 							<SmallCase name={caseData.name} />
 						</button>
-						<!-- <button
-							on:click={() => {
-								reassignReport(caseData.id);
-								goto(`/case/${caseData.id}`);
-							}}
-							class="case"
-						>
-							{caseData.name}
-						</button> -->
 					{/each}
 				</div>
 			{/if}
 		</div>
-	{/if}
-</div>
+	</div>
+{/if}
 
 <style lang="scss">
 	.menuPopupText {
@@ -95,7 +89,7 @@
 	.content {
 		padding: 16px 16px;
 		position: fixed;
-		top: 0;
+		inset: 0;
 		width: 0;
 		display: flex;
 		flex-direction: column;
