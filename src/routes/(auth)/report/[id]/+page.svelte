@@ -19,17 +19,29 @@
 	let message = '';
 </script>
 
-{#if $chat.isSuccess}
-	<Messages messages={$chat.data} currUserId={data.session.user.userId} />
-{/if}
-<form
-	on:submit|preventDefault={() => {
-		$sendMessage.mutate({ content: message, reportId: data.reportId });
-		message = '';
-	}}
->
-	<WithLabel label="Ответить">
-		<Textarea bind:value={message} placeholder="Сообщение" />
-		<Button>Отправить</Button>
-	</WithLabel>
-</form>
+<div class="chat">
+	{#if $chat.isSuccess}
+		<Messages messages={$chat.data} currUserId={data.session.user.userId} />
+	{/if}
+	<form
+		on:submit|preventDefault={() => {
+			$sendMessage.mutate({ content: message, reportId: data.reportId });
+			message = '';
+		}}
+	>
+		<WithLabel label="Ответить">
+			<Textarea bind:value={message} placeholder="Сообщение" />
+			<Button>Отправить</Button>
+		</WithLabel>
+	</form>
+</div>
+
+<style lang="scss">
+	.chat {
+		padding: 0.5rem;
+		background: #f6f6f6;
+		flex-basis: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+</style>
