@@ -8,16 +8,15 @@
 	export let reassignReport: (caseId: string) => void;
 	export let filter: string;
 	export let cases: RouterOutput['case']['findManyByName'];
-	export let portalId: string | undefined = undefined;
 
-	$: innterPortalId = $open ? portalId : undefined;
 	const {
 		elements: { trigger, content, overlay, close, portalled },
 		states: { open }
 	} = createDialog({
-		forceVisible: true,
-		portal: innterPortalId
+		forceVisible: true
 	});
+
+	export { open };
 </script>
 
 <button use:melt={$trigger} class="menuPopupText"> Привязать к другому кейсу </button>

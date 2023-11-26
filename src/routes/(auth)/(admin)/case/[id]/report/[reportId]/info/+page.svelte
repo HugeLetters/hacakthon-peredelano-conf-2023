@@ -20,10 +20,10 @@
 	$: casesFiltered = data.trpc.case.findManyByName.query({ filter });
 </script>
 
-{#if $report.isSuccess && $casesFiltered.isSuccess}
+{#if $report.isSuccess}
 	<Report
 		bind:filter
-		casesFiltered={$casesFiltered.data}
+		casesFiltered={$casesFiltered.data ?? []}
 		isAdmin={data.session.user.role === 'admin'}
 		reassignReport={(newCaseId) => {
 			$reassignMutation.mutate({ caseId: newCaseId, reportId: data.reportId });
