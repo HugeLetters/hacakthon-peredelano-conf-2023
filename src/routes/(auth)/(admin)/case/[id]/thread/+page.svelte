@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Plus from '$lib/icons/Plus.svelte';
+	import Temple from '$lib/icons/Temple.svelte';
 
 	export let data;
 
@@ -11,12 +12,20 @@
 		<div class="cardList">
 			{#each $threadList.data as thread (thread.id)}
 				<a href="/case/{data.caseId}/thread/{thread.id}" class="card">
-					<span class="from">
-						{thread.from}
-					</span>
-					<span class="snippet">
-						{thread.snippet}
-					</span>
+					<div class="icon">
+						<Temple width="100%" height="100%" />
+					</div>
+					<div class="cardMiddle">
+						<span class="from">
+							{thread.from}
+						</span>
+						<span class="snippet">
+							{thread.snippet}
+						</span>
+					</div>
+					{#if thread.unread}
+						<div class="unread" />
+					{/if}
 				</a>
 			{/each}
 		</div>
@@ -30,6 +39,7 @@
 <style lang="scss">
 	.root {
 		position: relative;
+		height: 100%;
 	}
 	.cardList {
 		display: flex;
@@ -38,10 +48,24 @@
 	}
 	.card {
 		display: flex;
-		flex-direction: column;
+		align-items: center;
 		background-color: #f5f5f5;
 		border-radius: 1rem;
 		padding: 1rem;
+		gap: 0.5rem;
+	}
+	.icon {
+		background-color: $violet;
+		border-radius: 9999px;
+		padding: 0.5rem;
+		width: 3rem;
+		height: 3rem;
+		flex-shrink: 0;
+	}
+	.cardMiddle {
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
 	}
 	.from {
 		overflow: hidden;
@@ -50,13 +74,23 @@
 	}
 	.snippet {
 		font-size: 0.75rem;
-		color: #8d8d8d;
+		color: $bleak-violet;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
+		width: 100%;
+		display: block;
+	}
+	.unread {
+		align-self: flex-end;
+		flex-shrink: 0;
+		width: 0.75rem;
+		height: 0.75rem;
+		background-color: $green;
+		border-radius: 9999px;
 	}
 	.newThread {
-		background-color: #8d8d8d;
+		background-color: $violet;
 		color: white;
 		border-radius: 99999px;
 		position: fixed;

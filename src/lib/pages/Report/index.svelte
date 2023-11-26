@@ -1,10 +1,11 @@
 <script lang="ts">
 	export let reassingReport: (caseId: string) => void;
 
+	import Initial from '$lib/components/Initial.svelte';
+	import Input from '$lib/components/Input.svelte';
 	import Avia from '$lib/icons/avia.svelte';
 	import Bank from '$lib/icons/bank.svelte';
 	import Paper from '$lib/icons/paper.svelte';
-	import Input from '$lib/components/Input.svelte';
 
 	export let isAdmin: boolean = false;
 	export let authorName: string;
@@ -34,20 +35,7 @@
 <div class="header">
 	<span class="name">
 		<div class="image">
-			<svg
-				width="36"
-				height="36"
-				viewBox="0 0 36 36"
-				fill="none"
-				xmlns="http://www.w3.org/2000/svg"
-			>
-				<circle cx="18" cy="18" r="18" fill="#8D8D8D" />
-				<path
-					d="M16.0605 23.3188V15.8042H15.936L10.8311 23.3188H9V12.75H10.8823V20.2793H11.0068L16.1045 12.75H17.9355V23.3188H16.0605Z"
-					fill="white"
-				/>
-				<path d="M22.2786 23.3188H20.3816V12.75H26.9954V14.3906H22.2786V23.3188Z" fill="white" />
-			</svg>
+			<Initial name={authorName} color="gray" />
 		</div>
 		{authorName}
 	</span>
@@ -179,6 +167,8 @@
 	}
 	.image {
 		margin-right: 12px;
+		width: 2.5rem;
+		height: 2.5rem;
 	}
 	.menu {
 		cursor: pointer;

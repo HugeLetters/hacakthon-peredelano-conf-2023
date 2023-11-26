@@ -90,15 +90,6 @@
 		border-radius: 16px;
 		border: 1px solid #8d8d8d;
 	}
-	.check {
-		display: flex;
-		position: absolute;
-		left: 2px;
-		top: 50%;
-		z-index: 20;
-		translate: 0 calc(-50% + 1px);
-		color: $custom-red;
-	}
 	.chevron {
 		width: 24px;
 		height: 24px;
@@ -120,11 +111,6 @@
 	.optionButton {
 		border: none;
 		transition: background-color 150ms;
-
-		&:hover,
-		:focus-within {
-			background-color: #8883;
-		}
 	}
 	.filter {
 		padding: 0.25rem;
