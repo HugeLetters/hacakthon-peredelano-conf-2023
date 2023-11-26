@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import Textarea from '$lib/components/Textarea.svelte';
 	import Avia from '$lib/icons/avia.svelte';
 	import Bank from '$lib/icons/bank.svelte';
 	import Paper from '$lib/icons/paper.svelte';
 
 	export let data;
+	let caseSummary: string = '';
+	let isSummaryEditing: boolean = false;
 
 	const caseInfo = data.trpc.case.caseInfo.query(
 		{ caseId: data.caseId },
@@ -23,6 +26,7 @@
 			data.trpc.case.caseInfo.utils.invalidate({ caseId: data.caseId });
 		}
 	});
+
 	function iconByCategory(category: string) {
 		switch (category) {
 			case 'Банк':
@@ -32,6 +36,15 @@
 			case 'Авиалиния':
 				return Avia;
 		}
+	}
+
+	function toggleSummaryEdit() {
+		if (isSummaryEditing)
+			$caseInfoMutation.mutate({
+				caseId: data.caseId,
+				newSummary: caseSummary
+			});
+		isSummaryEditing = !isSummaryEditing;
 	}
 
 	function getUniqueValues<T>(arr: T[]) {
@@ -48,7 +61,6 @@
 				on:click={() => {
 					$caseInfoMutation.mutate({
 						caseId: data.caseId,
-						newSummary: 'new summary',
 						newStatus: caseData.status === 'active' ? 'closed' : 'active'
 					});
 				}}
@@ -58,9 +70,23 @@
 		</div>
 		<div>
 			<h4>Содержание</h4>
-			<p class="summary">
-				{caseData?.summary || 'Пусто'}
-			</p>
+			{#if !isSummaryEditing}
+				<p class="summary" on:click={toggleSummaryEdit}>
+					{caseData?.summary || 'Пусто'}
+				</p>
+			{:else}
+				<div
+					style="
+					display: flex;
+					flex-direction: column;
+				"
+				>
+					<Textarea placeholder="Введите описание кейса" bind:value={caseSummary} />
+				</div>
+				<button class="changeSummaryButton" type="button" on:click={toggleSummaryEdit}
+					>Поменять описание</button
+				>
+			{/if}
 		</div>
 		<div>
 			<h4>Категории</h4>
@@ -97,6 +123,17 @@
 		font-size: 17px;
 		color: #000000;
 	}
+
+	.changeSummaryButton {
+		width: 100%;
+		margin-top: 16px;
+		padding: 1rem;
+		border: none;
+		border-radius: 1rem;
+		background: gray;
+		color: white;
+	}
+
 	.statusWrapper {
 		display: flex;
 		justify-content: space-between;
