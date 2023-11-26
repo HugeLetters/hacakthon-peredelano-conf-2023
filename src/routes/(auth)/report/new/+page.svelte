@@ -11,7 +11,7 @@
 
 	let name: string = '';
 	let content: string = '';
-	let category: Category;
+	let category: Category = 'Банк';
 	let country: CountryCode;
 	let organization: string = '';
 
@@ -46,6 +46,7 @@
 	<WithLabel label="Категория">
 		<Select
 			options={categoryList.map((x) => ({ value: x }))}
+			defaultValue={{ value: category }}
 			defaultLabel="Выберите категорию"
 			onChange={(value) => {
 				category = value;
