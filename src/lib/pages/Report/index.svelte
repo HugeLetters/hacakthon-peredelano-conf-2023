@@ -13,6 +13,8 @@
 	export let content: string;
 	export let chatLink: string;
 	export let organization: string | null;
+	export let filter: string;
+	export let casesFiltered: [];
 
 	$: isMenuOpen = false;
 </script>
@@ -47,7 +49,7 @@
 			</button>
 			{#if isMenuOpen}
 				<div class="menuPopup">
-					<Dialog onClick={() => (isMenuOpen = false)} {reassignReport} />
+					<Dialog {casesFiltered} bind:filter {reassignReport} />
 					<!-- <button
 						class="menuPopupText"
 						on:click={() => {
@@ -138,6 +140,8 @@
 	.menu {
 		cursor: pointer;
 		position: relative;
+		border: none;
+		cursor: pointer;
 	}
 	.menuPopup {
 		display: flex;

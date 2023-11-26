@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { createDialog, melt } from '@melt-ui/svelte';
 	import { fade } from 'svelte/transition';
 
 	export let reassignReport: (caseId) => void;
-	export let onClick: () => void;
+	export let filter: string;
+	export let casesFiltered: [];
 
 	const {
 		elements: { trigger, content, overlay, close, portalled },
@@ -11,8 +13,7 @@
 	} = createDialog({
 		forceVisible: true
 	});
-
-	let searchValue = '';
+	$: console.log(casesFiltered, '16');
 </script>
 
 <button use:melt={$trigger} class="menuPopupText"> Привязать к другому кейсу </button>
@@ -26,10 +27,24 @@
 				class="search"
 				placeholder="Введите название кейса"
 				type="search"
-				bind:value={searchValue}
+				bind:value={filter}
 			/>
 
-			<div class="casesList"></div>
+			{#if casesFiltered && casesFiltered.length}
+				<div class="casesList">
+					{#each casesFiltered as caseData}
+						<button
+							on:click={() => {
+								reassignReport(caseData.id);
+								goto(`/case/${caseData.id}`);
+							}}
+							class="case"
+						>
+							{caseData.name}
+						</button>
+					{/each}
+				</div>
+			{/if}
 		</div>
 	{/if}
 </div>
@@ -61,5 +76,20 @@
 		border-radius: 16px;
 		border: 1px solid #9da5b5;
 		padding: 12px 12px;
+	}
+	.casesList {
+		display: grid;
+		height: 500px;
+		overflow-y: scroll;
+	}
+	.case {
+		border: none;
+		text-align: left;
+		margin-bottom: 16px;
+		height: 68px;
+		background: #f2f6ff;
+		cursor: pointer;
+		padding: 12px 12px;
+		border-radius: 16px;
 	}
 </style>
