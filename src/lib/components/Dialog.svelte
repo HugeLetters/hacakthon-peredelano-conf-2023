@@ -119,7 +119,7 @@
 	.casesList {
 		display: grid;
 		gap: 16px;
-		height: 500px;
+		// height: 500px;
 		overflow-y: scroll;
 		margin-top: 12px;
 	}
