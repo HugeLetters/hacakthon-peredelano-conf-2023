@@ -30,7 +30,7 @@
 		<button
 			class="menu"
 			on:click|stopPropagation={() => {
-				isMenuOpen = true;
+				isMenuOpen = !isMenuOpen;
 			}}
 		>
 			<svg
@@ -135,8 +135,8 @@
 		width: 64px;
 		height: 64px;
 		border-radius: 50%;
-		background: #8d8d8d;
-		position: absolute;
+		background: $violet;
+		position: fixed;
 		bottom: 16px;
 		right: 16px;
 		&:hover {
