@@ -20,6 +20,7 @@
 		min-height: 100vh;
 		max-width: 450px;
 		height: 100%;
+		margin: 0 auto;
 		position: relative;
 	}
 	.root {
