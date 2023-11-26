@@ -13,3 +13,4 @@ vite.config.ts.timestamp-*
 .idea/usage.statistics.xml
 .idea/shelf
 scripts/gmail/credentials.json
+.vercel
