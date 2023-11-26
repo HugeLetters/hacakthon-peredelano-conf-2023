@@ -43,3 +43,6 @@
 		organization={$report.data?.organization}
 	/>
 {/if}
+
+<style lang="scss">
+</style>

@@ -17,8 +17,6 @@
 	export let casesFiltered: [];
 
 	$: isMenuOpen = false;
-	$: isInputShown = false;
-	$: inputValue = '';
 
 	function formatDate(dateNumber: number | undefined) {
 		if (!dateNumber) return null;
@@ -39,35 +37,27 @@
 	{#if isAdmin}
 		<div class="menuWraper">
 			<button
-					class="menu"
-					on:click|stopPropagation={() => {
+				class="menu"
+				on:click|stopPropagation={() => {
 					isMenuOpen = !isMenuOpen;
 				}}
 			>
 				<svg
-						width="32"
-						height="32"
-						viewBox="0 0 32 32"
-						fill="none"
-						xmlns="http://www.w3.org/2000/svg"
+					width="32"
+					height="32"
+					viewBox="0 0 32 32"
+					fill="none"
+					xmlns="http://www.w3.org/2000/svg"
 				>
 					<path
-							d="M26 18C27.1 18 28 17.1 28 16C28 14.9 27.1 14 26 14C24.9 14 24 14.9 24 16C24 17.1 24.9 18 26 18ZM6 18C7.1 18 8 17.1 8 16C8 14.9 7.1 14 6 14C4.9 14 4 14.9 4 16C4 17.1 4.9 18 6 18ZM16 18C17.1 18 18 17.1 18 16C18 14.9 17.1 14 16 14C14.9 14 14 14.9 14 16C14 17.1 14.9 18 16 18Z"
-							fill="black"
+						d="M26 18C27.1 18 28 17.1 28 16C28 14.9 27.1 14 26 14C24.9 14 24 14.9 24 16C24 17.1 24.9 18 26 18ZM6 18C7.1 18 8 17.1 8 16C8 14.9 7.1 14 6 14C4.9 14 4 14.9 4 16C4 17.1 4.9 18 6 18ZM16 18C17.1 18 18 17.1 18 16C18 14.9 17.1 14 16 14C14.9 14 14 14.9 14 16C14 17.1 14.9 18 16 18Z"
+						fill="black"
 					/>
 				</svg>
 			</button>
 			{#if isMenuOpen}
 				<div class="menuPopup">
 					<Dialog {casesFiltered} bind:filter {reassignReport} />
-					<!-- <button
-						class="menuPopupText"
-						on:click={() => {
-							isCaseSearchOpen = true;
-						}}
-					>
-						Привязать к другому кейсу
-					</button> -->
 					<button class="menuPopupText disabled" disabled={true}>Удалить жалобу</button>
 				</div>
 			{/if}
@@ -82,7 +72,7 @@
 	{#if country}
 		<span>{country}</span>
 	{/if}
-	<span>{createdAt}</span>
+	<span>{formatDate(createdAt)}</span>
 </div>
 
 <div class="content">
@@ -144,21 +134,36 @@
 		width: 2.5rem;
 		height: 2.5rem;
 	}
+	.menuWraper {
+		position: relative;
+	}
 	.menu {
 		cursor: pointer;
 		position: relative;
+		border: none;
+		cursor: pointer;
 	}
 	.menuPopup {
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		gap: 10px;
 		position: absolute;
 		right: 0;
 		width: 243px;
 		min-height: 98px;
 		height: auto;
 		z-index: 2;
-		background: #f6f6f6;
+		background: $violet;
+		padding: 16px 12px;
+		border-radius: 16px;
+	}
+	.menuPopupText {
+		text-align: left;
+		border: none;
+		color: #ffffff;
+	}
+	.disabled {
+		opacity: 0.3;
 	}
 	.reportData {
 		display: flex;
