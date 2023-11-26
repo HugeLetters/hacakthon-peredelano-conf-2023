@@ -19,10 +19,12 @@
 	.outer {
 		min-height: 100vh;
 		max-width: 450px;
+		height: 100%;
 		margin: 0 auto;
 		position: relative;
 	}
 	.root {
+		height: 100%;
 		width: 100%;
 	}
 </style>

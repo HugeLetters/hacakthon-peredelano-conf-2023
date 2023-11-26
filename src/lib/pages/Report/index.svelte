@@ -8,11 +8,11 @@
 
 	export let authorName: string;
 	export let category: string;
-	export let country: string;
-	export let createdAt: string;
+	export let country: string | null;
+	export let createdAt: number;
 	export let content: string;
 	export let chatLink: string;
-	export let organization: string;
+	export let organization: string | null;
 
 	function iconByCategory(category: string) {
 		switch (category) {
@@ -88,7 +88,9 @@
 	<span>
 		<svelte:component this={iconByCategory(category)} />
 	</span>
-	<span>{country}</span>
+	{#if country}
+		<span>{country}</span>
+	{/if}
 	<span>{createdAt}</span>
 </div>
 
@@ -97,8 +99,10 @@
 	<p class="text">
 		{content}
 	</p>
-	<h4>Организация</h4>
-	<p class="text">{organization}</p>
+	{#if organization}
+		<h4>Организация</h4>
+		<p class="text">{organization}</p>
+	{/if}
 </div>
 
 <a href={chatLink} class="chatLink">
@@ -120,9 +124,6 @@
 </a>
 
 <style lang="scss">
-	.wrapper {
-		padding: 16px 16px;
-	}
 	.chatLink {
 		display: flex;
 		align-items: center;
