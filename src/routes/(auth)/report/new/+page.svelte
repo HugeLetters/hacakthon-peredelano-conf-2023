@@ -11,7 +11,7 @@
 
 	let name: string = '';
 	let content: string = '';
-	let category: Category = 'Банк';
+	let category: Category;
 	let country: CountryCode;
 	let organization: string = '';
 
@@ -36,25 +36,26 @@
 >
 	<div class="formTitle">Жалоба</div>
 	<WithLabel label="Как к вам обращаться">
-		<Input placeholder="Имя" bind:value={name} />
+		<Input placeholder="Имя" bind:value={name} required />
 	</WithLabel>
 	<WithLabel label="Суть жалобы">
 		<div class="textarea">
-			<Textarea placeholder="Опишите суть проблемы" bind:value={content} />
+			<Textarea placeholder="Опишите суть проблемы" bind:value={content} required />
 		</div>
 	</WithLabel>
 	<WithLabel label="Категория">
 		<Select
 			options={categoryList.map((x) => ({ value: x }))}
-			defaultLabel="Выбери категорию"
+			defaultLabel="Выберите категорию"
 			onChange={(value) => {
 				category = value;
 			}}
+			required
 		/>
 	</WithLabel>
 	<WithLabel label="Страна">
 		<Select
-			options={countryList.map((x) => ({ value: x }))}
+			options={countryList.map((x) => ({ value: x.code, label: x.name }))}
 			defaultLabel="В какой стране возникла проблема?"
 			onChange={(value) => {
 				country = value;

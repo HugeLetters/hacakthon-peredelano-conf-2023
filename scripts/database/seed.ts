@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { eq } from 'drizzle-orm';
-import { categoryList, countryList, statusList } from '../../src/lib/options';
+import { categoryList, countryCodeList, statusList } from '../../src/lib/options';
 import { User } from '../../src/lib/server/database/schema/auth';
 import { Case, Thread } from '../../src/lib/server/database/schema/case';
 import { Message, Report } from '../../src/lib/server/database/schema/report';
@@ -46,7 +46,7 @@ async function main() {
 					category: faker.helpers.arrayElement(categoryList),
 					content: faker.lorem.paragraphs(5),
 					creatorId: faker.helpers.arrayElement(users.map((x) => x.id)),
-					country: faker.helpers.maybe(() => faker.helpers.arrayElement(countryList)),
+					country: faker.helpers.maybe(() => faker.helpers.arrayElement(countryCodeList)),
 					organization: faker.helpers.maybe(faker.company.name)
 				}),
 				{ count: 2000 }

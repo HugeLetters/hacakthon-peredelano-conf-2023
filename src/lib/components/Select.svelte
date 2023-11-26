@@ -10,6 +10,7 @@
 	export let options: ReadonlyArray<{ value: V; label?: string }>;
 	export let onChange: (value: V) => void;
 	export let withFilter: boolean = false;
+	export let required = false;
 
 	const {
 		elements: { trigger, menu, option },
@@ -20,7 +21,8 @@
 			placement: 'bottom',
 			fitViewport: true,
 			sameWidth: true
-		}
+		},
+		required
 	});
 
 	let filter = '';
