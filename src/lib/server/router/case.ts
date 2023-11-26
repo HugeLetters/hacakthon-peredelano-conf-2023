@@ -48,7 +48,7 @@ export const caseRouter = router({
 				.select({ id: Case.id, name: Case.name, status: Case.status })
 				.from(Case)
 				.where(input?.filter ? like(Case.name, `${input.filter}%`) : undefined)
-				.orderBy(asc(Report.id), desc(Report.createdAt))
+				.orderBy(asc(Case.id), desc(Report.createdAt))
 				.limit(50)
 				.all()
 				.catch(throwInternalError)
