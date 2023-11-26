@@ -3,7 +3,6 @@
 	import Report from '$lib/pages/Report/index.svelte';
 
 	export let data;
-	console.log(data);
 	const report = data.trpc.report.getUserReport.query(
 		{ reportId: data.reportId },
 		{
@@ -22,7 +21,6 @@
 
 	const searchCaseHandler = (filter: string) => {
 		casesFiltered = data.trpc.case.findManyByName.query({ filter });
-		// console.log($casesFiltered.data);
 	};
 	$: searchCaseHandler(filter);
 </script>
@@ -34,6 +32,7 @@
 		isAdmin={data.session.user.role === 'admin'}
 		reassignReport={(newCaseId) => {
 			$reassignMutation.mutate({ caseId: newCaseId, reportId: data.reportId });
+			data.trpc.case.utils.invalidate();
 		}}
 		authorName={$report.data?.authorName}
 		category={$report.data?.category}
