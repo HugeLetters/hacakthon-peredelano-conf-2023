@@ -1,11 +1,15 @@
 <script lang="ts">
+	import type { HTMLTextareaAttributes } from 'svelte/elements';
+
 	export let value: string;
-	export let placeholder: string;
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	type $$Props = Partial<HTMLTextareaAttributes> & { value: string };
 </script>
 
 <div class="container" data-input={value}>
 	<textarea
-		{placeholder}
+		{...$$props}
 		class="textarea"
 		bind:value
 		on:input={(e) => {

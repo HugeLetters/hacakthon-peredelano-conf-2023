@@ -1,7 +1,7 @@
 import { sql } from 'drizzle-orm';
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { z } from 'zod';
-import { categoryList, countryList, type Category, type CountryCode } from '../../../options';
+import { categoryList, countryCodeList, type Category, type CountryCode } from '../../../options';
 import { User, createUserIdColumn } from './auth';
 import { Case } from './case';
 import { createUuidColumn, uuidPkColumn } from './utils';
@@ -59,4 +59,4 @@ export const Message = sqliteTable(
 );
 
 export const categorySchema = z.enum(categoryList);
-export const countrySchema = z.enum(countryList);
+export const countrySchema = z.enum(countryCodeList);
