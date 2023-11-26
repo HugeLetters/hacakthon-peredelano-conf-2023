@@ -3,6 +3,7 @@
 	import Report from '$lib/pages/Report/index.svelte';
 
 	export let data;
+	console.log(data);
 	const report = data.trpc.report.getUserReport.query(
 		{ reportId: data.reportId },
 		{
@@ -29,7 +30,7 @@
 		country={$report.data?.country}
 		createdAt={$report.data?.createdAt}
 		content={$report.data?.content}
-		chatLink={`/case/${caseId}/report/${data.reportId}`}
+		chatLink={`/case/${data.caseId}/report/${data.reportId}`}
 		organization={$report.data?.organization}
 	/>
 {/if}
