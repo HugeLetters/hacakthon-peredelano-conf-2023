@@ -50,7 +50,7 @@
 <div class="header">
 	<span class="name">
 		<div class="image">
-			<Initial name={authorName} color="gray" />
+			<Initial name={authorName} />
 		</div>
 		{authorName}
 	</span>

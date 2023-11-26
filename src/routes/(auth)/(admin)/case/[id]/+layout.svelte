@@ -4,7 +4,7 @@
 	import Tabs from '$lib/components/Tabs/index.svelte';
 	export let data;
 
-	const tabs = [
+	$: tabs = [
 		{
 			name: 'Кейс',
 			url: `/case/${data.caseId}`

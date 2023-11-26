@@ -82,7 +82,7 @@
 	}
 	.date {
 		font-size: 0.75rem;
-		color: $violet;
+		color: $bluegray;
 	}
 	.link {
 		margin-top: 8px;
