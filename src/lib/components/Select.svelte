@@ -110,7 +110,7 @@
 	.popup {
 		display: flex;
 		flex-direction: column;
-		background: white;
+		background: #fbfcff;
 		gap: 0.5rem;
 		padding: 1rem;
 		border-radius: 1rem;
@@ -120,14 +120,39 @@
 	.optionButton {
 		border: none;
 		transition: background-color 150ms;
+		text-align: left;
+		position: relative;
 
 		&:hover,
 		:focus-within {
 			background-color: #8883;
 		}
+
+		&[data-selected] {
+			&::after {
+				border-color: #579c00;
+				background: radial-gradient(circle, rgba(87, 156, 0, 1) 50%, rgba(255, 255, 255, 1) 51%);
+			}
+		}
+
+		&::after {
+			content: '';
+			display: block;
+			width: 22px;
+			height: 22px;
+			border-radius: 50%;
+			border: 2px solid #949894;
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
 	}
 	.filter {
-		padding: 0.25rem;
-		border-radius: 0.5rem;
+		padding: 12px;
+		border-radius: 16px;
+		border: 1px solid #9da5b5;
+		outline: none;
+		font-size: 17px;
+		line-height: 25.5px;
 	}
 </style>

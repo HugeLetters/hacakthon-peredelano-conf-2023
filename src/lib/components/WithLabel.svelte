@@ -14,7 +14,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
-		background-color: #f6f6f6;
+		background-color: #f2f6ff;
 		padding: 1.25rem;
 		border-radius: 1rem;
 	}
