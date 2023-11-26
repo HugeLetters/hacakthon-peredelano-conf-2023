@@ -37,7 +37,7 @@
 		justify-content: center;
 		gap: 1rem;
 		border-radius: 1rem;
-		outline: gray solid 1px;
+		outline: #9da5b5 solid 1px;
 		padding: 1rem;
 	}
 </style>

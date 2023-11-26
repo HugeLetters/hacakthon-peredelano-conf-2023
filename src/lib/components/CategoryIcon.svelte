@@ -8,11 +8,11 @@
 
 	function iconByCategory(category: Category) {
 		switch (category) {
-			case 'Банк':
+			case 'Банкинг':
 				return Bank;
 			case 'ВНЖ':
 				return Paper;
-			case 'Авиалиния':
+			case 'Перелёты':
 				return Avia;
 		}
 	}

@@ -8,11 +8,11 @@
 {#if $chatListQuery.isSuccess}
 	<div class="chats">
 		{#each $chatListQuery.data as chat}
-			<div class="report">
+			<a class="report" href="/case/{data.caseId}/report/{chat.id}/info">
 				<div>
 					<div class="user">
 						<div class="image">
-							<Initial name={chat.authorName} color="gray" />
+							<Initial name={chat.authorName} />
 						</div>
 
 						<div class="nameAndDate">
@@ -22,9 +22,6 @@
 							</span>
 						</div>
 					</div>
-					<a class="caseLink link" href="/case/{data.caseId}/report/{chat.id}/info">
-						Посмотреть жалобу
-					</a>
 				</div>
 				<a href="/case/{data.caseId}/report/{chat.id}" class="chatLink link">
 					<svg
@@ -42,7 +39,7 @@
 						/>
 					</svg>
 				</a>
-			</div>
+			</a>
 		{/each}
 	</div>
 {/if}

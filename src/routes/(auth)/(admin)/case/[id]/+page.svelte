@@ -180,7 +180,8 @@
 		border: none;
 		outline: none;
 		font-size: 17px;
-		color: #000000;
+		line-height: 25.5px;
+		text-align: left;
 	}
 
 	.changeSummaryButton {
@@ -189,7 +190,7 @@
 		padding: 1rem;
 		border: none;
 		border-radius: 1rem;
-		background: gray;
+		background: #8fa5fb;
 		color: white;
 	}
 

@@ -24,6 +24,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		margin-bottom: 12px;
 		background: #74748014;
 		border-radius: 9px;
 		padding: 2px 3px;
