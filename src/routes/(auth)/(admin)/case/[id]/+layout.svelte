@@ -2,7 +2,13 @@
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Tabs from '$lib/components/Tabs/index.svelte';
+	import { writable } from 'svelte/store';
 	export let data;
+
+	const popUpStore = writable({
+		isOpen: false
+	});
+
 	const tabs = [
 		{
 			name: 'Кейс',
