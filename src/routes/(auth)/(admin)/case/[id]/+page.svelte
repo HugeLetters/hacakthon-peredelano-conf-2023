@@ -75,91 +75,90 @@
 	} = createPopover({ forceVisible: true });
 </script>
 
-{#if $caseInfo.isSuccess}
-	{@const caseData = $caseInfo.data}
-	<div
-		class="aboutCase"
-		transition:pageFly|global={{ x: 200 * ($pageTransitionDirectionStore === 'left' ? 1 : -1) }}
-	>
-		<div class="caseHeader">
-			<div class="props">
-				{#each getUniqueValues(caseData.reports.map((x) => x.category)) as category}
+<div transition:pageFly={{ x: 200 * ($pageTransitionDirectionStore === 'left' ? 1 : -1) }}>
+	{#if $caseInfo.isSuccess}
+		{@const caseData = $caseInfo.data}
+		<div class="aboutCase">
+			<div class="caseHeader">
+				<div class="props">
+					{#each getUniqueValues(caseData.reports.map((x) => x.category)) as category}
+						<div class="prop pale">
+							<CategoryIcon {category} />
+						</div>
+					{/each}
+					{#each getUniqueValues(caseData.reports.map((x) => x.country)).filter((val, index) => index < 2) as country}
+						<div class="prop pale">{country}</div>
+					{/each}
 					<div class="prop pale">
-						<CategoryIcon {category} />
+						{formatDate(caseData.reports[0]?.createdAt)}
 					</div>
-				{/each}
-				{#each getUniqueValues(caseData.reports.map((x) => x.country)).filter((val, index) => index < 2) as country}
-					<div class="prop pale">{country}</div>
-				{/each}
-				<div class="prop pale">
-					{formatDate(caseData.reports[0]?.createdAt)}
+				</div>
+				<div class="statusWrapper" use:melt={$trigger}>
+					<button class="status highlighted {$open ? 'active' : ''}" type="button">
+						{statusLabelList.find(({ value }) => {
+							return value === caseData.status;
+						})?.label}
+					</button>
+					{#if $open}
+						<div
+							class="changeStatusButtons"
+							use:melt={$content}
+							in:slide={{ axis: 'y', delay: 200, duration: 150 }}
+							out:slide={{ axis: 'y', duration: 150 }}
+						>
+							{#each statusLabelList as status}
+								{#if status.value !== caseData.status}
+									<button class="status" type="button" on:click={() => changeStatus(status.value)}>
+										{status.label}
+									</button>
+								{/if}
+							{/each}
+						</div>
+					{/if}
 				</div>
 			</div>
-			<div class="statusWrapper" use:melt={$trigger}>
-				<button class="status highlighted {$open ? 'active' : ''}" type="button">
-					{statusLabelList.find(({ value }) => {
-						return value === caseData.status;
-					})?.label}
-				</button>
-				{#if $open}
+			<div>
+				<h4>Содержание</h4>
+				{#if !isSummaryEditing}
+					<button class="summary" on:click={toggleSummaryEdit}>
+						{caseData?.summary || 'Пусто'}
+					</button>
+				{:else}
 					<div
-						class="changeStatusButtons"
-						use:melt={$content}
-						in:slide={{ axis: 'y', delay: 200, duration: 150 }}
-						out:slide={{ axis: 'y', duration: 150 }}
-					>
-						{#each statusLabelList as status}
-							{#if status.value !== caseData.status}
-								<button class="status" type="button" on:click={() => changeStatus(status.value)}>
-									{status.label}
-								</button>
-							{/if}
-						{/each}
-					</div>
-				{/if}
-			</div>
-		</div>
-		<div>
-			<h4>Содержание</h4>
-			{#if !isSummaryEditing}
-				<button class="summary" on:click={toggleSummaryEdit}>
-					{caseData?.summary || 'Пусто'}
-				</button>
-			{:else}
-				<div
-					style="
+						style="
 					display: flex;
 					flex-direction: column;
 				"
-				>
-					<Textarea placeholder="Введите описание кейса" bind:value={caseSummary} />
-				</div>
-				<button class="changeSummaryButton" type="button" on:click={toggleSummaryEdit}
-					>Поменять описание</button
-				>
-			{/if}
-		</div>
-		<div>
-			<h4>Категории</h4>
-			<div class="props">
-				{#each getUniqueValues(caseData.reports.map((x) => x.category)) as category}
-					<div class="prop">
-						<CategoryIcon {category} />
-						{category}
+					>
+						<Textarea placeholder="Введите описание кейса" bind:value={caseSummary} />
 					</div>
-				{/each}
+					<button class="changeSummaryButton" type="button" on:click={toggleSummaryEdit}
+						>Поменять описание</button
+					>
+				{/if}
+			</div>
+			<div>
+				<h4>Категории</h4>
+				<div class="props">
+					{#each getUniqueValues(caseData.reports.map((x) => x.category)) as category}
+						<div class="prop">
+							<CategoryIcon {category} />
+							{category}
+						</div>
+					{/each}
+				</div>
+			</div>
+			<div>
+				<h4>Страны</h4>
+				<div class="props">
+					{#each getUniqueValues(caseData.reports.map((x) => x.country)) as country}
+						<div class="prop">{country}</div>
+					{/each}
+				</div>
 			</div>
 		</div>
-		<div>
-			<h4>Страны</h4>
-			<div class="props">
-				{#each getUniqueValues(caseData.reports.map((x) => x.country)) as country}
-					<div class="prop">{country}</div>
-				{/each}
-			</div>
-		</div>
-	</div>
-{/if}
+	{/if}
+</div>
 
 <style lang="scss">
 	.aboutCase {

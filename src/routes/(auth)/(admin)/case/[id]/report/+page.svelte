@@ -13,37 +13,36 @@
 	});
 </script>
 
-{#if $reportList.isSuccess}
-	<div
-		class="chats"
-		transition:pageFly|global={{ x: 200 * ($pageTransitionDirectionStore === 'left' ? 1 : -1) }}
-	>
-		{#each $reportList.data as report}
-			<div class="report">
-				<a class="reportLeft" href="/case/{data.caseId}/report/{report.id}/info">
-					<div class="user">
-						<div class="image">
-							<Initial name={report.authorName} />
-						</div>
+<div transition:pageFly={{ x: 200 * ($pageTransitionDirectionStore === 'left' ? 1 : -1) }}>
+	{#if $reportList.isSuccess}
+		<div class="chats">
+			{#each $reportList.data as report}
+				<div class="report">
+					<a class="reportLeft" href="/case/{data.caseId}/report/{report.id}/info">
+						<div class="user">
+							<div class="image">
+								<Initial name={report.authorName} />
+							</div>
 
-						<div class="nameAndDate">
-							<span class="authorName">{report.authorName}</span>
-							<span class="date">
-								{formatter.format(new Date(report.createdAt))}
-							</span>
+							<div class="nameAndDate">
+								<span class="authorName">{report.authorName}</span>
+								<span class="date">
+									{formatter.format(new Date(report.createdAt))}
+								</span>
+							</div>
 						</div>
-					</div>
-				</a>
-				<a href="/case/{data.caseId}/report/{report.id}" class="chatLink link">
-					<ChatBubble />
-					{#if data.session.user.role === 'admin' ? report.isReadByAdmin : report.isReadByUser}
-						<div class="unread" />
-					{/if}
-				</a>
-			</div>
-		{/each}
-	</div>
-{/if}
+					</a>
+					<a href="/case/{data.caseId}/report/{report.id}" class="chatLink link">
+						<ChatBubble />
+						{#if data.session.user.role === 'admin' ? report.isReadByAdmin : report.isReadByUser}
+							<div class="unread" />
+						{/if}
+					</a>
+				</div>
+			{/each}
+		</div>
+	{/if}
+</div>
 
 <style lang="scss">
 	.chats {
