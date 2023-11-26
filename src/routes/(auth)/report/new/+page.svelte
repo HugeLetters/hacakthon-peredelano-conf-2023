@@ -52,12 +52,10 @@
 	<WithLabel label="Категория">
 		<Select
 			options={categoryList.map((x) => ({ value: x }))}
-			defaultValue={{ value: category }}
 			defaultLabel="Выберите категорию"
 			onChange={(value) => {
 				category = value;
 			}}
-			required
 		/>
 	</WithLabel>
 	<WithLabel label="Страна">
