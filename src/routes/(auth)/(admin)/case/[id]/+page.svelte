@@ -121,6 +121,8 @@
 		margin-bottom: 8px;
 	}
 	.summary {
+		border: none;
+		outline: none;
 		font-size: 17px;
 		color: #000000;
 	}
