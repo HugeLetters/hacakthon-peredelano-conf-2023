@@ -71,7 +71,10 @@
 
 <style lang="scss">
 	.wrapper {
-		padding: 16px;
+		padding: 1rem;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
 	}
 	.caseMenu {
 		display: flex;

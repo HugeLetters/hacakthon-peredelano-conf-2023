@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { db } from '../database';
 import { Thread } from '../database/schema/case';
 import {
+	DATE_HEADER,
 	FROM_HEADER,
 	IN_REPLY_TO_HEADER,
 	REFERENCES_HEADER,
@@ -121,7 +122,15 @@ export const threadRouter = router({
 				.then(({ data }) => {
 					const messages =
 						data.messages
-							?.map(({ payload }) => (payload ? decodeMessage(payload) : null))
+							?.flatMap(({ payload }) => {
+								if (!payload) return null;
+								const fromEmail = payload.headers?.find((header) => header.name === FROM_HEADER)
+									?.value;
+								const from = fromEmail === GMAIL_EMAIL_ADDRESS ? 'me' : fromEmail;
+								const date = payload.headers?.find((header) => header.name === DATE_HEADER)?.value;
+
+								return decodeMessage(payload).map((message) => ({ message, from, date }));
+							})
 							.filter((message): message is NonNullable<typeof message> => !!message) ?? [];
 
 					const lastInboxMessage = data.messages ? getLastIncomingMessage(data.messages) : null;

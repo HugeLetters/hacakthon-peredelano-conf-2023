@@ -24,6 +24,7 @@
 		<Messages messages={$chat.data} currUserId={data.session.user.userId} />
 	{/if}
 	<form
+		class="form"
 		on:submit|preventDefault={() => {
 			$sendMessage.mutate({ content: message, reportId: data.reportId });
 			message = '';
@@ -40,5 +41,11 @@
 	.chat {
 		padding: 0.5rem;
 		background: #f6f6f6;
+		flex-basis: 100%;
+		display: flex;
+		flex-direction: column;
+	}
+	.form {
+		margin-top: auto;
 	}
 </style>

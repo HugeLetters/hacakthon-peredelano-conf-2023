@@ -38,7 +38,9 @@
 		<Input placeholder="Имя" bind:value={name} />
 	</WithLabel>
 	<WithLabel label="Суть жалобы">
-		<Textarea placeholder="Опишите суть проблемы" bind:value={content} />
+		<div class="textarea">
+			<Textarea placeholder="Опишите суть проблемы" bind:value={content} />
+		</div>
 	</WithLabel>
 	<WithLabel label="Категория">
 		<Select
@@ -86,5 +88,15 @@
 		font-weight: 600;
 		display: flex;
 		justify-content: center;
+	}
+	.textarea {
+		padding: 1rem;
+		outline: 1px solid gray;
+		border-radius: 1rem;
+		background-color: white;
+
+		&:focus-within {
+			outline-width: 2px;
+		}
 	}
 </style>
