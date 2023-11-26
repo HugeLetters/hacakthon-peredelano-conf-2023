@@ -5,18 +5,9 @@
 	export let data;
 
 	$: tabs = [
-		{
-			name: 'Кейс',
-			url: `/case/${data.caseId}`
-		},
-		{
-			name: 'Жалобы',
-			url: `/case/${data.caseId}/report`
-		},
-		{
-			name: 'Письма',
-			url: `/case/${data.caseId}/thread`
-		}
+		{ name: 'Кейс', url: `/case/${data.caseId}` },
+		{ name: 'Жалобы', url: `/case/${data.caseId}/report` },
+		{ name: 'Письма', url: `/case/${data.caseId}/thread` }
 	] as const;
 
 	$: caseInfo = data.trpc.case.caseInfo.query(
@@ -50,7 +41,7 @@
 		<div class="caseMenu">
 			<h1 class="caseName">Кейс: {$caseInfo.data.name}</h1>
 		</div>
-		<Tabs bind:value={currentTab} {tabs} />
+		<Tabs value={currentTab} {tabs} />
 		<div class="divider"></div>
 		<slot />
 	</div>

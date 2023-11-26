@@ -3,6 +3,8 @@
 	import Dialog from '$lib/components/Dialog.svelte';
 	import Initial from '$lib/components/Initial.svelte';
 	import type { Category } from '$lib/options';
+	import { createPopover, melt } from '@melt-ui/svelte';
+	import { fade } from 'svelte/transition';
 
 	export let reassignReport: (caseId: string) => void = () => {};
 	export let isAdmin: boolean = false;
@@ -16,8 +18,6 @@
 	export let filter: string;
 	export let casesFiltered: [];
 
-	$: isMenuOpen = false;
-
 	function formatDate(dateNumber: number | undefined) {
 		if (!dateNumber) return null;
 
@@ -26,25 +26,10 @@
 		return date.toLocaleDateString('ru');
 	}
 
-	// function handleClickOutside(event) {
-	// 	isMenuOpen = false;
-	// }
-
-	// function clickOutside(node) {
-	// 	const handleClick = (event) => {
-	// 		if (node && !node.contains(event.target) && !event.defaultPrevented) {
-	// 			node.dispatchEvent(new CustomEvent('click_outside', node));
-	// 		}
-	// 	};
-
-	// 	document.addEventListener('click', handleClick, true);
-
-	// 	return {
-	// 		destroy() {
-	// 			document.removeEventListener('click', handleClick, true);
-	// 		}
-	// 	};
-	// }
+	const {
+		elements: { trigger, content: popover },
+		states: { open }
+	} = createPopover({ forceVisible: true });
 </script>
 
 <div class="header">
@@ -56,12 +41,7 @@
 	</span>
 	{#if isAdmin}
 		<div class="menuWraper">
-			<button
-				class="menu"
-				on:click|stopPropagation={() => {
-					isMenuOpen = !isMenuOpen;
-				}}
-			>
+			<button class="menu" use:melt={$trigger}>
 				<svg
 					width="32"
 					height="32"
@@ -75,8 +55,8 @@
 					/>
 				</svg>
 			</button>
-			{#if isMenuOpen}
-				<div class="menuPopup">
+			{#if $open}
+				<div class="menuPopup" transition:fade={{ duration: 150 }} use:melt={$popover}>
 					<Dialog {casesFiltered} bind:filter {reassignReport} />
 					<button class="menuPopupText disabled" disabled={true}>Удалить жалобу</button>
 				</div>

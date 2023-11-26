@@ -7,13 +7,7 @@
 
 <div class="tabsWrapper">
 	{#each tabs as tab}
-		<a
-			href={tab.url}
-			class="tab {tab.name === value.name ? 'active' : 'tabLink'}"
-			on:click={() => {
-				value = tab;
-			}}
-		>
+		<a href={tab.url} class="tab {tab.name === value.name ? 'active' : 'tabLink'}">
 			{tab.name}
 		</a>
 	{/each}
