@@ -62,7 +62,11 @@
 		/>
 	</WithLabel>
 	<WithLabel label="Организация">
-		<Input bind:value={organization} placeholder="С какой организацией возникла проблема?" />
+		<Input
+			bind:value={organization}
+			placeholder="С какой организацией возникла проблема?"
+			maxlength={50}
+		/>
 	</WithLabel>
 	{#if $createReportMutation.isError}
 		<div class="error">
