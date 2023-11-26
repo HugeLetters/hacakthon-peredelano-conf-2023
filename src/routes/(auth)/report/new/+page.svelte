@@ -112,12 +112,12 @@
 	}
 	.textarea {
 		padding: 1rem;
-		outline: 1px solid gray;
+		border: 1px solid #9da5b5;
 		border-radius: 1rem;
 		background-color: white;
 
 		&:focus-within {
-			outline-width: 2px;
+			border-width: 2px;
 		}
 	}
 </style>

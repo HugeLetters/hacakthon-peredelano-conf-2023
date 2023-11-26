@@ -17,12 +17,20 @@
 	$: isMenuOpen = false;
 	$: isInputShown = false;
 	$: inputValue = '';
+
+	function formatDate(dateNumber: number | undefined) {
+		if (!dateNumber) return null;
+
+		const date = new Date(dateNumber);
+
+		return date.toLocaleDateString('ru');
+	}
 </script>
 
 <div class="header">
 	<span class="name">
 		<div class="image">
-			<Initial name={authorName} color="gray" />
+			<Initial name={authorName} />
 		</div>
 		{authorName}
 	</span>
@@ -95,7 +103,7 @@
 	{#if country}
 		<span>{country}</span>
 	{/if}
-	<span>{createdAt}</span>
+	<span>{formatDate(createdAt)}</span>
 </div>
 
 <div class="content">
@@ -179,12 +187,6 @@
 		margin-bottom: 16px;
 		color: #8d8d8d;
 		gap: 10px;
-
-		span {
-			&:last-child {
-				margin-left: 10px;
-			}
-		}
 	}
 	h4 {
 		color: #8d8d8d;

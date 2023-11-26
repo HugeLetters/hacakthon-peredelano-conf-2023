@@ -61,10 +61,7 @@
 
 		const date = new Date(dateNumber);
 
-		return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(
-			2,
-			'0'
-		)}`;
+		return date.toLocaleDateString('ru');
 	}
 </script>
 
@@ -175,7 +172,8 @@
 		border: none;
 		outline: none;
 		font-size: 17px;
-		color: #000000;
+		line-height: 25.5px;
+		text-align: left;
 	}
 
 	.changeSummaryButton {
@@ -184,7 +182,7 @@
 		padding: 1rem;
 		border: none;
 		border-radius: 1rem;
-		background: gray;
+		background: #8fa5fb;
 		color: white;
 	}
 

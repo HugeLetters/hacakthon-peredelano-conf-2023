@@ -140,6 +140,6 @@
 		border: none;
 		height: 2rem;
 		width: 2rem;
-		color: gray;
+		color: #8fa5fb;
 	}
 </style>
