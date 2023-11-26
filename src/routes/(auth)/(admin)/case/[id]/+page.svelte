@@ -3,10 +3,11 @@
 	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
 	import Textarea from '$lib/components/Textarea.svelte';
 	import type { CaseStatus } from '$lib/options.js';
+	import { createPopover, melt } from '@melt-ui/svelte';
+	import { slide } from 'svelte/transition';
 
 	export let data;
 	let caseSummary: string = '';
-	let isButtonStatusesOpened: boolean = false;
 	let isSummaryEditing: boolean = false;
 
 	const statuses: { name: string; value: CaseStatus }[] = [
@@ -49,23 +50,28 @@
 			caseId: data.caseId,
 			newStatus: status
 		});
-		isButtonStatusesOpened = false;
+		$open = false;
 	}
 
 	function getUniqueValues<T>(arr: T[]) {
 		return [...new Set(arr.filter((x): x is NonNullable<T> => !!x))];
 	}
 
+	const formatter = new Intl.DateTimeFormat('ru', {
+		day: '2-digit',
+		month: '2-digit',
+		year: '2-digit'
+	});
 	function formatDate(dateNumber: number | undefined) {
 		if (!dateNumber) return null;
 
-		const date = new Date(dateNumber);
-
-		return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(
-			2,
-			'0'
-		)}`;
+		return formatter.format(new Date(dateNumber));
 	}
+
+	const {
+		elements: { trigger, content },
+		states: { open }
+	} = createPopover({ forceVisible: true });
 </script>
 
 {#if $caseInfo.isSuccess}
@@ -85,20 +91,19 @@
 					{formatDate(caseData.reports[0]?.createdAt)}
 				</div>
 			</div>
-			<div class="statusWrapper">
-				<button
-					class="status highlighted {isButtonStatusesOpened ? 'active' : ''}"
-					type="button"
-					on:click={() => {
-						isButtonStatusesOpened = !isButtonStatusesOpened;
-					}}
-				>
+			<div class="statusWrapper" use:melt={$trigger}>
+				<button class="status highlighted {$open ? 'active' : ''}" type="button">
 					{statuses.find(({ value }) => {
 						return value === caseData.status;
 					})?.name}
 				</button>
-				{#if isButtonStatusesOpened}
-					<div class="changeStatusButtons">
+				{#if $open}
+					<div
+						class="changeStatusButtons"
+						use:melt={$content}
+						in:slide={{ axis: 'y', delay: 200 }}
+						out:slide={{ axis: 'y' }}
+					>
 						{#each statuses as status}
 							{#if status.value !== caseData.status}
 								<button class="status" type="button" on:click={() => changeStatus(status.value)}>
@@ -161,10 +166,10 @@
 	.caseHeader {
 		display: flex;
 		justify-content: space-between;
-
-		.prop {
-			color: #b6b6b6;
-		}
+	}
+	.prop {
+		color: #b6b6b6;
+		height: 1.5rem;
 	}
 	h4 {
 		font-size: 17px;
@@ -175,7 +180,8 @@
 		border: none;
 		outline: none;
 		font-size: 17px;
-		color: #000000;
+		line-height: 25.5px;
+		text-align: left;
 	}
 
 	.changeSummaryButton {
@@ -184,7 +190,7 @@
 		padding: 1rem;
 		border: none;
 		border-radius: 1rem;
-		background: gray;
+		background: #8fa5fb;
 		color: white;
 	}
 
@@ -199,30 +205,37 @@
 		border: none;
 		font-size: 12px;
 		line-height: 18px;
+		background-color: $violet;
 
 		&.highlighted {
-			border-radius: 16px;
-			background: #9da5b5;
-			color: #fff;
+			border-radius: 1rem;
+
+			color: white;
 		}
 
+		transition: border-radius 200ms 250ms;
 		&.active {
-			border-radius: 16px 16px 0 0;
+			transition: border-radius 200ms 0ms;
+			border-radius: 1rem 1rem 0 0;
 		}
 	}
 
 	.changeStatusButtons {
+		translate: 0 -5px;
 		display: flex;
 		flex-direction: column;
 		position: absolute;
 		top: 30px;
-		border-radius: 0 0 16px 16px;
-		background: #9da5b5;
+		border-radius: 0 0 1rem 1rem;
+		overflow: hidden;
+		background-color: $violet;
+		color: white;
 	}
 	.props {
 		display: flex;
 		flex-wrap: wrap;
 		gap: 1rem;
+		align-items: center;
 	}
 	.prop {
 		display: flex;

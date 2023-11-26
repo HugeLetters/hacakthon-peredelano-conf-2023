@@ -1,5 +1,6 @@
 <script lang="ts">
 	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
+	import Initial from '$lib/components/Initial.svelte';
 	import Filter from '$lib/icons/filter.svelte';
 	import type { CaseStatus } from '$lib/options.js';
 	import { createDialog, melt } from '@melt-ui/svelte';
@@ -92,7 +93,7 @@
 				</div>
 				{#if assignedAdminName}
 					<div class="caseAssignee">
-						{assignedAdminName}
+						<Initial name={assignedAdminName} />
 					</div>
 				{/if}
 			</a>
@@ -171,14 +172,18 @@
 	.caseInfo {
 		display: flex;
 		flex-direction: column;
+		overflow: hidden;
 	}
 
-	.caseName {
-		font-size: 17px;
-		line-height: 25.5px;
+	.caseName,
+	.caseAssignee {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 
 	.caseProps {
+		height: 1rem;
 		display: flex;
 		gap: 6px;
 	}
@@ -187,6 +192,11 @@
 		font-size: 12px;
 		line-height: 18px;
 		color: #8d8d8d;
+	}
+
+	.caseAssignee {
+		width: 36px;
+		height: 36px;
 	}
 
 	.popover {

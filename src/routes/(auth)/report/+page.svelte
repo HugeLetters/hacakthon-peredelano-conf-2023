@@ -23,7 +23,9 @@
 				>
 					<span class="content">{report.content}</span>
 					<div class="info">
-						<CategoryIcon category={report.category} />
+						<div class="category">
+							<CategoryIcon category={report.category} />
+						</div>
 						{#if report.country}
 							<div>{report.country}</div>
 						{/if}
@@ -78,6 +80,9 @@
 		align-items: center;
 		font-size: small;
 		color: $bluegray;
+		.category {
+			height: 2rem;
+		}
 	}
 	.chatLink {
 		flex-shrink: 0;
