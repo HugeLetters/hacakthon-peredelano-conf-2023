@@ -2,7 +2,7 @@
 	export let value: string;
 </script>
 
-<input class="input" type="text" {...$$props} bind:value />
+<input class="input" type="text" {...$$restProps} bind:value />
 
 <style lang="scss">
 	.input {

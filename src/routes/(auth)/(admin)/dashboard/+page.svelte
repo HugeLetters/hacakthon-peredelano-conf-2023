@@ -1,60 +1,45 @@
 <script lang="ts">
 	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
-	import Arrow from '$lib/icons/arrow.svelte';
 	import Filter from '$lib/icons/filter.svelte';
 	import type { CaseStatus } from '$lib/options.js';
-
-	enum FilterFields {
-		statusFilter = 'statusFilter'
-	}
+	import { createDialog, melt } from '@melt-ui/svelte';
+	import { fly } from 'svelte/transition';
 
 	export let data;
 
-	let isPopoverOpened: boolean = false;
-	let filterRows: {
-		title: string;
-		filterId: FilterFields;
-		buttons: { name: string; value: CaseStatus }[];
-	}[] = [
-		{
-			title: 'Статус',
-			filterId: FilterFields.statusFilter,
-			buttons: [
-				{ name: 'To do', value: 'active' },
-				{ name: 'In progress', value: 'inprogress' },
-				{ name: 'Done', value: 'closed' }
-			]
-		}
+	let statusFilter: CaseStatus | undefined = undefined;
+	const statusList: Array<{ value: CaseStatus; label: string }> = [
+		{ label: 'Активные', value: 'active' },
+		{ label: 'В работе', value: 'inprogress' },
+		{ label: 'Закрытые', value: 'closed' }
 	];
-	let selectedFilters: { [FilterFields.statusFilter]: CaseStatus | undefined } = {
-		statusFilter: undefined
-	};
-	let activefilters: { [FilterFields.statusFilter]: CaseStatus | undefined } = {
-		statusFilter: undefined
-	};
+	$: cases = data.trpc.case.findMany.infiniteQuery(
+		{ statusFilter },
+		{
+			getNextPageParam(page) {
+				return page.at(-1)?.id;
+			},
+			// @ts-expect-error error with trpc-svelte-query library
+			initialPageParam: undefined,
+			enabled: !$open
+		}
+	);
 
-	$: cases = data.trpc.case.findMany.query(activefilters);
-
-	function toggleFilter(filterId: FilterFields, value: CaseStatus) {
-		if (selectedFilters[filterId] === value) selectedFilters[filterId] = undefined;
-		else selectedFilters[filterId] = value;
-	}
-
-	function togglePopover() {
-		if (isPopoverOpened) activefilters = selectedFilters;
-		isPopoverOpened = !isPopoverOpened;
-	}
+	const {
+		elements: { trigger, portalled, content },
+		states: { open }
+	} = createDialog({ forceVisible: true });
 </script>
 
 <div class="cases">
 	<div class="header">
-		<button class="headerButton" type="button" on:click={togglePopover}>
-			<svelte:component this={isPopoverOpened ? Arrow : Filter} />
+		<button class="headerButton" use:melt={$trigger}>
+			<Filter />
 		</button>
-		<div class="headerTitle">{isPopoverOpened ? 'Фильтры' : 'Кейсы'}</div>
+		<div class="headerTitle">Кейсы</div>
 	</div>
-	{#if $cases.isSuccess && !isPopoverOpened}
-		{#each $cases.data as { id, name, status, assignedAdminName, reports } (id)}
+	{#if $cases.isSuccess}
+		{#each $cases.data.pages.flatMap((x) => x) as { id, name, reports, assignedAdminName } (id)}
 			{@const report = reports[0]}
 			<a href="/case/{id}" class="case">
 				<div class="caseInfo">
@@ -82,37 +67,41 @@
 				</div>
 				{#if assignedAdminName}
 					<div class="caseAssignee">
-						<!-- assignee avatar -->
 						{assignedAdminName}
 					</div>
 				{/if}
 			</a>
 		{/each}
 	{/if}
-
-	{#if isPopoverOpened}
-		<div class="popover">
-			{#each filterRows as { title, filterId, buttons }}
+	{#if $open}
+		<div use:melt={$portalled}>
+			<div class="popover" use:melt={$content} transition:fly={{ x: '-100vw' }}>
 				<div class="popoverRow">
-					<div class="popoverTitle">{title}</div>
+					<div class="popoverTitle">Статус</div>
 					<div class="popoverButtons">
-						{#each buttons as { name, value }}
+						{#each statusList as status}
 							<button
 								class="popoverButton"
-								class:active={selectedFilters?.[filterId] === value}
-								on:click={() => toggleFilter(filterId, value)}
+								class:active={statusFilter === status.value}
+								on:click={() => {
+									if (statusFilter === status.value) {
+										statusFilter = undefined;
+										return;
+									}
+									statusFilter = status.value;
+								}}
 								type="button"
 							>
-								{name}
+								{status.label}
 							</button>
 						{/each}
 					</div>
 				</div>
-			{/each}
-			<div class="filterPopup">
-				<button class="confirmFiltersButton" type="button" on:click={togglePopover}
-					>Применить</button
-				>
+				<div class="filterPopup">
+					<button class="confirmFiltersButton" type="button" on:click={() => ($open = false)}>
+						Применить
+					</button>
+				</div>
 			</div>
 		</div>
 	{/if}
@@ -176,35 +165,30 @@
 	}
 
 	.popover {
-		height: calc(100vh - 200px);
+		position: absolute;
+		inset: 0;
+		padding: 1rem;
+		background-color: white;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 	}
 
-	.popoverRow {
-		margin-bottom: 8px;
-	}
-
 	.popoverTitle {
 		margin-bottom: 6px;
-		font-size: 17px;
-		line-height: 23.8px;
 	}
 
 	.popoverButtons {
 		display: flex;
-		gap: 12px;
+		gap: 0.75rem;
 	}
 
 	.popoverButton {
-		padding: 6px 16px;
+		padding: 0.5rem 1rem;
 		border: none;
-		border-radius: 16px;
+		border-radius: 1rem;
 		outline: none;
-		background: #f2f6ff;
-		font-size: 17px;
-		line-height: 23.8px;
+		background: $lightgray;
 
 		&.active {
 			background: $violet;

@@ -7,20 +7,24 @@
 	import { fade } from 'svelte/transition';
 
 	export let defaultLabel: string;
+	export let defaultValue: { value: V; label?: string } | undefined = undefined;
 	export let options: ReadonlyArray<{ value: V; label?: string }>;
 	export let onChange: (value: V) => void;
 	export let withFilter: boolean = false;
+	export let required = false;
 
 	const {
 		elements: { trigger, menu, option },
-		states: { selectedLabel, open }
+		states: { open, selected }
 	} = createSelect({
+		defaultSelected: defaultValue,
 		forceVisible: true,
 		positioning: {
 			placement: 'bottom',
 			fitViewport: true,
 			sameWidth: true
-		}
+		},
+		required
 	});
 
 	let filter = '';
@@ -32,7 +36,7 @@
 
 <div class="select">
 	<button class="btnChoose" type="button" use:melt={$trigger}>
-		{$selectedLabel || defaultLabel}
+		{$selected?.label ?? $selected?.value ?? defaultLabel}
 		<div class="chevron {$open ? 'chevronOpen' : ''}">
 			<svg
 				width="24"
@@ -117,11 +121,13 @@
 		justify-content: space-between;
 		border-radius: 0.75rem;
 
-		&[data-highlighted] {
+		&[data-highlighted],
+		&[data-selected] {
 			background-color: #8883;
 		}
 
-		&[data-highlighted]::after {
+		&[data-highlighted]::after,
+		&[data-selected]::after {
 			border-color: $green;
 			background: radial-gradient(circle, $green 50%, white 50%);
 		}
