@@ -41,6 +41,10 @@
 			.flatMap((x) => x)
 			.filter((data) => data.message.type === 'text') as message (message)}
 			<div class="message {message.from === 'me' ? 'mine' : ''}">
+				{#if message.from !== 'me'}
+					<div>{message.from}</div>
+					<hr />
+				{/if}
 				{message.message.content}
 				{#if message.date}
 					<span class="time">
@@ -78,40 +82,51 @@
 </div>
 
 <style lang="scss">
+	hr {
+		border: 0;
+		height: 2px;
+		background-color: white;
+		border-radius: 9999px;
+	}
 	.root {
 		display: flex;
 		flex-direction: column;
 		height: 100%;
 		gap: 0.5rem;
+		padding: 0.25rem;
+		border-radius: 0.25rem;
+		background-color: $lightgray;
 	}
 	.message {
 		width: fit-content;
 		max-width: 358px;
 		padding: 0.5rem 0.75rem;
 		border-radius: 1rem;
-		background: #eeeb;
+		background: $violet;
+		color: white;
 		word-wrap: break-word;
 		display: flex;
 		flex-direction: column;
+
 		&.mine {
 			margin-left: auto;
 			+ .message:not(.mine) {
 				margin-top: 8px;
 			}
-			background: #8d8d8d;
-			color: #fff;
+			background: white;
+			color: black;
 		}
 	}
 
 	.time {
 		margin-left: 4px;
-		color: rgba(60, 60, 67, 0.6);
+		color: white;
 		font-size: 10px;
 		line-height: 12px;
 		align-self: end;
 	}
 	.mine .time {
-		color: rgba(235, 235, 245, 0.6);
+		color: rgba(60, 60, 67, 0.6);
 	}
 
 	.form {
