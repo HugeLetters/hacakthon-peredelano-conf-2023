@@ -22,7 +22,8 @@
 			title: 'Статус',
 			filterId: FilterFields.statusFilter,
 			buttons: [
-				{ name: 'Todo', value: 'active' },
+				{ name: 'To do', value: 'active' },
+				{ name: 'In progress', value: 'inprogress' },
 				{ name: 'Done', value: 'closed' }
 			]
 		}
@@ -71,7 +72,6 @@
 			<a href="/case/{id}" class="case">
 				<div class="caseInfo">
 					<div class="caseName">{name}</div>
-					{status}
 					<div class="caseProps">
 						{#if report}
 							{@const { category, country, createdAt } = report}

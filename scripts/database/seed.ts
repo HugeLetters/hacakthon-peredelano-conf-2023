@@ -27,7 +27,7 @@ async function main() {
 					assignedAdmindId: faker.helpers.maybe(() =>
 						faker.helpers.arrayElement(admins.map((x) => x.id))
 					),
-					status: faker.helpers.arrayElement(['active', 'closed'] as const),
+					status: faker.helpers.arrayElement(['active', 'inprogress', 'closed'] as const),
 					summary: faker.helpers.maybe(() => faker.lorem.paragraphs(10))
 				}),
 				{ count: 200 }
