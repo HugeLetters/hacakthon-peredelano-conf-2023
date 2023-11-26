@@ -101,24 +101,48 @@
 	.popup {
 		display: flex;
 		flex-direction: column;
-		background: white;
+		background: #fbfcff;
 		gap: 0.5rem;
 		padding: 1rem;
 		border-radius: 1rem;
 		box-shadow: 0 0 5px #0003;
-		overflow-y: scroll;
+		overflow-y: auto;
 	}
 	.optionButton {
+		padding: 0.75rem;
 		border: none;
 		transition: background-color 150ms;
-		border-radius: 0.5rem;
+		text-align: left;
+		display: flex;
+		justify-content: space-between;
+		border-radius: 0.75rem;
 
 		&[data-highlighted] {
-			background-color: $lightgray;
+			background-color: #8883;
+		}
+
+		&[data-highlighted]::after {
+			border-color: $green;
+			background: radial-gradient(circle, $green 50%, white 50%);
+		}
+
+		&::after {
+			content: '';
+			display: block;
+			width: 22px;
+			height: 22px;
+			border-radius: 50%;
+			border: 2px solid #949894;
+			right: 0;
+			top: 10px;
 		}
 	}
 	.filter {
-		padding: 0.25rem;
-		border-radius: 0.5rem;
+		padding: 12px;
+		border-radius: 16px;
+		border: 1px solid #9da5b5;
+		outline: none;
+		font-size: 17px;
+		line-height: 25.5px;
 	}
 </style>
