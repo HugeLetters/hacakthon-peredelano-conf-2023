@@ -121,6 +121,7 @@
 				{#each getUniqueValues(caseData.reports.map((x) => x.category)) as category}
 					<div class="prop">
 						<svelte:component this={iconByCategory(category)} />
+						{category}
 					</div>
 				{/each}
 			</div>
@@ -191,11 +192,12 @@
 	.props {
 		display: flex;
 		flex-wrap: wrap;
+		gap: 1rem;
 	}
 	.prop {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		margin-right: 16px;
+		gap: 0.5rem;
 	}
 </style>

@@ -1,5 +1,5 @@
 import { TRPCError } from '@trpc/server';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../database';
 import { Case } from '../database/schema/case';
@@ -15,7 +15,7 @@ export const reportRouter = router({
 				category: categorySchema,
 				content: z.string().max(65535),
 				country: countrySchema.optional(),
-				organization: z.string().optional()
+				organization: z.string().max(50).optional()
 			})
 		)
 		.mutation(async ({ ctx, input }) => {
@@ -47,6 +47,7 @@ export const reportRouter = router({
 			.select()
 			.from(Report)
 			.where(eq(Report.creatorId, ctx.session.user.userId))
+			.orderBy(desc(Report.createdAt))
 			.all()
 			.catch(throwInternalError)
 	),

@@ -1,8 +1,12 @@
 <script lang="ts">
+	export let reassingReport: (caseId: string) => void;
+
 	import Avia from '$lib/icons/avia.svelte';
 	import Bank from '$lib/icons/bank.svelte';
 	import Paper from '$lib/icons/paper.svelte';
+	import Input from '$lib/components/Input.svelte';
 
+	export let isAdmin: boolean = false;
 	export let authorName: string;
 	export let category: string;
 	export let country: string | null;
@@ -21,6 +25,10 @@
 				return Avia;
 		}
 	}
+
+	$: isMenuOpen = false;
+	$: isInputShown = false;
+	$: inputValue = '';
 </script>
 
 <div class="header">
@@ -43,14 +51,66 @@
 		</div>
 		{authorName}
 	</span>
-	<div class="menu">
-		<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-			<path
-				d="M26 18C27.1 18 28 17.1 28 16C28 14.9 27.1 14 26 14C24.9 14 24 14.9 24 16C24 17.1 24.9 18 26 18ZM6 18C7.1 18 8 17.1 8 16C8 14.9 7.1 14 6 14C4.9 14 4 14.9 4 16C4 17.1 4.9 18 6 18ZM16 18C17.1 18 18 17.1 18 16C18 14.9 17.1 14 16 14C14.9 14 14 14.9 14 16C14 17.1 14.9 18 16 18Z"
-				fill="black"
-			/>
-		</svg>
-	</div>
+	{#if isAdmin}
+		<button
+			class="menu"
+			on:click|stopPropagation={() => {
+				isMenuOpen = true;
+			}}
+		>
+			<svg
+				width="32"
+				height="32"
+				viewBox="0 0 32 32"
+				fill="none"
+				xmlns="http://www.w3.org/2000/svg"
+			>
+				<path
+					d="M26 18C27.1 18 28 17.1 28 16C28 14.9 27.1 14 26 14C24.9 14 24 14.9 24 16C24 17.1 24.9 18 26 18ZM6 18C7.1 18 8 17.1 8 16C8 14.9 7.1 14 6 14C4.9 14 4 14.9 4 16C4 17.1 4.9 18 6 18ZM16 18C17.1 18 18 17.1 18 16C18 14.9 17.1 14 16 14C14.9 14 14 14.9 14 16C14 17.1 14.9 18 16 18Z"
+					fill="black"
+				/>
+			</svg>
+		</button>
+		{#if isMenuOpen}
+			<div class="menuPopup">
+				{#if isInputShown}
+					<div>
+						<Input bind:value={inputValue} placeholder="Вставь айди кейса" />
+						<button disabled={inputValue.length === 0} on:click={() => reassingReport(inputValue)}>
+							Привязать
+						</button>
+						<button
+							on:click={() => {
+								inputValue = '';
+								isMenuOpen = false;
+								isInputShown = false;
+							}}
+						>
+							Отменить
+						</button>
+					</div>
+				{:else}
+					<button
+						on:click={() => {
+							isInputShown = true;
+						}}
+					>
+						Привязать к другому кейсу
+					</button>
+					<button
+						on:click={() => {
+							inputValue = '';
+							isMenuOpen = false;
+							isInputShown = false;
+						}}
+					>
+						Отменить
+					</button>
+				{/if}
+				<!-- <button>Удалить жалобу</button> -->
+			</div>
+		{/if}
+	{/if}
 </div>
 
 <div class="reportData">
@@ -122,6 +182,19 @@
 	}
 	.menu {
 		cursor: pointer;
+		position: relative;
+	}
+	.menuPopup {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		position: absolute;
+		right: 0;
+		width: 243px;
+		min-height: 98px;
+		height: auto;
+		z-index: 2;
+		background: #f6f6f6;
 	}
 	.reportData {
 		display: flex;

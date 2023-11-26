@@ -1,6 +1,8 @@
 <script lang="ts">
+	import type { HTMLButtonAttributes } from 'svelte/elements';
+
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	type $$Props = Partial<HTMLButtonElement>;
+	type $$Props = Partial<HTMLButtonAttributes>;
 </script>
 
 <button class="submit" {...$$props}> <slot /></button>
