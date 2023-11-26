@@ -81,6 +81,7 @@
 		display: grid;
 		height: 500px;
 		overflow-y: scroll;
+		margin-top: 12px;
 	}
 	.case {
 		border: none;
