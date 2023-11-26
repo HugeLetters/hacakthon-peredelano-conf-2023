@@ -197,4 +197,8 @@
 		color: #8d8d8d;
 		margin-bottom: 5px;
 	}
+
+	.text {
+		margin-bottom: 16px;
+	}
 </style>
