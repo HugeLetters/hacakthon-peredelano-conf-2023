@@ -17,8 +17,8 @@
 	export let content: string;
 	export let chatLink: string;
 	export let organization: string | null;
-	export let filter: string;
-	export let casesFiltered: RouterOutput['case']['findManyByName'];
+	export let filter: string = '';
+	export let casesFiltered: RouterOutput['case']['findManyByName'] = [];
 
 	let dialogOpen: Writable<boolean>;
 	function formatDate(dateNumber: number | undefined) {
