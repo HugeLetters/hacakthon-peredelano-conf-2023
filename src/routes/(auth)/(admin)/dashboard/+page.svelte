@@ -66,7 +66,6 @@
 		{@const cases = $cases.data.pages.flatMap((x) => x)}
 		{#each cases as { id, name, reports, assignedAdminName } (id)}
 			{@const report = reports[0]}
-
 			<a href="/case/{id}" class="case" use:observer={{ active: id === cases.at(-10)?.id }}>
 				<div class="caseInfo">
 					<div class="caseName">{name}</div>
