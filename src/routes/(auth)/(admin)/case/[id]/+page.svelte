@@ -58,6 +58,7 @@
 		<div class="statusWrapper">
 			<button
 				class={caseData.status === 'active' ? 'status open' : 'status closed'}
+				type="button"
 				on:click={() => {
 					$caseInfoMutation.mutate({
 						caseId: data.caseId,
@@ -71,9 +72,9 @@
 		<div>
 			<h4>Содержание</h4>
 			{#if !isSummaryEditing}
-				<p class="summary" on:click={toggleSummaryEdit}>
+				<div class="summary" on:click={toggleSummaryEdit}>
 					{caseData?.summary || 'Пусто'}
-				</p>
+				</div>
 			{:else}
 				<div
 					style="

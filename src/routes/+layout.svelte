@@ -19,6 +19,7 @@
 	.outer {
 		min-height: 100vh;
 		height: 100%;
+		margin: 0 auto;
 		position: relative;
 		display: flex;
 		align-items: center;

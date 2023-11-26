@@ -1,11 +1,9 @@
 <script lang="ts">
 	import Report from '$lib/pages/Report/index.svelte';
-	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 
 	export let data;
 
-	const caseId = $page.params.id;
 	const report = data.trpc.report.getUserReport.query(
 		{ reportId: data.reportId },
 		{
@@ -29,7 +27,7 @@
 		content={$report.data?.content}
 		chatLink={`/case/{caseId}/report/{reportId}`}
 		organization={$report.data?.organization}
-		/>
+	/>
 {/if}
 
 <style lang="scss">
