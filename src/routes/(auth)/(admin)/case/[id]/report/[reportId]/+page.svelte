@@ -51,8 +51,10 @@
 			message = '';
 		}}
 	>
-		<WithLabel label="Ответить">
-			<Textarea bind:value={message} placeholder="Сообщение" />
+		<WithLabel label="">
+			<div class="textAreaWrapper">
+				<Textarea bind:value={message} placeholder="Сообщение" />
+			</div>
 			<Button>Отправить</Button>
 		</WithLabel>
 	</form>
@@ -68,5 +70,11 @@
 	}
 	.form {
 		margin-top: auto;
+	}
+	.textAreaWrapper {
+		border: 1px solid #9da5b5;
+		border-radius: 16px;
+		padding: 16px 16px;
+		background: #ffffff;
 	}
 </style>

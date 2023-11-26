@@ -3,7 +3,9 @@
 	import Dialog from '$lib/components/Dialog.svelte';
 	import Initial from '$lib/components/Initial.svelte';
 	import type { Category } from '$lib/options';
+	import type { RouterOutput } from '$lib/trpc';
 	import { createPopover, melt } from '@melt-ui/svelte';
+	import type { Writable } from 'svelte/store';
 	import { fade } from 'svelte/transition';
 
 	export let reassignReport: (caseId: string) => void = () => {};
@@ -16,8 +18,9 @@
 	export let chatLink: string;
 	export let organization: string | null;
 	export let filter: string = '';
-	export let casesFiltered: [] = [];
+	export let casesFiltered: RouterOutput['case']['findManyByName'] = [];
 
+	let dialogOpen: Writable<boolean>;
 	function formatDate(dateNumber: number | undefined) {
 		if (!dateNumber) return null;
 
@@ -55,9 +58,9 @@
 					/>
 				</svg>
 			</button>
-			{#if $open}
+			{#if $open || $dialogOpen}
 				<div class="menuPopup" transition:fade={{ duration: 150 }} use:melt={$popover}>
-					<Dialog {casesFiltered} bind:filter {reassignReport} />
+					<Dialog cases={casesFiltered} bind:filter {reassignReport} bind:open={dialogOpen} />
 					<button class="menuPopupText disabled" disabled={true}>Удалить жалобу</button>
 				</div>
 			{/if}
