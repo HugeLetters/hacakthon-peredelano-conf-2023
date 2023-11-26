@@ -1,9 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/Button.svelte';
-	import Input from '$lib/components/Input.svelte';
 	import Textarea from '$lib/components/Textarea.svelte';
-	import WithLabel from '$lib/components/WithLabel.svelte';
 
 	export let data;
 
@@ -31,18 +29,21 @@
 		});
 	}}
 >
-	<WithLabel label="Адресат">
-		<Input placeholder="Получатель" bind:value={to} />
-	</WithLabel>
-	<WithLabel label="Cc">
-		<Input placeholder="email1@mail.com, email2@mail.com" bind:value={cc} />
-	</WithLabel>
-	<WithLabel label="Тема">
-		<Input placeholder="Тема письма" bind:value={subject} />
-	</WithLabel>
-	<WithLabel label="Сообщение">
+	<label class="input">
+		<span class="label">Адресат</span>
+		<input placeholder="Получатель" bind:value={to} required />
+	</label>
+	<hr class="break" />
+	<label class="input">
+		<span class="label">Cc</span>
+		<input placeholder="cc1@mail.com, cc2@mail.com" bind:value={to} />
+	</label>
+	<hr class="break" />
+	<input placeholder="Тема письма" bind:value={subject} required />
+	<hr class="break" />
+	<div class="textarea">
 		<Textarea placeholder="Тело письма" bind:value={message} />
-	</WithLabel>
+	</div>
 	<Button>Отправить</Button>
 </form>
 
@@ -51,5 +52,26 @@
 		display: flex;
 		flex-direction: column;
 		gap: 1rem;
+		height: 100%;
+	}
+	.input {
+		display: flex;
+		gap: 1rem;
+
+		input {
+			border: none;
+		}
+	}
+	.label {
+		width: 4rem;
+		display: block;
+	}
+	.textarea {
+		flex-grow: 1;
+	}
+	.break {
+		width: 100%;
+		border-width: 0;
+		border-top: 1px solid #ddd;
 	}
 </style>

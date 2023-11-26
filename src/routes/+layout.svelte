@@ -18,11 +18,14 @@
 <style lang="scss">
 	.outer {
 		min-height: 100vh;
-		max-width: 450px;
 		height: 100%;
 		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.root {
+		max-width: 450px;
 		height: 100%;
 		width: 100%;
 	}
