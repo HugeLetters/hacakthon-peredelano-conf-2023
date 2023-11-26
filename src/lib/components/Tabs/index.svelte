@@ -36,5 +36,8 @@
 	}
 	.active {
 		background: #ffffff;
+		box-shadow: 0px 3px 1px 0px #0000000a;
+		box-shadow: 0px 3px 8px 0px #0000001f;
+		transition: background 200ms;
 	}
 </style>
