@@ -9,6 +9,7 @@ import {
 	FROM_HEADER,
 	IN_REPLY_TO_HEADER,
 	REFERENCES_HEADER,
+	TO_HEADER,
 	UNREAD_LABEL,
 	decodeMessage,
 	getLastIncomingMessage,
@@ -100,11 +101,9 @@ export const threadRouter = router({
 		)
 			.then((threads) => {
 				return threads.map(({ data }) => ({
-					from: data.messages
-						? getLastIncomingMessage(data.messages)?.payload?.headers?.find(
-								(header) => header.name === FROM_HEADER
-						  )?.value ?? GMAIL_EMAIL_ADDRESS
-						: null,
+					from: data.messages?.[0]?.payload?.headers
+						?.find((header) => header.name === TO_HEADER)
+						?.value?.replace(/[<>]/g, ''),
 					id: data.id,
 					snippet: data.snippet ?? data.messages?.at(-1)?.snippet,
 					unread: !!data.messages?.find((message) => message.labelIds?.includes(UNREAD_LABEL))
