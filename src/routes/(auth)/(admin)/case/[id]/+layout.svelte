@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { beforeNavigate, goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import Tabs from '$lib/components/Tabs/index.svelte';
+	import { pageTransitionDirectionStore } from '$lib/hooks';
 	export let data;
 
 	$: tabs = [
@@ -34,6 +35,12 @@
 				return 0;
 			})()
 		];
+
+	beforeNavigate(({ from, to }) => {
+		const fromtTab = tabs.findIndex((tab) => from?.url.pathname === tab.url);
+		const toTab = tabs.findIndex((tab) => to?.url.pathname === tab.url);
+		$pageTransitionDirectionStore = fromtTab < toTab ? 'right' : 'left';
+	});
 </script>
 
 {#if $caseInfo.isSuccess}

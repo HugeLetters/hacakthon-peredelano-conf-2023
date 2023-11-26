@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { pageFly } from '$lib/hooks';
+	import { pageFly, pageTransitionDirectionStore } from '$lib/hooks';
 	import Plus from '$lib/icons/Plus.svelte';
 	import Temple from '$lib/icons/Temple.svelte';
 
@@ -8,7 +8,10 @@
 	const threadList = data.trpc.thread.getThreadList.query({ caseId: data.caseId });
 </script>
 
-<div class="root" transition:pageFly|global={{ x: 200 }}>
+<div
+	class="root"
+	transition:pageFly|global={{ x: 200 * ($pageTransitionDirectionStore === 'left' ? 1 : -1) }}
+>
 	{#if $threadList.isSuccess}
 		<div class="cardList">
 			{#each $threadList.data as thread (thread.id)}

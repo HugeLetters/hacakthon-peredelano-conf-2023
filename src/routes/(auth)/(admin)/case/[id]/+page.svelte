@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
 	import Textarea from '$lib/components/Textarea.svelte';
-	import { pageFly } from '$lib/hooks';
+	import { pageFly, pageTransitionDirectionStore } from '$lib/hooks';
 	import type { CaseStatus } from '$lib/options.js';
 	import { createPopover, melt } from '@melt-ui/svelte';
 	import { slide } from 'svelte/transition';
@@ -77,7 +77,10 @@
 
 {#if $caseInfo.isSuccess}
 	{@const caseData = $caseInfo.data}
-	<div class="aboutCase" transition:pageFly|global={{ x: 200 }}>
+	<div
+		class="aboutCase"
+		transition:pageFly|global={{ x: 200 * ($pageTransitionDirectionStore === 'left' ? 1 : -1) }}
+	>
 		<div class="caseHeader">
 			<div class="props">
 				{#each getUniqueValues(caseData.reports.map((x) => x.category)) as category}

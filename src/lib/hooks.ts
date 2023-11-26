@@ -1,3 +1,5 @@
+import { cubicOut } from 'svelte/easing';
+import { writable } from 'svelte/store';
 import type { FlyParams, TransitionConfig } from 'svelte/transition';
 
 export const pageFly = (
@@ -8,7 +10,7 @@ export const pageFly = (
 		return { duration: 0, delay: 0 };
 	}
 
-	const { delay, duration = 200, easing, opacity = 0, x = 0, y = 0 } = params ?? {};
+	const { delay, duration = 200, easing = cubicOut, opacity = 0, x = 0, y = 0 } = params ?? {};
 
 	const style = getComputedStyle(node);
 	const target_opacity = +style.opacity;
@@ -23,3 +25,5 @@ export const pageFly = (
 			opacity: ${target_opacity - od * u}; position: absolute; width: 100%;`
 	};
 };
+
+export const pageTransitionDirectionStore = writable<'left' | 'right'>('right');

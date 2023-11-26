@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Initial from '$lib/components/Initial.svelte';
-	import { pageFly } from '$lib/hooks';
+	import { pageFly, pageTransitionDirectionStore } from '$lib/hooks';
 	import ChatBubble from '$lib/icons/SpeechBubble.svelte';
 	export let data;
 
@@ -14,7 +14,10 @@
 </script>
 
 {#if $reportList.isSuccess}
-	<div class="chats" transition:pageFly|global={{ x: 200 }}>
+	<div
+		class="chats"
+		transition:pageFly|global={{ x: 200 * ($pageTransitionDirectionStore === 'left' ? 1 : -1) }}
+	>
 		{#each $reportList.data as report}
 			<div class="report">
 				<a class="reportLeft" href="/case/{data.caseId}/report/{report.id}/info">
