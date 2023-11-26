@@ -14,6 +14,7 @@
 
 			parent.dataset.input = e.currentTarget.value;
 		}}
+		{...$$restProps}
 	/>
 </div>
 
