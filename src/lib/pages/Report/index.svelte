@@ -27,7 +27,7 @@
 
 	$: isMenuOpen = false;
 	$: isInputShown = false;
-	$: inputValue = 'b7126176-4be8-4b90-8e13-c6174878d37b';
+	$: inputValue = '';
 </script>
 
 <div class="header">
@@ -52,7 +52,7 @@
 	</span>
 	<button
 		class="menu"
-		on:click={() => {
+		on:click|stopPropagation={() => {
 			isMenuOpen = true;
 		}}
 	>
@@ -62,26 +62,37 @@
 				fill="black"
 			/>
 		</svg>
-		{#if isMenuOpen}
-			<div class="menuPopup">
-				{#if isInputShown}
-					<div>
-						<Input bind:value={inputValue} placeholder="Вставь айди кейса" />
-						<button on:click={() => reassingReport(inputValue)}>Привязать</button>
-					</div>
-				{:else}
+	</button>
+	{#if isMenuOpen}
+		<div class="menuPopup">
+			{#if isInputShown}
+				<div>
+					<Input bind:value={inputValue} placeholder="Вставь айди кейса" />
+					<button disabled={inputValue.length === 0} on:click={() => reassingReport(inputValue)}>
+						Привязать
+					</button>
 					<button
 						on:click={() => {
-							isInputShown = true;
+							inputValue = '';
+							isMenuOpen = false;
+							isInputShown = false;
 						}}
 					>
-						Привязать к другому кейсу
+						Отменить
 					</button>
-				{/if}
-				<!-- <button>Удалить жалобу</button> -->
-			</div>
-		{/if}
-	</button>
+				</div>
+			{:else}
+				<button
+					on:click={() => {
+						isInputShown = true;
+					}}
+				>
+					Привязать к другому кейсу
+				</button>
+			{/if}
+			<!-- <button>Удалить жалобу</button> -->
+		</div>
+	{/if}
 </div>
 
 <div class="reportData">
@@ -129,7 +140,7 @@
 		align-items: center;
 		justify-content: center;
 		width: 64px;
-		height: 64px;
+		height: 130px;
 		border-radius: 50%;
 		background: #8d8d8d;
 		position: absolute;
@@ -162,7 +173,8 @@
 		position: absolute;
 		right: 0;
 		width: 243px;
-		height: 98px;
+		min-height: 98px;
+		height: auto;
 		z-index: 2;
 		background: #f6f6f6;
 	}
