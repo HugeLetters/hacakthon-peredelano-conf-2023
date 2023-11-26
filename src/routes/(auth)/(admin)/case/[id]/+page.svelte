@@ -80,14 +80,14 @@
 		<div class="caseHeader">
 			<div class="props">
 				{#each getUniqueValues(caseData.reports.map((x) => x.category)) as category}
-					<div class="prop">
+					<div class="prop pale">
 						<CategoryIcon {category} />
 					</div>
 				{/each}
 				{#each getUniqueValues(caseData.reports.map((x) => x.country)).filter((val, index) => index < 2) as country}
-					<div class="prop">{country}</div>
+					<div class="prop pale">{country}</div>
 				{/each}
-				<div class="prop">
+				<div class="prop pale">
 					{formatDate(caseData.reports[0]?.createdAt)}
 				</div>
 			</div>
@@ -167,9 +167,22 @@
 		display: flex;
 		justify-content: space-between;
 	}
+	.props {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		align-items: center;
+	}
 	.prop {
-		color: #b6b6b6;
+		color: black;
 		height: 1.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5rem;
+		&.pale {
+			color: #b6b6b6;
+		}
 	}
 	h4 {
 		color: $violet;
@@ -228,17 +241,5 @@
 		overflow: hidden;
 		background-color: $violet;
 		color: white;
-	}
-	.props {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 1rem;
-		align-items: center;
-	}
-	.prop {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		gap: 0.5rem;
 	}
 </style>
