@@ -10,10 +10,10 @@
 	let caseSummary: string = '';
 	let isSummaryEditing: boolean = false;
 
-	const statuses: { name: string; value: CaseStatus }[] = [
-		{ name: 'To do', value: 'active' },
-		{ name: 'In progress', value: 'inprogress' },
-		{ name: 'Done', value: 'closed' }
+	const statusLabelList: Array<{ value: CaseStatus; label: string }> = [
+		{ label: 'Новый', value: 'active' },
+		{ label: 'В работе', value: 'inprogress' },
+		{ label: 'Закрытый', value: 'closed' }
 	];
 
 	const caseInfo = data.trpc.case.caseInfo.query(
@@ -93,9 +93,9 @@
 			</div>
 			<div class="statusWrapper" use:melt={$trigger}>
 				<button class="status highlighted {$open ? 'active' : ''}" type="button">
-					{statuses.find(({ value }) => {
+					{statusLabelList.find(({ value }) => {
 						return value === caseData.status;
-					})?.name}
+					})?.label}
 				</button>
 				{#if $open}
 					<div
@@ -104,10 +104,10 @@
 						in:slide={{ axis: 'y', delay: 200 }}
 						out:slide={{ axis: 'y' }}
 					>
-						{#each statuses as status}
+						{#each statusLabelList as status}
 							{#if status.value !== caseData.status}
 								<button class="status" type="button" on:click={() => changeStatus(status.value)}>
-									{status.name}
+									{status.label}
 								</button>
 							{/if}
 						{/each}
@@ -172,15 +172,12 @@
 		height: 1.5rem;
 	}
 	h4 {
-		font-size: 17px;
-		color: #8fa5fb;
+		color: $violet;
 		margin-bottom: 8px;
 	}
 	.summary {
 		border: none;
 		outline: none;
-		font-size: 17px;
-		line-height: 25.5px;
 		text-align: left;
 	}
 
@@ -190,7 +187,7 @@
 		padding: 1rem;
 		border: none;
 		border-radius: 1rem;
-		background: #8fa5fb;
+		background: $violet;
 		color: white;
 	}
 

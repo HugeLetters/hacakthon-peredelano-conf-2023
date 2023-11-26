@@ -1,19 +1,20 @@
 <script lang="ts">
-	import Filter from '$lib/icons/filter.svelte';
 	import SmallCase from '$lib/components/SmallCase.svelte';
+	import Filter from '$lib/icons/filter.svelte';
 	import type { CaseStatus } from '$lib/options.js';
 	import { createDialog, melt } from '@melt-ui/svelte';
-	import { fly } from 'svelte/transition';
 	import type { Action } from 'svelte/action';
+	import { fly } from 'svelte/transition';
 
 	export let data;
 
 	let statusFilter: CaseStatus | undefined = undefined;
-	const statusList: Array<{ value: CaseStatus; label: string }> = [
+	const statusLabelList: Array<{ value: CaseStatus; label: string }> = [
 		{ label: 'Новые', value: 'active' },
 		{ label: 'В работе', value: 'inprogress' },
 		{ label: 'Закрытые', value: 'closed' }
 	];
+
 	$: cases = data.trpc.case.findMany.infiniteQuery(
 		{ statusFilter },
 		{
@@ -76,7 +77,7 @@
 				<div class="popoverRow">
 					<div class="popoverTitle">Статус</div>
 					<div class="popoverButtons">
-						{#each statusList as status}
+						{#each statusLabelList as status}
 							<button
 								class="popoverButton"
 								class:active={statusFilter === status.value}
