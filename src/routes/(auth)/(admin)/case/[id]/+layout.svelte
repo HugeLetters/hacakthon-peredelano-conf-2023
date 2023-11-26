@@ -79,6 +79,6 @@
 	}
 
 	.divider {
-		height: 12px;
+		min-height: 12px;
 	}
 </style>
