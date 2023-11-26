@@ -10,7 +10,7 @@
 
 	let statusFilter: CaseStatus | undefined = undefined;
 	const statusList: Array<{ value: CaseStatus; label: string }> = [
-		{ label: 'Активные', value: 'active' },
+		{ label: 'Новые', value: 'active' },
 		{ label: 'В работе', value: 'inprogress' },
 		{ label: 'Закрытые', value: 'closed' }
 	];

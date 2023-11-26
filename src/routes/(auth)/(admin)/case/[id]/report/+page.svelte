@@ -30,15 +30,11 @@
 						</div>
 					</div>
 				</div>
-				<a
-					href="/case/{data.caseId}/report/{report.id}"
-					class="chatLink link {(
-						data.session.user.role === 'admin' ? report.isReadByAdmin : report.isReadByUser
-					)
-						? ''
-						: 'unread'}"
-				>
+				<a href="/case/{data.caseId}/report/{report.id}" class="chatLink link">
 					<ChatBubble />
+					{#if data.session.user.role === 'admin' ? report.isReadByAdmin : report.isReadByUser}
+						<div class="unread" />
+					{/if}
 				</a>
 			</a>
 		{/each}
@@ -85,10 +81,18 @@
 		color: $bluegray;
 	}
 	.link {
+		position: relative;
 		margin-top: 8px;
 		cursor: pointer;
-		&.unread {
-			color: $green;
+		.unread {
+			position: absolute;
+			top: 2px;
+			right: 2px;
+			border-radius: 999999px;
+			background-color: $green;
+			height: 0.75rem;
+			width: 0.75rem;
+			box-shadow: 0 0 1px black;
 		}
 	}
 	.chatLink {
