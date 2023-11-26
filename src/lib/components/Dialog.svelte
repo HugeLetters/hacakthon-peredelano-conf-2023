@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { createDialog, melt } from '@melt-ui/svelte';
 	import { fade } from 'svelte/transition';
+	import SmallCase from './SmallCase.svelte';
 
 	export let reassignReport: (caseId) => void;
 	export let filter: string;
@@ -13,6 +14,7 @@
 	} = createDialog({
 		forceVisible: true
 	});
+	// $: console.log(casesFiltered);
 </script>
 
 <button use:melt={$trigger} class="menuPopupText"> Привязать к другому кейсу </button>
@@ -56,8 +58,17 @@
 							}}
 							class="case"
 						>
-							{caseData.name}
+							<SmallCase name={caseData.name} />
 						</button>
+						<!-- <button
+							on:click={() => {
+								reassignReport(caseData.id);
+								goto(`/case/${caseData.id}`);
+							}}
+							class="case"
+						>
+							{caseData.name}
+						</button> -->
 					{/each}
 				</div>
 			{/if}
@@ -114,6 +125,7 @@
 	}
 	.casesList {
 		display: grid;
+		gap: 16px;
 		height: 500px;
 		overflow-y: scroll;
 		margin-top: 12px;

@@ -2,7 +2,7 @@
 	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
 	import Initial from '$lib/components/Initial.svelte';
 
-	export let id: string;
+	export let href: string;
 	export let name: string;
 	export let report: {
 		category: string;
@@ -12,7 +12,7 @@
 	export let assignedAdminName: string | null;
 </script>
 
-<a href="/case/{id}" class="case">
+<svelte:element this={href ? 'a' : 'div'} {href} class="case">
 	<div class="caseInfo">
 		<div class="caseName">{name}</div>
 		<div class="caseProps">
@@ -41,7 +41,7 @@
 			<Initial name={assignedAdminName} />
 		</div>
 	{/if}
-</a>
+</svelte:element>
 
 <style lang="scss">
 	.case {
