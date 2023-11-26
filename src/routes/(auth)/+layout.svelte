@@ -23,10 +23,10 @@
 <div class="root">
 	{#if $page.url.pathname !== '/'}
 		<div class="home">
-			<span>gera.lt</span>
 			<a href="/" aria-label="homepage">
 				<Home height="2rem" width="2rem" />
 			</a>
+			<span>gera.lt</span>
 		</div>
 	{/if}
 	<slot />

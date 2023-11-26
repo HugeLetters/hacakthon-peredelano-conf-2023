@@ -1,9 +1,7 @@
 <script lang="ts">
+	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
 	import Arrow from '$lib/icons/arrow.svelte';
-	import Avia from '$lib/icons/avia.svelte';
-	import Bank from '$lib/icons/bank.svelte';
 	import Filter from '$lib/icons/filter.svelte';
-	import Paper from '$lib/icons/paper.svelte';
 	import type { CaseStatus } from '$lib/options.js';
 
 	enum FilterFields {
@@ -46,17 +44,6 @@
 		if (isPopoverOpened) activefilters = selectedFilters;
 		isPopoverOpened = !isPopoverOpened;
 	}
-
-	function iconByCategory(category: string) {
-		switch (category) {
-			case 'Банк':
-				return Bank;
-			case 'ВНЖ':
-				return Paper;
-			case 'Авиалиния':
-				return Avia;
-		}
-	}
 </script>
 
 <div class="cases">
@@ -77,7 +64,7 @@
 							{@const { category, country, createdAt } = report}
 							{#if category}
 								<div class="caseProp">
-									<svelte:component this={iconByCategory(category)} />
+									<CategoryIcon {category} />
 								</div>
 							{/if}
 							{#if country}
@@ -155,6 +142,7 @@
 		display: flex;
 		flex-direction: column;
 		gap: 6px;
+		padding: 16px 16px;
 	}
 
 	.case {
@@ -163,7 +151,7 @@
 		gap: 10px;
 		padding: 12px;
 		border-radius: 16px;
-		background: #fafafa;
+		background: #f2f6ff;
 	}
 
 	.caseInfo {
@@ -214,12 +202,12 @@
 		border: none;
 		border-radius: 16px;
 		outline: none;
-		background: #f6f6f6;
+		background: #f2f6ff;
 		font-size: 17px;
 		line-height: 23.8px;
 
 		&.active {
-			background: #8d8d8d;
+			background: $violet;
 			color: #fff;
 		}
 	}
@@ -228,7 +216,7 @@
 		width: 100%;
 		padding: 12px;
 		color: #fff;
-		background: #8d8d8d;
+		background: $violet;
 		border: 0;
 		border-radius: 16px;
 		outline: 0;

@@ -1,31 +1,18 @@
 <script lang="ts">
-	export let reassignReport: (caseId: string) => void = () => {};
-
+	import CategoryIcon from '$lib/components/CategoryIcon.svelte';
 	import Initial from '$lib/components/Initial.svelte';
 	import Input from '$lib/components/Input.svelte';
-	import Avia from '$lib/icons/avia.svelte';
-	import Bank from '$lib/icons/bank.svelte';
-	import Paper from '$lib/icons/paper.svelte';
+	import type { Category } from '$lib/options';
 
+	export let reassignReport: (caseId: string) => void = () => {};
 	export let isAdmin: boolean = false;
 	export let authorName: string;
-	export let category: string;
+	export let category: Category;
 	export let country: string | null;
 	export let createdAt: number;
 	export let content: string;
 	export let chatLink: string;
 	export let organization: string | null;
-
-	function iconByCategory(category: string) {
-		switch (category) {
-			case 'Банк':
-				return Bank;
-			case 'ВНЖ':
-				return Paper;
-			case 'Авиалиния':
-				return Avia;
-		}
-	}
 
 	$: isMenuOpen = false;
 	$: isInputShown = false;
@@ -103,7 +90,7 @@
 
 <div class="reportData">
 	<span>
-		<svelte:component this={iconByCategory(category)} />
+		<CategoryIcon {category} />
 	</span>
 	{#if country}
 		<span>{country}</span>

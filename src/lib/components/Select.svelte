@@ -109,22 +109,21 @@
 		overflow-y: auto;
 	}
 	.optionButton {
-		padding: 10px 0;
+		padding: 0.75rem;
 		border: none;
 		transition: background-color 150ms;
 		text-align: left;
-		position: relative;
+		display: flex;
+		justify-content: space-between;
+		border-radius: 0.75rem;
 
-		&:hover,
-		:focus-within {
+		&[data-highlighted] {
 			background-color: #8883;
 		}
 
-		&[data-selected] {
-			&::after {
-				border-color: #579c00;
-				background: radial-gradient(circle, rgba(87, 156, 0, 1) 50%, rgba(255, 255, 255, 1) 51%);
-			}
+		&[data-highlighted]::after {
+			border-color: $green;
+			background: radial-gradient(circle, $green 50%, white 50%);
 		}
 
 		&::after {
@@ -134,7 +133,6 @@
 			height: 22px;
 			border-radius: 50%;
 			border: 2px solid #949894;
-			position: absolute;
 			right: 0;
 			top: 10px;
 		}

@@ -1,12 +1,15 @@
 <script lang="ts">
-	import { QueryClientProvider } from '@tanstack/svelte-query';
 	import '$lib/css/reset.css';
 	import '@fontsource-variable/inter';
+	import { QueryClientProvider } from '@tanstack/svelte-query';
 
 	export let data;
 	$: queryClient = data.trpc.hydrateFromServer(data.trpcHydrationClient);
 </script>
 
+<svelte:head>
+	<title>gera.lt</title>
+</svelte:head>
 <QueryClientProvider client={queryClient}>
 	<div class="outer">
 		<div class="root">
