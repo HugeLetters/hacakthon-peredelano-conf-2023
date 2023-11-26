@@ -1,5 +1,5 @@
 import { statusList } from '$lib/options';
-import { asc, desc, eq, getTableColumns, inArray, like } from 'drizzle-orm';
+import { and, asc, desc, eq, getTableColumns, gt, inArray, like } from 'drizzle-orm';
 import { z } from 'zod';
 import { db } from '../database';
 import { User } from '../database/schema/auth';
@@ -12,11 +12,11 @@ import { throwInternalError } from './utils';
 export const caseRouter = router({
 	findMany: adminProcedure
 		.input(
-			z
-				.object({
-					statusFilter: z.enum(statusList).optional()
-				})
-				.optional()
+			z.object({
+				/** Case id */
+				cursor: z.string().optional(),
+				statusFilter: z.enum(statusList).optional()
+			})
 		)
 		.query(({ input }) => {
 			return db
@@ -28,9 +28,15 @@ export const caseRouter = router({
 				.from(Case)
 				.leftJoin(Report, eq(Report.caseId, Case.id))
 				.leftJoin(User, eq(Case.assignedAdmindId, User.id))
-				.where(input?.statusFilter ? eq(Case.status, input.statusFilter) : undefined)
+				.where(
+					and(
+						input?.statusFilter ? eq(Case.status, input.statusFilter) : undefined,
+						input?.cursor ? gt(Case.id, input.cursor) : undefined
+					)
+				)
 				.groupBy(Case.id)
-				.orderBy(asc(Report.id), desc(Report.createdAt))
+				.orderBy(asc(Case.id), desc(Report.createdAt))
+				.limit(30)
 				.all()
 				.then((caseList) => caseList.filter((caseData) => !!caseData.reports.length))
 				.catch(throwInternalError);
