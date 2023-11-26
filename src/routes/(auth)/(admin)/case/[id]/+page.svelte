@@ -4,10 +4,18 @@
 	import Avia from '$lib/icons/avia.svelte';
 	import Bank from '$lib/icons/bank.svelte';
 	import Paper from '$lib/icons/paper.svelte';
+	import type { CaseStatus } from '$lib/options.js';
 
 	export let data;
 	let caseSummary: string = '';
+	let isButtonStatusesOpened: boolean = false;
 	let isSummaryEditing: boolean = false;
+
+	const statuses: { name: string; value: CaseStatus }[] = [
+		{ name: 'To do', value: 'active' },
+		{ name: 'In progress', value: 'inprogress' },
+		{ name: 'Done', value: 'closed' }
+	];
 
 	const caseInfo = data.trpc.case.caseInfo.query(
 		{ caseId: data.caseId },
@@ -47,6 +55,14 @@
 		isSummaryEditing = !isSummaryEditing;
 	}
 
+	function changeStatus(status: CaseStatus) {
+		$caseInfoMutation.mutate({
+			caseId: data.caseId,
+			newStatus: status
+		});
+		isButtonStatusesOpened = false;
+	}
+
 	function getUniqueValues<T>(arr: T[]) {
 		return [...new Set(arr.filter((x): x is NonNullable<T> => !!x))];
 	}
@@ -57,17 +73,27 @@
 	<div class="aboutCase">
 		<div class="statusWrapper">
 			<button
-				class={caseData.status === 'active' ? 'status open' : 'status closed'}
+				class="status active"
 				type="button"
 				on:click={() => {
-					$caseInfoMutation.mutate({
-						caseId: data.caseId,
-						newStatus: caseData.status === 'active' ? 'closed' : 'active'
-					});
+					isButtonStatusesOpened = !isButtonStatusesOpened;
 				}}
 			>
-				{caseData.status.toUpperCase()}
+				{statuses.find(({ value }) => {
+					return value === caseData.status;
+				})?.name}
 			</button>
+			{#if isButtonStatusesOpened}
+				<div class="changeStatusButtons">
+					{#each statuses as status}
+						{#if status.value !== caseData.status}
+							<button class="status" type="button" on:click={() => changeStatus(status.value)}>
+								{status.name}
+							</button>
+						{/if}
+					{/each}
+				</div>
+			{/if}
 		</div>
 		<div>
 			<h4>Содержание</h4>
@@ -91,9 +117,9 @@
 		</div>
 		<div>
 			<h4>Категории</h4>
-			<div class="countries">
+			<div class="props">
 				{#each getUniqueValues(caseData.reports.map((x) => x.category)) as category}
-					<div class="country">
+					<div class="prop">
 						<svelte:component this={iconByCategory(category)} />
 					</div>
 				{/each}
@@ -101,9 +127,9 @@
 		</div>
 		<div>
 			<h4>Страны</h4>
-			<div class="countries">
+			<div class="props">
 				{#each getUniqueValues(caseData.reports.map((x) => x.country)) as country}
-					<div class="country">{country}</div>
+					<div class="prop">{country}</div>
 				{/each}
 			</div>
 		</div>
@@ -140,31 +166,33 @@
 	.statusWrapper {
 		display: flex;
 		justify-content: space-between;
+		position: relative;
 	}
 	.status {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 83px;
-		height: 30px;
 		padding: 6px 16px;
-		background: #8d8d8d;
+		background: #6f6f6f;
+		border: none;
 		border-radius: 16px;
+		font-size: 12px;
+		line-height: 18px;
+
+		&.active {
+			background: #8d8d8d;
+		}
 	}
-	.open {
-		background: orange;
-		border: 1px solid orange;
-		color: #ffffff;
+
+	.changeStatusButtons {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		position: absolute;
+		top: 30px
 	}
-	.closed {
-		background: green;
-		border: 1px solid #ffffff;
-	}
-	.countries {
+	.props {
 		display: flex;
 		flex-wrap: wrap;
 	}
-	.country {
+	.prop {
 		display: flex;
 		align-items: center;
 		justify-content: center;

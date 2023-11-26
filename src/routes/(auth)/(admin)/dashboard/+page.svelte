@@ -22,7 +22,7 @@
 			title: 'Статус',
 			filterId: FilterFields.statusFilter,
 			buttons: [
-				{ name: 'Todo', value: 'active' },
+				{ name: 'To do', value: 'active' },
 				{ name: 'In progress', value: 'inprogress' },
 				{ name: 'Done', value: 'closed' }
 			]
