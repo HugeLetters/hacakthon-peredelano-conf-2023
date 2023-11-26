@@ -171,14 +171,18 @@
 	.caseInfo {
 		display: flex;
 		flex-direction: column;
+		overflow: hidden;
 	}
 
-	.caseName {
-		font-size: 17px;
-		line-height: 25.5px;
+	.caseName,
+	.caseAssignee {
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
 	}
 
 	.caseProps {
+		height: 1rem;
 		display: flex;
 		gap: 6px;
 	}

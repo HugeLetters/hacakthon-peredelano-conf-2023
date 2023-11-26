@@ -18,4 +18,4 @@
 	}
 </script>
 
-<svelte:component this={iconByCategory(category)} />
+<svelte:component this={iconByCategory(category)} width="100%" height="100%" />

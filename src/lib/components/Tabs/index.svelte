@@ -37,6 +37,7 @@
 		height: 28px;
 		border: 0;
 		border-radius: 5px;
+		transition: background 200ms;
 	}
 	.active {
 		background: #ffffff;
