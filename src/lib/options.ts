@@ -5,7 +5,7 @@ export type UserRole = (typeof roleList)[number];
 
 export const roleList = ['basic', 'admin'] as const;
 export const statusList = ['active', 'inprogress', 'closed'] as const;
-export const categoryList = ['Банк', 'ВНЖ', 'Авиалиния'] as const;
+export const categoryList = ['Банкинг', 'ВНЖ', 'Перелёты'] as const;
 export const countryList = [
 	{
 		name: 'Абхазия',
