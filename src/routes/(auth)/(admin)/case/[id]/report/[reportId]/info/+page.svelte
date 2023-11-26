@@ -22,10 +22,10 @@
 
 {#if $report.isSuccess}
 	<Report
+		isAdmin={data.session.user.role === 'admin'}
 		reassingReport={(newCaseId) => {
 			$reassignMutation.mutate({ caseId: newCaseId, reportId: data.reportId });
 		}}
-		reportId={data.reportId}
 		authorName={$report.data?.authorName}
 		category={$report.data?.category}
 		country={$report.data?.country}

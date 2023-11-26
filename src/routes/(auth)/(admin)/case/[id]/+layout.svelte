@@ -48,7 +48,7 @@
 	<div class="wrapper">
 		<div class="caseMenu">
 			<h1 class="caseName">Кейс: {$caseInfo.data.name}</h1>
-			<div class="menu">
+			<!-- <div class="menu">
 				<svg
 					width="32"
 					height="32"
@@ -61,7 +61,7 @@
 						fill="black"
 					/>
 				</svg>
-			</div>
+			</div> -->
 		</div>
 		<Tabs bind:value={currentTab} {tabs} />
 		<div class="divider"></div>
