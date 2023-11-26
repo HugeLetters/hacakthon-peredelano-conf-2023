@@ -17,7 +17,7 @@
 
 	const createReportMutation = data.trpc.report.create.mutation({
 		onSuccess(data) {
-			goto(`/report/${data}`);
+			goto(`/report/${data}/info`);
 		}
 	});
 </script>
