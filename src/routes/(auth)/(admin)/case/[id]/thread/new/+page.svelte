@@ -53,14 +53,26 @@
 		flex-direction: column;
 		gap: 1rem;
 		height: 100%;
+		padding-top: 0.5rem;
 	}
 	.input {
 		display: flex;
 		gap: 1rem;
-
+		align-items: center;
 		input {
-			border: none;
+			flex-grow: 1;
 		}
+	}
+	input {
+		outline: 2px solid;
+		outline-color: transparent;
+		transition: outline-color 200ms;
+		padding: 0.25rem;
+		border-radius: 0.25rem;
+		&:focus-within {
+			outline-color: #dddf;
+		}
+		border: none;
 	}
 	.label {
 		width: 4rem;
