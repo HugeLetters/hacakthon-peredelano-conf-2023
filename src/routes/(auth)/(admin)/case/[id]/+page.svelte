@@ -72,9 +72,9 @@
 		<div>
 			<h4>Содержание</h4>
 			{#if !isSummaryEditing}
-				<div class="summary" on:click={toggleSummaryEdit}>
+				<button class="summary" on:click={toggleSummaryEdit}>
 					{caseData?.summary || 'Пусто'}
-				</div>
+				</button>
 			{:else}
 				<div
 					style="
